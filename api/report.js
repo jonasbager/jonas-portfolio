@@ -23,12 +23,13 @@ export default async function handler(req, res) {
   session.count++;
   reportLog.set(ip, session);
   
-  const { type, message, url, userAgent, error } = req.body || {};
+  const { type, message, url, userAgent, error, ref } = req.body || {};
   if (!message && !error) return res.status(400).json({ error: 'No report content' });
   
-  const emoji = type === 'bug' ? '🐛' : type === 'auto' ? '⚠️' : '💬';
-  const label = type === 'bug' ? 'Bug Report' : type === 'auto' ? 'Auto-detected Error' : 'Feedback';
+  const emoji = type === 'bug' ? '🐛' : type === 'auto' ? '⚠️' : type === 'visit' ? '👀' : '💬';
+  const label = type === 'bug' ? 'Bug Report' : type === 'auto' ? 'Auto-detected Error' : type === 'visit' ? 'Portfolio Visit' : 'Feedback';
   const content = String(message || error || 'No details').slice(0, 500);
+  const refTag = ref && ref !== 'direct' ? `\nRef: ${ref} ← 📌` : '';
   
   // Try sending via Resend (free email API)
   const resendKey = process.env.RESEND_API_KEY;
@@ -43,8 +44,8 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           from: 'Portfolio <bugs@jonas.bager.dk>',
           to: 'jonas@bager.dk',
-          subject: `${emoji} ${label} — Portfolio Site`,
-          text: `${label}\n\nMessage: ${content}\n\nPage: ${url || 'Unknown'}\nTime: ${new Date().toISOString()}\nUA: ${String(userAgent || '').slice(0, 120)}`
+          subject: `${emoji} ${label}${ref ? ' [' + ref + ']' : ''} — Portfolio`,
+          text: `${label}\n\nMessage: ${content}${refTag}\n\nPage: ${url || 'Unknown'}\nTime: ${new Date().toISOString()}\nUA: ${String(userAgent || '').slice(0, 120)}`
         })
       });
     } catch (err) {
@@ -54,6 +55,7 @@ export default async function handler(req, res) {
     // No email service — log to Vercel function logs (visible in dashboard)
     console.log(`\n===== ${emoji} ${label} =====`);
     console.log(`Message: ${content}`);
+    console.log(`Ref: ${ref || 'direct'}`);
     console.log(`Page: ${url || 'Unknown'}`);
     console.log(`Time: ${new Date().toISOString()}`);
     console.log(`UA: ${String(userAgent || '').slice(0, 120)}`);

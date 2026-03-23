@@ -587,6 +587,32 @@ window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });
 
+// ========== REF TRACKING ==========
+const urlParams = new URLSearchParams(window.location.search);
+const visitRef = urlParams.get('ref') || 'direct';
+
+// Log the visit with ref to the report endpoint
+if (visitRef !== 'direct') {
+  fetch('/api/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: 'visit',
+      message: `Portfolio visit from ref: ${visitRef}`,
+      url: window.location.href,
+      userAgent: navigator.userAgent
+    })
+  }).catch(() => {});
+  
+  // Clean the URL without reloading (so it looks nice if they share it)
+  if (window.history.replaceState) {
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+}
+
+// Attach ref to all API calls so you can see which company's recruiter used the chat
+function getRef() { return visitRef; }
+
 // ========== CURSOR BLOB ==========
 const blob = document.getElementById('blob');
 let mx=0,my=0,bx=0,by=0;
@@ -1905,6 +1931,7 @@ async function submitReport(message, type = 'bug') {
       body: JSON.stringify({
         type,
         message,
+        ref: getRef(),
         url: window.location.href,
         userAgent: navigator.userAgent
       })
