@@ -2,6 +2,8 @@
   "buildCommand": "",
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat.js" }
+    { "source": "/api/chat", "destination": "/api/chat.js" },
+    { "source": "/api/report", "destination": "/api/report.js" },
+    { "source": "/api/challenge", "destination": "/api/challenge.js" }
   ]
 }
