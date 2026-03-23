@@ -962,6 +962,7 @@ const commands = {
      floor-to-ceiling cabinets and microcement floors.</span>`,
 
   clear: () => '__CLEAR__',
+  report: () => '__REPORT__',
 };
 
 // Hidden / easter egg commands
@@ -1584,7 +1585,7 @@ function selectOption(el, optionId) {
   if (currentScenario < scenarios.length - 1) {
     nextBtn = `<button class="scenario-next" onclick="nextScenario()">Next scenario →</button>`;
   } else {
-    nextBtn = `<div style="margin-top:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);">That's all three! If you liked how I think, <a href="#contact" style="color:var(--lime);">let's talk</a>.</div>`;
+    nextBtn = `<button class="scenario-next" onclick="nextScenario()">🤖 Generate a fresh AI scenario →</button>`;
   }
   
   const matchBadge = isMatch
@@ -1879,9 +1880,205 @@ commands.help = () => `<span class="success">Available commands:</span>
   <span class="key">why-me</span>       <span class="val">— The pitch</span>
   <span class="key">fun-facts</span>    <span class="val">— The non-professional stuff</span>
   <span class="key">game</span>         <span class="val">— 🚀 Play Ship The Product™</span>
+  <span class="key">report</span>       <span class="val">— 🐛 Found a bug? Report it</span>
   <span class="key">clear</span>        <span class="val">— Clear terminal</span>
 
   <span class="out">💡 This is a real terminal. Try <span class="key">ls</span>, <span class="key">cat</span>, <span class="key">git</span>, or anything else you'd normally type. I might surprise you.</span>`;
+
+// ========== BUG REPORT SYSTEM ==========
+let reportMode = false;
+
+function handleReport(cmd) {
+  if (!reportMode) {
+    reportMode = true;
+    return `<span class="success">🐛 Bug Report Mode</span>
+  <span class="val">Describe the bug and press Enter. What went wrong?</span>
+  <span class="out">(Type <span class="key">cancel</span> to exit report mode)</span>`;
+  }
+}
+
+async function submitReport(message, type = 'bug') {
+  try {
+    await fetch('/api/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type,
+        message,
+        url: window.location.href,
+        userAgent: navigator.userAgent
+      })
+    });
+  } catch(e) { console.error('Report failed:', e); }
+}
+
+// Patch runCmd to handle report mode and report command
+const _origRunCmd = runCmd;
+runCmd = async function(cmd) {
+  const trimmed = cmd.trim().toLowerCase();
+  
+  if (reportMode) {
+    if (trimmed === 'cancel') {
+      reportMode = false;
+      addLine(`<span class="prompt">jonas ~$</span> <span class="cmd">${cmd}</span>`);
+      termInput.value = '';
+      await typeOutput(`<span class="val">Report cancelled. Back to normal.</span>`);
+      return;
+    }
+    reportMode = false;
+    addLine(`<span class="prompt">jonas ~$</span> <span class="cmd">${cmd}</span>`);
+    termInput.value = '';
+    await submitReport(cmd);
+    await typeOutput(`<span class="success">✓ Bug reported!</span>
+  <span class="val">Thanks for letting me know — I'll take a look. 
+  This is exactly the kind of feedback a PM lives for. 🙏</span>`);
+    return;
+  }
+  
+  if (trimmed === 'report') {
+    addLine(`<span class="prompt">jonas ~$</span> <span class="cmd">${cmd}</span>`);
+    termInput.value = '';
+    reportMode = true;
+    await typeOutput(`<span class="success">🐛 Bug Report Mode</span>
+  <span class="val">Describe the bug and press Enter. What went wrong?</span>
+  <span class="out">(Type <span class="key">cancel</span> to exit report mode)</span>`);
+    return;
+  }
+  
+  return _origRunCmd(cmd);
+};
+
+// ========== CHAT BUG REPORT ==========
+// Add 'report bug' to chat easter eggs — handled in chatSendFree
+const _origChatSendFree = chatSendFree;
+chatSendFree = function() {
+  const val = chatInput.value.trim();
+  if (!val || chatBusy) return;
+  const lc = val.toLowerCase();
+  
+  if (lc.includes('bug') || lc.includes('broken') || lc.includes('report') || lc.includes('error') || lc.includes('not working') || lc.includes('doesn\'t work')) {
+    chatInput.value = '';
+    chatBusy = true;
+    addUserMessage(val);
+    const typing = showTyping();
+    
+    submitReport(val, 'bug');
+    
+    setTimeout(() => {
+      typing.remove();
+      addBotMessage("Thanks for flagging that! 🐛 I've logged the report — I take feedback seriously (it's kind of in the job description). If you want to add more detail, email me at <strong>jonas@bager.dk</strong>.");
+      chatBusy = false;
+    }, 600);
+    return;
+  }
+  
+  _origChatSendFree();
+};
+
+// ========== AUTO-ERROR DETECTION ==========
+let errorBannerShown = false;
+
+window.addEventListener('error', (e) => {
+  if (errorBannerShown) return;
+  errorBannerShown = true;
+  
+  // Log to API
+  submitReport(`JS Error: ${e.message} at ${e.filename}:${e.lineno}`, 'auto');
+  
+  // Show subtle notification
+  showErrorBanner();
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+  if (errorBannerShown) return;
+  errorBannerShown = true;
+  
+  submitReport(`Unhandled rejection: ${e.reason}`, 'auto');
+  showErrorBanner();
+});
+
+function showErrorBanner() {
+  const banner = document.createElement('div');
+  banner.id = 'errorBanner';
+  banner.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111118;border:1px solid rgba(255,92,114,.3);border-radius:12px;padding:16px 20px;max-width:340px;z-index:300;font-family:var(--font-head);animation:fadeUp .4s ease-out;box-shadow:0 12px 40px rgba(0,0,0,.4);';
+  banner.innerHTML = `
+    <div style="display:flex;align-items:flex-start;gap:12px;">
+      <span style="font-size:22px;">🐛</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#e4e2de;margin-bottom:4px;">Something went wrong</div>
+        <div style="font-size:12px;color:#7c7a8a;line-height:1.5;">I auto-detected an issue and logged it. Want to add context?</div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button onclick="openReportFromBanner()" style="padding:6px 14px;background:#b8f000;color:#08080c;border:none;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;">Describe it</button>
+          <button onclick="document.getElementById('errorBanner').remove()" style="padding:6px 14px;background:rgba(255,255,255,.06);color:#7c7a8a;border:none;border-radius:100px;font-size:11px;cursor:pointer;">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+  
+  // Auto-dismiss after 15 seconds
+  setTimeout(() => banner.remove(), 15000);
+}
+
+function openReportFromBanner() {
+  document.getElementById('errorBanner')?.remove();
+  // Scroll to the interactive section and activate terminal
+  setMode('terminal');
+  document.getElementById('terminal')?.scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => {
+    runCmd('report');
+    termInput.focus();
+  }, 600);
+}
+
+// ========== AI-POWERED PM CHALLENGE ==========
+async function loadAIChallenge() {
+  try {
+    const resp = await fetch('/api/challenge', { method: 'POST' });
+    const data = await resp.json();
+    if (data.fallback || !data.scenario) return null;
+    return data.scenario;
+  } catch(e) {
+    return null;
+  }
+}
+
+// Override nextScenario to try loading AI scenarios after the static ones
+const _origNextScenario = nextScenario;
+nextScenario = async function() {
+  currentScenario++;
+  if (currentScenario < scenarios.length) {
+    renderScenario(currentScenario);
+    document.getElementById('challengeScenario').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    // Try to load an AI-generated scenario
+    const dotContainer = document.querySelector('.scenario-progress');
+    const newDot = document.createElement('div');
+    newDot.className = 'scenario-dot';
+    newDot.dataset.s = currentScenario;
+    dotContainer.appendChild(newDot);
+    
+    // Show loading state
+    document.getElementById('scenarioNum').textContent = 'Generating scenario...';
+    document.getElementById('scenarioIcon').textContent = '🤖';
+    document.getElementById('scenarioTitle').textContent = 'AI is crafting a fresh challenge...';
+    document.getElementById('scenarioDesc').textContent = 'No two visitors get the same scenario.';
+    document.getElementById('scenarioOptions').innerHTML = '';
+    document.getElementById('scenarioReveal').classList.remove('show');
+    document.getElementById('scenarioReveal').innerHTML = '';
+    
+    const aiScenario = await loadAIChallenge();
+    if (aiScenario) {
+      scenarios.push(aiScenario);
+      renderScenario(currentScenario);
+    } else {
+      document.getElementById('scenarioTitle').textContent = 'That\'s all for now!';
+      document.getElementById('scenarioDesc').textContent = 'If you liked how I think, let\'s continue the conversation.';
+      document.getElementById('scenarioOptions').innerHTML = '<a href="#contact" class="btn btn-p" style="text-decoration:none;text-align:center;grid-column:1/-1;">Get in touch →</a>';
+    }
+    document.getElementById('challengeScenario').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
 
 </script>
 
