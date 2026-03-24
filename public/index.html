@@ -143,12 +143,26 @@ section{padding:100px 60px;position:relative;}
 .modal-link:hover{opacity:.7;}
 
 /* === TRAITS === */
-.traits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:1100px;}
+.traits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;}
 .trait{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:26px;transition:all .3s;}
 .trait:hover{border-color:rgba(184,240,0,.12);transform:translateY(-2px);}
 .trait .ico{font-size:26px;margin-bottom:12px;}
 .trait h4{font-size:.95rem;font-weight:600;margin-bottom:6px;}
 .trait p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+.trait-featured{grid-column:1/-1;display:flex;align-items:center;gap:32px;border-color:rgba(184,240,0,.18)!important;background:linear-gradient(135deg,rgba(184,240,0,.04) 0%,var(--bg-card) 60%);}
+.trait-featured .ico{font-size:36px;margin-bottom:0;flex-shrink:0;}
+.trait-featured-body{flex:1;}
+.trait-featured-body h4{font-size:1rem;margin-bottom:6px;}
+.trait-featured-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.trait-tag{font-family:var(--font-mono);font-size:11px;background:rgba(184,240,0,.08);border:1px solid rgba(184,240,0,.2);color:var(--lime);padding:3px 10px;border-radius:20px;}
+
+/* === HOW I LEAD === */
+.lead-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;}
+.lead-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:28px;transition:all .3s;}
+.lead-card:hover{border-color:rgba(166,120,255,.2);transform:translateY(-2px);}
+.lead-card .lead-ico{font-size:24px;margin-bottom:14px;}
+.lead-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;color:var(--text);}
+.lead-card p{font-size:.85rem;color:var(--text-dim);line-height:1.65;}
 
 /* === TIMELINE === */
 .tl{position:relative;max-width:680px;padding-left:36px;}
@@ -281,10 +295,12 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
   .modal-box{padding:28px 20px;}
   .proj-grid{grid-template-columns:1fr;}
   .traits-grid{grid-template-columns:1fr 1fr;}
+  .trait-featured{flex-direction:column;align-items:flex-start;gap:16px;}
+  .lead-grid{grid-template-columns:1fr 1fr;}
   .hero-stats{gap:24px;flex-wrap:wrap;}
   .edu-cards{grid-template-columns:1fr;}
 }
-@media(max-width:480px){.traits-grid{grid-template-columns:1fr;}}
+@media(max-width:480px){.traits-grid{grid-template-columns:1fr;}.lead-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -455,6 +471,33 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
     <div class="trait rv"><div class="ico">🔄</div><h4>Tech ↔ Business Translation</h4><p>I bridge engineering, commercial, and leadership stakeholders. Everyone leaves the room aligned.</p></div>
     <div class="trait rv"><div class="ico">👁️</div><h4>UX Obsession</h4><p>Good UX removes everything that makes someone think twice. Every interaction should feel obvious in hindsight.</p></div>
     <div class="trait rv"><div class="ico">📈</div><h4>Growth Mechanics</h4><p>PLG, activation, retention, engagement analytics. I think in funnels and feedback loops, not just features.</p></div>
+    <div class="trait trait-featured rv"><div class="ico">🧭</div><div class="trait-featured-body"><h4>People Leadership &amp; Stakeholder Management</h4><p>I've led teams of 3–4 across product, engineering, and design — and managed upward to C-suite and boards. I invest in alignment before execution: clear context, honest trade-offs, and decisions that everyone understands even when they disagree. Cross-functional teams work best when they trust the person setting direction.</p><div class="trait-featured-meta"><span class="trait-tag">👥 3–4 direct reports</span><span class="trait-tag">Cross-functional alignment</span><span class="trait-tag">Stakeholder management</span><span class="trait-tag">C-suite communication</span></div></div></div>
+  </div>
+</section>
+
+<!-- HOW I LEAD -->
+<section style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Leadership</span>
+    <h2 class="sec-title">How I lead</h2>
+    <p class="sec-desc">Three things I've learned from building and managing cross-functional teams.</p>
+  </div>
+  <div class="lead-grid">
+    <div class="lead-card rv">
+      <div class="lead-ico">🔀</div>
+      <h4>Align first, execute second</h4>
+      <p>I get engineering, commercial, and leadership on the same page before we write a line of code. Misalignment at the start compounds into wasted sprints at the end.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🤝</div>
+      <h4>Stakeholders as partners</h4>
+      <p>I treat stakeholders as informed collaborators, not approval gates. Transparent roadmaps, honest trade-offs, and no surprises in the boardroom.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🌱</div>
+      <h4>Unblock, don't micromanage</h4>
+      <p>Small teams outperform big ones when they're trusted and unblocked. My job is to set clear context, remove friction, and let good people do great work.</p>
+    </div>
   </div>
 </section>
 
@@ -499,6 +542,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
       <h4>Head of Product</h4>
       <div class="tl-co">Pree.to, Copenhagen</div>
       <p>Leading product strategy across AI-assisted validation, rapid prototyping, and product discovery. Designed experimentation frameworks for corporates. Built AI-powered tools and internal agents for market analysis.</p>
+      <div class="trait-featured-meta" style="margin-top:10px;"><span class="trait-tag">👥 3–4 direct reports</span><span class="trait-tag">Cross-functional lead</span></div>
     </div>
     <div class="tl-item">
       <div class="tl-year">2019 – 2021</div>
@@ -511,6 +555,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
       <h4>Product Manager & Co-founder</h4>
       <div class="tl-co">Only Ones, Copenhagen</div>
       <p>Directed end-to-end enterprise software development. Managed client relationships and technical teams with 100% on-time delivery.</p>
+      <div class="trait-featured-meta" style="margin-top:10px;"><span class="trait-tag">👥 Team of 3–4</span><span class="trait-tag">Stakeholder management</span></div>
     </div>
     <div class="tl-item">
       <div class="tl-year">2013 – 2019</div>
