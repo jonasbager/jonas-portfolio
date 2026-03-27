@@ -635,6 +635,11 @@ window.addEventListener('load', () => {
 const urlParams = new URLSearchParams(window.location.search);
 const visitRef = urlParams.get('ref') || 'direct';
 
+// Redirect IT-focused refs to the IT version of the portfolio
+if (visitRef !== 'direct' && visitRef.startsWith('it-')) {
+  window.location.replace('/it?ref=' + encodeURIComponent(visitRef));
+}
+
 // Log the visit with ref to the report endpoint
 if (visitRef !== 'direct') {
   fetch('/api/report', {
