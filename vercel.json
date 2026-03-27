@@ -1,6 +1,7 @@
 {
   "buildCommand": "",
   "outputDirectory": "public",
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/api/chat", "destination": "/api/chat.js" },
     { "source": "/api/report", "destination": "/api/report.js" },
