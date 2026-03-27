@@ -252,7 +252,7 @@ footer a:hover{color:var(--lime);}
     <div class="hero-content">
       <div class="hero-hi"><span class="wave">👋</span> &nbsp;Hello — I'm Jonas</div>
       <h1>IT that <em>enables</em> people,<br>not gatekeeps them.</h1>
-      <p class="hero-sub">10+ years building and running IT across startups, scale-ups, and enterprise. From device management and network infrastructure to Microsoft 365 and security — I build environments that just work.</p>
+      <p class="hero-sub">10+ years building and running IT for companies of all sizes. I like the 20–100 people stage best — big enough to need real IT, small enough that every decision actually matters. Lean setups, no unnecessary complexity.</p>
       <div class="hero-stats">
         <div class="hero-stat"><div class="num">10+</div><div class="lbl">years IT</div></div>
         <div class="hero-stat"><div class="num">25+</div><div class="lbl">clients served</div></div>
@@ -355,7 +355,7 @@ footer a:hover{color:var(--lime);}
     <div class="stack-card rv">
       <div class="ico">🖥️</div>
       <h4>Device & Identity Management</h4>
-      <p>Microsoft Intune, Entra ID, MacBook fleet management, endpoint policy, onboarding and offboarding. I've run this for teams where every minute of downtime matters.</p>
+      <p>Microsoft Intune, Entra ID, MacBook fleet management, onboarding and offboarding. I've run this for small, fast-moving teams where the IT setup needs to be invisible — because people have actual work to do.</p>
     </div>
     <div class="stack-card rv">
       <div class="ico">☁️</div>
@@ -364,13 +364,13 @@ footer a:hover{color:var(--lime);}
     </div>
     <div class="stack-card rv">
       <div class="ico">🔒</div>
-      <h4>Security & Compliance</h4>
-      <p>ISO 27001 and NIS2 awareness from finance-adjacent environments. Conditional access, MFA, zero trust. Security that protects people without making them work around it.</p>
+      <h4>Security (without the theatre)</h4>
+      <p>Conditional access, MFA, sensible policies. I know the frameworks, but my goal isn't an audit report — it's a setup where people are protected without spending their day fighting IT.</p>
     </div>
     <div class="stack-card rv">
       <div class="ico">🌐</div>
       <h4>Network & Infrastructure</h4>
-      <p>Fortigate, enterprise and SMB network design, servers, VLANs, VPNs. I've pulled cables at Bakken at midnight and configured enterprise stacks for a shipping company — comfortable at both ends of the scale.</p>
+      <p>Fortigate, network design, servers, VLANs, VPNs. I've done everything from setting up a clean network for a 10-person office to pulling cable at Bakken at midnight. Comfortable with whatever a growing team actually needs.</p>
     </div>
     <div class="stack-card rv">
       <div class="ico">🤖</div>
@@ -416,7 +416,7 @@ footer a:hover{color:var(--lime);}
   <div class="rv">
     <span class="sec-label">// Career</span>
     <h2 class="sec-title">The IT career behind this</h2>
-    <p class="sec-desc">A deliberately varied path — from SMB consultancy to enterprise infrastructure to running IT inside a fast-moving product company.</p>
+    <p class="sec-desc">A varied path — from running IT for 25+ SMB clients to sorting infrastructure at a shipping company, to owning IT inside a fast-moving product startup.</p>
   </div>
   <div class="tl rv">
     <div class="tl-item">
@@ -437,8 +437,8 @@ footer a:hover{color:var(--lime);}
       <div class="tl-year">2014 – 2019</div>
       <h4>IT Consultant</h4>
       <div class="tl-co">Hafnia BW, Copenhagen</div>
-      <p>Joined as IT Supporter and moved to IT Consultant through a structural overhaul of the company's entire IT setup. Networks, servers, endpoints — full stack at enterprise scale for one of Denmark's larger shipping companies.</p>
-      <div class="tl-tags"><span class="tl-tag">Enterprise infrastructure</span><span class="tl-tag">Network & server</span><span class="tl-tag">Full stack overhaul</span></div>
+      <p>Joined as IT Supporter and moved to IT Consultant as part of a full overhaul of their setup. Networks, servers, endpoints — good experience for understanding what IT looks like when there's real scale behind it.</p>
+      <div class="tl-tags"><span class="tl-tag">Network & server</span><span class="tl-tag">Full stack overhaul</span><span class="tl-tag">Endpoint management</span></div>
     </div>
     <div class="tl-item">
       <div class="tl-year">2013 – 2019</div>
@@ -560,8 +560,8 @@ const chatMessages = document.getElementById('chatMessages');
 const chatResponses = {
   "What's your Microsoft stack?": `Here's the full breakdown:\n\n<strong>Entra ID</strong> — Identity, conditional access, SSO, MFA, guest management\n\n<strong>Intune</strong> — Device compliance, app deployment, MacBook & Windows MDM, configuration profiles\n\n<strong>Defender</strong> — Endpoint protection, threat monitoring, security posture management\n\n<strong>Exchange Online</strong> — Mail flow, shared mailboxes, retention policies, anti-spam\n\n<strong>Teams & SharePoint</strong> — Governance, guest access, file structure, permissions\n\n<strong>M365 Admin</strong> — Licensing, billing, service health, compliance centre\n\nI work in these tools regularly — not just the parts that don't cause trouble.`,
   "Network & infrastructure?": `Solid across both SMB and enterprise:\n\n<strong>Fortigate</strong> — Firewall configuration in both SMB and enterprise contexts, policy management, VPN setup\n\n<strong>Network design</strong> — VLAN segmentation, Wi-Fi infrastructure, access point management\n\n<strong>VPN</strong> — Site-to-site and remote access configurations\n\n<strong>Servers</strong> — Windows Server, Active Directory, hybrid environments (on-prem + cloud)\n\nI've done the full range: from configuring a Fortigate for a Michelin-starred restaurant (Restaurant Noma was a ZaBa client) to a full enterprise network overhaul at Hafnia BW. I'm comfortable at both ends of the scale — and everywhere in between.\n\n🏗️ I once spent most of a day crawling through Bakken amusement park's service corridors sorting the network hours before a premiere. Calm under pressure is a prerequisite.`,
-  "How do you approach security?": `Security that actually works for people:\n\nI've worked in finance-adjacent environments where compliance isn't optional. I understand what ISO 27001 and NIS2 requirements mean in practice — not as checkboxes, but as real controls.\n\n<strong>My approach:</strong>\n→ Security that protects people without making them work around it\n→ Conditional access and MFA that's frictionless for legitimate users\n→ Zero trust principles applied proportionally to actual risk\n→ The difference between a control that protects and one that just annoys\n\nThe goal is always: colleagues should barely notice the security layer. When they do notice it, it should feel fair and easy to navigate — not like an obstacle course.`,
-  "First 30 days as Head of IT?": `The three-phase approach I'd take:\n\n<strong>Phase 1 — Listen (week 1–2)</strong>\nTalk to every team. Not about IT problems — about how they work, what slows them down, what they wish worked better. The IT roadmap should come from them, not from my assumptions.\n\n<strong>Phase 2 — Audit (week 2–3)</strong>\nGet a clear picture of what exists: device inventory, identity management, licensing, network topology, security posture. No surprises later.\n\n<strong>Phase 3 — Quick wins + strategic plan (week 3–4)</strong>\nFix the things that are causing pain right now. Present a 90-day roadmap. Show that IT moves fast and listens.\n\nThe first 30 days is really about building trust — with the people who use IT and with leadership. That foundation makes everything else easier.`,
+  "How do you approach security?": `Security without the theatre:\n\nFor a 50-person company, the goal isn't an audit report — it's a setup where people are actually protected without spending their day fighting IT.\n\n<strong>In practice that means:</strong>\n→ MFA and conditional access that's invisible to legitimate users\n→ Policies proportional to actual risk, not worst-case scenarios\n→ SSO so people stop reusing passwords because logging in is annoying\n→ Offboarding that actually revokes access, immediately\n\nI know the frameworks (ISO 27001, NIS2) when they're relevant. But for most scale-ups, good fundamentals done well beat a compliance checklist every time.`,
+  "First 30 days as Head of IT?": `Roughly three things, in order:\n\n<strong>1. Talk to people (week 1)</strong>\nNot "what are your IT problems" — more like "walk me through your day." That's where you find the stuff that's been silently wasting 20 minutes a day for six months that nobody filed a ticket about.\n\n<strong>2. Get a clear picture of what exists (week 2)</strong>\nDevice inventory, who has access to what, licensing costs, how onboarding actually works today. No assumptions.\n\n<strong>3. Fix something visible, then present a plan (week 3–4)</strong>\nOne quick win that people actually notice. Then a short roadmap — what I'd tackle and why, with trade-offs explained. No 40-page strategy deck.\n\nMost IT problems at a 50-person company aren't technical. They're "nobody owned this properly before." The first 30 days is about changing that perception.`,
   "AI in IT operations?": `Already doing it — not talking about doing it:\n\n<strong>Documentation</strong> — runbooks, IT policies, onboarding guides written in minutes\n\n<strong>PowerShell scripting</strong> — I use AI to draft, debug, and optimise automation scripts daily\n\n<strong>Diagnostics</strong> — faster root cause analysis, pattern recognition across logs\n\n<strong>Vendor contracts</strong> — summarising licensing terms and SLAs without wading through 40-page PDFs\n\n<strong>Repetitive admin</strong> — bulk user operations, policy rollouts, reporting\n\nI'm not someone who talks about AI as a future opportunity. It's already woven into how I work. And I'm always looking for the next place it makes sense to apply it.`,
   "Why you for this role?": `Here's the honest version:\n\nMost IT managers have deep technical knowledge. Some have good people skills. Fewer have both. Almost none have also spent years building and shipping software products.\n\nThat combination is what makes me different:\n\n<strong>→</strong> I approach IT tools with product-thinking — designed for real users, not org charts\n<strong>→</strong> 10 years across SMB, enterprise, and startup environments — I've seen how it's done well and badly\n<strong>→</strong> I've served as an IT expert arbitrator in legal disputes — requires deep technical knowledge AND clear communication\n<strong>→</strong> I translate between technical and business stakeholders because I've been on both sides\n\nIf you want someone who treats IT as a service to the business — not a necessary evil — let's talk.`,
   "Tell me something fun": `Where to start? 😄\n\n🌐 I once spent most of a night in Bakken amusement park's service corridors sorting their network before a big premiere. That's the job sometimes.\n\n🍽️ Restaurant Noma was one of my ZaBa clients — yes, the world's best restaurant. Their uptime requirements are intense.\n\n⚖️ I've been an IT expert arbitrator in legal disputes. One involved tax systems. Very niche skill.\n\n☕ Espresso enthusiast. Medium-fine grind, 18g dose, 36g yield, 28 seconds. Don't ask unless you have time.\n\n🏠 Smart home obsessive — my apartment runs on Home Assistant with mmWave presence sensors and adaptive lighting. IT at home, too.\n\n🏄 I also co-founded a surf camp in Nicaragua (Coconut Surf). Different kind of uptime requirements.`,
@@ -714,10 +714,15 @@ function chatSendFree() {
     'phone': "How do I reach you?",
   };
 
-  for (const [key, question] of Object.entries(fuzzyChat)) {
-    if (lc.includes(key)) {
-      chatAsk(question, val);
-      return;
+  // Only fuzzy-match short inputs — longer questions go straight to the API
+  // so specific questions like "what's your favourite network setup?" don't
+  // get swallowed by a single keyword match
+  if (val.length <= 40) {
+    for (const [key, question] of Object.entries(fuzzyChat)) {
+      if (lc.includes(key)) {
+        chatAsk(question, val);
+        return;
+      }
     }
   }
 
