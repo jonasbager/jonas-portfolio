@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonas Bager — Head of IT</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080c;
+  --bg2: #0e0e14;
+  --bg-card: #111118;
+  --text: #e4e2de;
+  --text-dim: #7c7a8a;
+  --lime: #b8f000;
+  --lime-dim: rgba(184, 240, 0, 0.1);
+  --lime-glow: rgba(184, 240, 0, 0.25);
+  --coral: #ff5c72;
+  --sky: #5cb8ff;
+  --violet: #a678ff;
+  --amber: #ffb545;
+  --radius: 14px;
+  --font-head: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--lime) var(--bg);}
+body{background:var(--bg);color:var(--text);font-family:var(--font-head);overflow-x:hidden;line-height:1.65;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+.blob{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,var(--lime-glow) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0.12;transform:translate(-50%,-50%);will-change:transform;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(24px);background:rgba(8,8,12,0.75);border-bottom:1px solid rgba(184,240,0,0.06);}
+.nav-logo{font-family:var(--font-mono);font-size:13px;color:var(--lime);letter-spacing:1.5px;}
+.nav-logo span{color:var(--text-dim);}
+.nav-r{display:flex;gap:28px;align-items:center;}
+.nav-r a{color:var(--text-dim);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color .25s;}
+.nav-r a:hover{color:var(--lime);}
+.nav-pill{background:var(--lime);color:var(--bg);padding:7px 16px;border-radius:100px;font-weight:600;font-size:12px;text-decoration:none;transition:box-shadow .3s,transform .2s;}
+.nav-pill:hover{box-shadow:0 0 20px var(--lime-glow);transform:translateY(-1px);color:var(--bg)!important;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 60px 100px;position:relative;}
+.hero-row{display:flex;align-items:center;gap:32px;max-width:960px;}
+.hero-content{flex:1;}
+.hero-avatar{width:220px;height:220px;flex-shrink:0;opacity:0;animation:fadeUp .7s ease-out .2s forwards,avatarFloat 4s ease-in-out 1s infinite;}
+.hero-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 32px rgba(0,0,0,.3));}
+@keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-hi{font-family:var(--font-mono);font-size:14px;color:var(--lime);margin-bottom:20px;opacity:0;animation:fadeUp .6s ease-out .1s forwards;}
+.hero h1{font-size:clamp(2.6rem,6vw,5.4rem);font-weight:900;line-height:1.04;letter-spacing:-2.5px;margin-bottom:24px;opacity:0;animation:fadeUp .7s ease-out .25s forwards;}
+.hero h1 em{font-style:normal;color:var(--lime);position:relative;}
+.hero h1 em::after{content:'';position:absolute;bottom:2px;left:0;width:100%;height:10px;background:var(--lime);opacity:.12;border-radius:4px;transform:skew(-3deg);}
+.hero-sub{font-size:clamp(.95rem,1.5vw,1.15rem);color:var(--text-dim);max-width:560px;line-height:1.75;opacity:0;animation:fadeUp .7s ease-out .4s forwards;}
+.hero-stats{display:flex;gap:40px;margin-top:44px;opacity:0;animation:fadeUp .7s ease-out .55s forwards;}
+.hero-stat .num{font-size:2rem;font-weight:800;color:var(--lime);}
+.hero-stat .lbl{font-size:12px;color:var(--text-dim);font-family:var(--font-mono);margin-top:2px;}
+.hero-scroll{position:absolute;bottom:36px;left:60px;display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);opacity:0;animation:fadeUp .7s ease-out .7s forwards;}
+.hero-scroll .bar{width:36px;height:2px;background:var(--text-dim);border-radius:2px;overflow:hidden;}
+.hero-scroll .bar::after{content:'';display:block;height:100%;background:var(--lime);animation:scanLine 2s linear infinite;}
+@keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+section{padding:100px 60px;position:relative;}
+.sec-label{font-family:var(--font-mono);font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;display:block;}
+.sec-title{font-size:clamp(2rem,3.8vw,3rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:16px;}
+.sec-desc{color:var(--text-dim);max-width:540px;font-size:1.05rem;margin-bottom:48px;}
+.rv{opacity:0;transform:translateY(28px);transition:all .65s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:translateY(0);}
+
+/* TERMINAL */
+.term-wrap{background:#0a0a10;border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);overflow:hidden;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.term-bar{display:flex;align-items:center;gap:7px;padding:13px 18px;background:rgba(255,255,255,.025);border-bottom:1px solid rgba(255,255,255,.05);}
+.term-dot{width:11px;height:11px;border-radius:50%;}
+.term-dot:nth-child(1){background:#ff5f57}.term-dot:nth-child(2){background:#febc2e}.term-dot:nth-child(3){background:#28c840}
+.term-tab{margin-left:14px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+.term-body{padding:0;font-family:var(--font-mono);font-size:13px;line-height:1.8;height:400px;overflow:hidden;position:relative;}
+.term-scroll{height:100%;overflow-y:auto;padding:24px;scroll-behavior:smooth;}
+.term-scroll::-webkit-scrollbar{width:5px;}
+.term-scroll::-webkit-scrollbar-thumb{background:rgba(184,240,0,.2);border-radius:10px;}
+.term-line{margin-bottom:2px;white-space:pre-wrap;word-break:break-word;}
+.term-line .prompt{color:var(--lime);}
+.term-line .out{color:var(--text-dim);}
+.term-line .highlight{color:var(--coral);}
+.term-line .key{color:var(--sky);}
+.term-line .success{color:var(--lime);}
+.term-line .val{color:var(--amber);}
+.term-input-row{display:flex;align-items:center;padding:14px 24px;border-top:1px solid rgba(255,255,255,.05);gap:10px;}
+.term-ps{font-family:var(--font-mono);font-size:13px;color:var(--lime);white-space:nowrap;}
+.term-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-mono);font-size:13px;caret-color:var(--lime);}
+
+/* STACK GRID */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:1100px;}
+.stack-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:26px;transition:all .3s;}
+.stack-card:hover{border-color:rgba(184,240,0,.12);transform:translateY(-2px);}
+.stack-card .ico{font-size:26px;margin-bottom:12px;}
+.stack-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;}
+.stack-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+
+/* TIMELINE */
+.tl{position:relative;max-width:680px;padding-left:36px;}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--lime) 0%,rgba(184,240,0,.08) 100%);}
+.tl-item{position:relative;margin-bottom:36px;}
+.tl-item::before{content:'';position:absolute;left:-36px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--lime);z-index:1;}
+.tl-year{font-family:var(--font-mono);font-size:11px;color:var(--lime);margin-bottom:4px;}
+.tl-item h4{font-size:1.05rem;font-weight:600;margin-bottom:2px;}
+.tl-item .tl-co{font-size:.88rem;color:var(--violet);margin-bottom:4px;}
+.tl-item p{color:var(--text-dim);font-size:.88rem;line-height:1.6;}
+.tl-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.tl-tag{font-family:var(--font-mono);font-size:11px;background:rgba(184,240,0,.08);border:1px solid rgba(184,240,0,.2);color:var(--lime);padding:3px 10px;border-radius:20px;}
+
+/* HOW I RUN IT */
+.lead-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;}
+.lead-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:28px;transition:all .3s;}
+.lead-card:hover{border-color:rgba(166,120,255,.2);transform:translateY(-2px);}
+.lead-card .lead-ico{font-size:24px;margin-bottom:14px;}
+.lead-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;}
+.lead-card p{font-size:.85rem;color:var(--text-dim);line-height:1.65;}
+
+/* CALLOUT */
+.callout{background:linear-gradient(135deg,rgba(184,240,0,.05) 0%,rgba(166,120,255,.05) 100%);border:1px solid rgba(184,240,0,.12);border-radius:var(--radius);padding:40px 48px;max-width:860px;}
+.callout h3{font-size:1.3rem;font-weight:700;margin-bottom:12px;letter-spacing:-.5px;}
+.callout p{color:var(--text-dim);line-height:1.75;font-size:.95rem;}
+.callout p + p{margin-top:12px;}
+
+/* EDUCATION */
+.edu-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:1100px;}
+.edu-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:26px;transition:all .3s;}
+.edu-card:hover{border-color:rgba(184,240,0,.12);}
+.edu-card h4{font-size:1rem;font-weight:600;margin-bottom:4px;}
+.edu-card .school{font-size:.88rem;color:var(--violet);margin-bottom:8px;}
+.edu-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+
+/* CTA */
+.cta-sec{text-align:center;}
+.cta-sec .sec-title{margin-bottom:12px;}
+.cta-sec .sec-desc{margin:0 auto 40px;}
+.cta-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;padding:13px 28px;border-radius:100px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;letter-spacing:.3px;}
+.btn-p{background:var(--lime);color:var(--bg);}
+.btn-p:hover{box-shadow:0 0 28px var(--lime-glow);transform:translateY(-2px);}
+.btn-s{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.12);}
+.btn-s:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px);}
+
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .25s;margin-bottom:40px;}
+.back-link:hover{color:var(--lime);}
+
+footer{padding:32px 60px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--text-dim);}
+footer a{color:var(--text-dim);text-decoration:none;transition:color .25s;}
+footer a:hover{color:var(--lime);}
+
+@media(max-width:768px){
+  nav{padding:16px 24px;}
+  .hero{padding:120px 24px 80px;}
+  .hero-row{flex-direction:column-reverse;align-items:flex-start;gap:20px;}
+  .hero-avatar{width:160px;height:160px;}
+  section{padding:72px 24px;}
+  .hero-stats{gap:24px;flex-wrap:wrap;}
+  .lead-grid{grid-template-columns:1fr 1fr;}
+  .callout{padding:28px 24px;}
+  footer{padding:24px;flex-direction:column;gap:10px;text-align:center;}
+}
+@media(max-width:480px){
+  .lead-grid{grid-template-columns:1fr;}
+  .stack-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="blob" id="blob"></div>
+
+<nav>
+  <div class="nav-logo">jonas<span>.bager</span></div>
+  <div class="nav-r">
+    <a href="#stack">Stack</a>
+    <a href="#journey">Career</a>
+    <a href="#terminal">Terminal</a>
+    <a href="#contact" class="nav-pill">Let's talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-row">
+    <div class="hero-content">
+      <div class="hero-hi"><span class="wave">👋</span> &nbsp;// Head of IT — Copenhagen</div>
+      <h1>IT that <em>enables</em> people,<br>not gatekeeps them.</h1>
+      <p class="hero-sub">10+ years building and running IT for startups, scale-ups, and enterprise. From network infrastructure to Microsoft 365 to device management — I build setups that just work, and that your colleagues barely notice because everything is in order.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">10+</div><div class="lbl">years IT</div></div>
+        <div class="hero-stat"><div class="num">25+</div><div class="lbl">clients served</div></div>
+        <div class="hero-stat"><div class="num">SMB→</div><div class="lbl">Enterprise scale</div></div>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <img src="data:image/webp;base64,UklGRioDAABXRUJQVlA4IB4DAADQFACdASqAAIAAPm02lkikIqIhKAqIAIANiWIAnTJ4AHOAADGEd7NAAAA=" alt="Jonas Bager" onerror="this.style.display='none'">
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="bar"></div> scroll to explore</div>
+</section>
+
+<!-- IT STACK -->
+<section id="stack" style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Core Competencies</span>
+    <h2 class="sec-title">The full stack — from endpoint to boardroom</h2>
+    <p class="sec-desc">Not just tickets and cable pulls. IT strategy, security, and the tools that keep a lean team productive.</p>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-card rv"><div class="ico">🖥️</div><h4>Device & Identity Management</h4><p>Microsoft Intune, Entra ID, MacBook fleet management, endpoint policy, onboarding and offboarding. I've run this for lean teams where every minute of downtime matters.</p></div>
+    <div class="stack-card rv"><div class="ico">☁️</div><h4>Microsoft 365 & Cloud</h4><p>M365 admin, Exchange Online, Teams, SharePoint, Defender, licensing and cost management. The full suite — not just the parts that don't cause trouble.</p></div>
+    <div class="stack-card rv"><div class="ico">🔒</div><h4>Security & Compliance</h4><p>ISO 27001 and NIS2 awareness from finance-adjacent environments. Access control, MFA, conditional access. Security that protects people without making them work around it.</p></div>
+    <div class="stack-card rv"><div class="ico">🌐</div><h4>Network & Infrastructure</h4><p>Fortigate, enterprise and SMB network design, servers, VLANs, VPNs. I've pulled cables at Bakken at midnight and configured enterprise stacks at Hafnia BW — comfortable at both ends of the scale.</p></div>
+    <div class="stack-card rv"><div class="ico">🤖</div><h4>AI in IT Operations</h4><p>I use AI daily — for documentation, scripting, diagnosing issues, and automating repetitive tasks. Not a future opportunity. Already part of how I work.</p></div>
+    <div class="stack-card rv"><div class="ico">🧩</div><h4>Product Thinking in IT</h4><p>Every tool, onboarding flow, and security policy is something your colleagues use every day. I treat them like products — designed for real humans, not org charts.</p></div>
+  </div>
+</section>
+
+<!-- HOW I RUN IT -->
+<section style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// Philosophy</span>
+    <h2 class="sec-title">How I run IT</h2>
+    <p class="sec-desc">Three things that shape every decision I make about infrastructure, tools, and security.</p>
+  </div>
+  <div class="lead-grid">
+    <div class="lead-card rv">
+      <div class="lead-ico">🔓</div>
+      <h4>Enable, don't gatekeep</h4>
+      <p>The best IT setup is one people barely notice — because everything just works and the right tools are available. I'm not the person who defaults to no. I find the solution that's both secure and actually usable.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🔧</div>
+      <h4>Hands-on by choice</h4>
+      <p>I don't consider the physical or technical work beneath the role. Getting into the weeds of a Fortigate config, sorting a misbehaving server, pulling cable under a deadline — that's part of the job, and honestly part of why I like it.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🎯</div>
+      <h4>Build for how people actually work</h4>
+      <p>Not how the org chart says they should. I talk to the people who'll use the tools before I design the setup. The best IT environments I've built have always started from understanding real workflows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER -->
+<section id="journey" style="background:var(--bg2);">
+  <div class="rv">
+    <span class="sec-label">// Career</span>
+    <h2 class="sec-title">The IT career behind this</h2>
+    <p class="sec-desc">A deliberately varied path — from SMB consultancy to enterprise infrastructure to running IT inside a fast-moving product company.</p>
+  </div>
+  <div class="tl rv">
+    <div class="tl-item">
+      <div class="tl-year">2021 – Present</div>
+      <h4>Head of Product + Internal IT Lead</h4>
+      <div class="tl-co">Pree.to, Copenhagen</div>
+      <p>Beyond the product and client work, I took full ownership of internal IT: device management, identity and access (Entra/Intune), Microsoft 365 administration, onboarding and offboarding, and keeping a lean team of smart people working without IT getting in the way.</p>
+      <div class="tl-tags"><span class="tl-tag">Intune & Entra</span><span class="tl-tag">M365 admin</span><span class="tl-tag">MacBook fleet</span><span class="tl-tag">👥 3–4 direct reports</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2019 – 2021</div>
+      <h4>Innovation Manager</h4>
+      <div class="tl-co">LB Forsikring, Copenhagen</div>
+      <p>Built the LBeta innovation hub inside a large financial institution. Operated in a compliance-heavy environment where IT security requirements are non-negotiable — gave me solid grounding in what ISO 27001 and NIS2 requirements actually mean in practice.</p>
+      <div class="tl-tags"><span class="tl-tag">Compliance-aware environment</span><span class="tl-tag">Enterprise IT context</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2014 – 2019</div>
+      <h4>IT Consultant</h4>
+      <div class="tl-co">Hafnia BW, Copenhagen</div>
+      <p>Joined as IT Supporter and moved to IT Consultant through a structural overhaul of the company's entire IT setup. Networks, servers, endpoints — full stack at enterprise scale for one of Denmark's larger shipping companies.</p>
+      <div class="tl-tags"><span class="tl-tag">Enterprise infrastructure</span><span class="tl-tag">Network & server</span><span class="tl-tag">Full stack overhaul</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2013 – 2019</div>
+      <h4>Founder & IT Consultant</h4>
+      <div class="tl-co">ZaBa IT Consultancy, Copenhagen</div>
+      <p>Co-founded an IT consultancy with a deliberately varied client list — from small law firms and medical clinics to Restaurant Noma. That range taught me that good IT isn't one-size-fits-all: a Michelin-starred kitchen has very different uptime requirements than a legal office, and you have to meet people where they are.</p>
+      <div class="tl-tags"><span class="tl-tag">25+ SMB clients</span><span class="tl-tag">Fortigate</span><span class="tl-tag">Infrastructure</span><span class="tl-tag">IT expert arbitrator</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL -->
+<section id="terminal" style="background:linear-gradient(180deg,var(--bg2),var(--bg));">
+  <div class="rv">
+    <span class="sec-label">// Interactive</span>
+    <h2 class="sec-title">Ask me anything</h2>
+    <p class="sec-desc">Type <code style="color:var(--lime);font-family:var(--font-mono);">help</code> to get started. Or just explore.</p>
+  </div>
+  <div class="term-wrap rv">
+    <div class="term-bar">
+      <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
+      <span class="term-tab">jonas@bager — IT profile</span>
+    </div>
+    <div class="term-body">
+      <div class="term-scroll" id="termOut">
+        <div class="term-line"><span class="success">Welcome. Type <span class="key">help</span> for available commands.</span></div>
+        <div class="term-line"><span class="out">Jonas Bager — Head of IT profile · jonas.bager.dk/it</span></div>
+        <div class="term-line"></div>
+      </div>
+    </div>
+    <div class="term-input-row">
+      <span class="term-ps">jonas@it:~$</span>
+      <input class="term-input" id="termIn" type="text" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="type a command...">
+    </div>
+  </div>
+</section>
+
+<!-- THE EDGE -->
+<section style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Why this is unusual</span>
+    <h2 class="sec-title">A background most IT people don't have</h2>
+  </div>
+  <div class="callout rv">
+    <h3>Product thinking inside an IT role</h3>
+    <p>Most IT professionals haven't spent years in product management. I have. That means I approach every tool choice, onboarding flow, and security policy with the same user-centred thinking I'd apply to building a product — because that's exactly what they are. Products your colleagues use every day.</p>
+    <p>When you've worked in product, you develop a specific kind of empathy for how people actually use tools — not how they're supposed to, but how they really do. You learn to spot the workflow that's quietly costing people 20 minutes a day. You get comfortable talking to non-technical stakeholders about technical decisions. And you develop a healthy intolerance for unnecessary complexity.</p>
+    <p>One more thing that doesn't fit neatly elsewhere: I've served as an IT expert arbitrator in legal disputes a handful of times — including one involving tax and IT systems. It requires deep technical knowledge, clear communication under pressure, and the ability to explain complex systems to people who aren't technical. Not something many IT professionals can say.</p>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Education</span>
+    <h2 class="sec-title">Academic foundation</h2>
+  </div>
+  <div class="edu-cards">
+    <div class="edu-card rv">
+      <h4>MSc. Management of Creative Business Processes</h4>
+      <div class="school">Copenhagen Business School · 2017–2019</div>
+      <p>Innovation strategy and digital product management. The business and strategic layer that sits above the technical work.</p>
+    </div>
+    <div class="edu-card rv">
+      <h4>Electives at UCLA</h4>
+      <div class="school">University of California, Los Angeles · 2018</div>
+      <p>Blockchain, Business Management, VR/AR Creation. Straight A's including an A+.</p>
+    </div>
+    <div class="edu-card rv">
+      <h4>BEng. Process and Innovation</h4>
+      <div class="school">Technical University of Denmark (DTU) · 2012–2016</div>
+      <p>Engineering foundation: systems thinking, product development, and technical problem-solving.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact" style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// Let's Talk</span>
+    <h2 class="sec-title">Interested?</h2>
+    <p class="sec-desc">I'm looking for a team where IT is treated as an enabler, not a cost centre. If that's you, I'd love to talk.</p>
+    <div class="cta-links">
+      <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#110;&#97;&#115;&#64;&#98;&#97;&#103;&#101;&#114;&#46;&#100;&#107;" class="btn btn-p">jonas&#64;bager.dk →</a>
+      <a href="https://linkedin.com/in/jonasbager" class="btn btn-s" target="_blank">LinkedIn</a>
+      <a href="tel:+4525124614" class="btn btn-s">+45 2512 4614</a>
+    </div>
+    <p style="margin-top:32px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);">Looking for the product side? <a href="/" style="color:var(--lime);text-decoration:none;">jonas.bager.dk →</a></p>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Jonas Bager — Built as a product, because that's kind of the point.</span>
+  <a href="/">← Back to main portfolio</a>
+</footer>
+
+<script>
+// Cursor blob
+const blob = document.getElementById('blob');
+document.addEventListener('mousemove', e => {
+  blob.style.left = e.clientX + 'px';
+  blob.style.top = e.clientY + 'px';
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+
+// Terminal
+const termOut = document.getElementById('termOut');
+const termIn = document.getElementById('termIn');
+const history = [];
+let histIdx = -1;
+
+const commands = {
+  help: () => `<span class="key">Available commands:</span>
+
+  <span class="key">about</span>        — Who I am
+  <span class="key">skills</span>       — IT stack & tools
+  <span class="key">experience</span>   — Career timeline
+  <span class="key">philosophy</span>   — How I approach IT
+  <span class="key">microsoft</span>    — Microsoft stack details
+  <span class="key">network</span>      — Networking & infrastructure
+  <span class="key">security</span>     — Security approach
+  <span class="key">ai</span>           — AI in IT workflows
+  <span class="key">arbitrator</span>   — The IT expert arbitrator thing
+  <span class="key">contact</span>      — Get in touch
+  <span class="key">clear</span>        — Clear terminal`,
+
+  about: () => `<span class="highlight">Jonas Bager</span> — Head of IT profile
+
+  10+ years building and running IT across SMB, enterprise, and scale-up environments.
+  Based in Copenhagen. Comfortable with everything from Fortigate configs to board-level
+  IT strategy. Currently Head of Product at Pree.to, where I also own internal IT.
+
+  I'm not the IT person who defaults to no.
+  I build setups that enable people — and that your team barely notices
+  because everything just works.`,
+
+  skills: () => `<span class="key">IT Stack:</span>
+
+  <span class="val">Identity & Devices</span>   Microsoft Intune, Entra ID, MacBook fleet, MDM
+  <span class="val">M365 & Cloud</span>         Exchange Online, Teams, SharePoint, Defender, licensing
+  <span class="val">Networking</span>           Fortigate, VLANs, VPN, enterprise & SMB infrastructure
+  <span class="val">Security</span>             ISO 27001/NIS2 awareness, conditional access, MFA, DLP
+  <span class="val">Servers</span>              Windows Server, Active Directory, hybrid environments
+  <span class="val">Automation</span>           PowerShell, AI-assisted scripting, documentation workflows
+  <span class="val">AI</span>                  Daily use — diagnostics, scripting, docs, task automation`,
+
+  experience: () => `<span class="key">jonas.it.timeline()</span>
+
+  <span class="highlight">2021–Now</span>  Head of Product + Internal IT Lead — Pree.to
+              Intune, Entra, M365, MacBook fleet, onboarding/offboarding
+
+  <span class="highlight">2019–21</span>   Innovation Manager — LB Forsikring
+              Compliance-heavy finance environment, ISO 27001 context
+
+  <span class="highlight">2014–19</span>   IT Consultant — Hafnia BW (enterprise shipping)
+              Full stack overhaul: networks, servers, endpoints at scale
+
+  <span class="highlight">2013–19</span>   Founder & IT Consultant — ZaBa IT Consultancy
+              25+ clients: Noma, law firms, medical clinics, SMBs`,
+
+  philosophy: () => `<span class="key">IT philosophy:</span>
+
+  IT exists to enable people, not to gatekeep them.
+
+  The best IT setup is one where colleagues barely notice it's there —
+  because everything just works, the right tools are available, and
+  security doesn't mean friction.
+
+  I find the solution that's both secure <span class="highlight">and</span> actually usable.
+  Most IT setups fail because they optimise for one at the expense of the other.`,
+
+  microsoft: () => `<span class="key">Microsoft stack:</span>
+
+  <span class="val">Entra ID</span>        Identity, conditional access, SSO, MFA, guest management
+  <span class="val">Intune</span>          Device compliance, app deployment, MacBook & Windows MDM
+  <span class="val">Defender</span>        Endpoint protection, threat monitoring, security posture
+  <span class="val">Exchange Online</span> Mail flow, shared mailboxes, retention policies, anti-spam
+  <span class="val">Teams & SP</span>      Governance, guest access, file structure, permissions
+  <span class="val">M365 Admin</span>      Licensing, billing, service health, compliance centre
+
+  I work in these tools regularly — not just the parts that don't cause trouble.`,
+
+  network: () => `<span class="key">Networking & infrastructure:</span>
+
+  Fortigate firewall configuration (enterprise and SMB contexts)
+  VLAN design and segmentation
+  VPN setup (site-to-site and remote access)
+  Wi-Fi infrastructure and access point management
+  Server hardware, Windows Server, Active Directory
+  Hybrid environments (on-prem + cloud)
+
+  <span class="out">Side note: I once spent most of a day crawling through Bakken amusement
+  park's service corridors getting the network sorted hours before a premiere.
+  Calm under pressure is a prerequisite for this kind of work.</span>`,
+
+  security: () => `<span class="key">Security approach:</span>
+
+  I've worked in finance-adjacent environments where compliance isn't optional.
+  I understand what ISO 27001 and NIS2 requirements actually mean in practice —
+  not just as checkboxes, but as real controls that have to work for real people.
+
+  My approach:
+  → Security that protects people without making them work around it
+  → Conditional access and MFA that's frictionless for legitimate users
+  → The difference between a control that protects and one that just annoys
+  → Zero trust principles applied proportionally to actual risk`,
+
+  ai: () => `<span class="key">AI in IT operations:</span>
+
+  I use AI every day across everything from:
+  → Documentation and runbook generation
+  → PowerShell and automation script writing
+  → Diagnosing incidents and researching solutions
+  → Summarising vendor contracts and licensing terms
+  → Automating repetitive admin tasks
+
+  I'm not someone who talks about AI as a future opportunity.
+  It's already part of how I work — and I'm always looking for the
+  next place it makes sense to apply it.`,
+
+  arbitrator: () => `<span class="key">IT expert arbitrator:</span>
+
+  I've served as an IT expert arbitrator in legal disputes a handful of times.
+  One of those cases involved tax and IT systems — which feels almost too
+  relevant not to mention.
+
+  It requires:
+  → Deep technical knowledge
+  → Clear communication under pressure
+  → The ability to explain complex systems to people who aren't technical
+  → Maintaining credibility when both sides are trying to catch you out
+
+  Not something many IT professionals can say.`,
+
+  contact: () => `<span class="key">Get in touch:</span>
+
+  <span class="val">Email</span>     jonas@bager.dk
+  <span class="val">Phone</span>     +45 2512 4614
+  <span class="val">LinkedIn</span>  linkedin.com/in/jonasbager
+  <span class="val">Web</span>       jonas.bager.dk`,
+
+  sudo: () => `<span class="highlight">sudo: Permission denied.</span>
+  <span class="out">(You're not root here. But nice try.)</span>`,
+  whoami: () => `<span class="val">visitor</span> — but Jonas is at jonas@bager.dk`,
+  pwd: () => `/home/jonas/it-profile`,
+  ls: () => `<span class="val">about.md  skills.json  experience/  philosophy.txt  contact.md</span>`,
+  ping: () => `<span class="success">PING jonas.bager.dk — 0ms latency. He's responsive.</span>`,
+  uptime: () => `<span class="val">10 years, 3 months</span> in IT — and counting`,
+  clear: () => '__clear__',
+};
+
+function addLine(html) {
+  const d = document.createElement('div');
+  d.className = 'term-line';
+  d.innerHTML = html;
+  termOut.appendChild(d);
+  termOut.scrollTop = termOut.scrollHeight;
+}
+
+function run(input) {
+  const cmd = input.trim().toLowerCase();
+  addLine(`<span class="prompt">jonas@it:~$</span> <span>${input}</span>`);
+  if (!cmd) return;
+  history.unshift(cmd); histIdx = -1;
+  if (cmd === 'clear') { termOut.innerHTML = ''; return; }
+  const fn = commands[cmd] || commands[cmd.split(' ')[0]];
+  const result = fn ? fn() : `<span class="highlight">command not found:</span> <span class="out">${cmd} — try <span class="key">help</span></span>`;
+  if (result === '__clear__') { termOut.innerHTML = ''; return; }
+  result.split('\n').forEach(line => addLine(`<span class="out">${line}</span>`));
+  addLine('');
+}
+
+termIn.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { run(termIn.value); termIn.value = ''; }
+  if (e.key === 'ArrowUp') { histIdx = Math.min(histIdx + 1, history.length - 1); termIn.value = history[histIdx] || ''; }
+  if (e.key === 'ArrowDown') { histIdx = Math.max(histIdx - 1, -1); termIn.value = histIdx >= 0 ? history[histIdx] : ''; }
+});
+
+document.querySelector('.term-body').addEventListener('click', () => termIn.focus());
+
+// Auto-run welcome
+setTimeout(() => run('help'), 600);
+</script>
+</body>
+</html>
