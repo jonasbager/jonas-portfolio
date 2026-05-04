@@ -113,7 +113,7 @@ section{padding:100px 60px;position:relative;}
 @keyframes blink{50%{opacity:0}}
 
 /* === PROJECTS === */
-.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:1100px;}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;}
 .proj-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius);padding:32px;cursor:pointer;transition:all .35s;position:relative;overflow:hidden;}
 .proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-c);opacity:0;transition:opacity .3s;}
 .proj-card:hover{background:var(--bg-card-hover);border-color:rgba(255,255,255,.1);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25);}
@@ -123,7 +123,12 @@ section{padding:100px 60px;position:relative;}
 .proj-card p{color:var(--text-dim);font-size:.92rem;margin-bottom:18px;line-height:1.6;}
 .proj-card .arrow{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);transition:color .3s;}
 .proj-card:hover .arrow{color:var(--lime);}
-.proj-logo{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;margin-bottom:16px;font-size:22px;font-weight:800;font-family:var(--font-head);color:var(--bg);}
+.proj-logo{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;margin-bottom:16px;font-size:22px;font-weight:800;font-family:var(--font-head);color:var(--bg);overflow:hidden;}
+.proj-logo img{width:100%;height:100%;object-fit:cover;display:block;}
+.proj-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0;}
+.proj-beta{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:rgba(184,240,0,.1);border:1px solid rgba(184,240,0,.25);color:var(--lime);}
+.proj-waitlist{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:9px 18px;background:var(--lime);color:var(--bg);border:none;border-radius:100px;font-family:var(--font-head);font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;text-decoration:none;}
+.proj-waitlist:hover{box-shadow:0 0 20px var(--lime-glow);transform:translateY(-1px);}
 
 /* === MODAL === */
 .modal-bg{position:fixed;inset:0;background:rgba(8,8,12,.93);backdrop-filter:blur(24px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
@@ -293,14 +298,14 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
   .nav-r a:not(.nav-pill){display:none;}
   footer{padding:20px 24px;flex-direction:column;gap:10px;}
   .modal-box{padding:28px 20px;}
-  .proj-grid{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:repeat(2,1fr);}
   .traits-grid{grid-template-columns:1fr 1fr;}
   .trait-featured{flex-direction:column;align-items:flex-start;gap:16px;}
   .lead-grid{grid-template-columns:1fr 1fr;}
   .hero-stats{gap:24px;flex-wrap:wrap;}
   .edu-cards{grid-template-columns:1fr;}
 }
-@media(max-width:480px){.traits-grid{grid-template-columns:1fr;}.lead-grid{grid-template-columns:1fr;}}
+@media(max-width:480px){.traits-grid{grid-template-columns:1fr;}.lead-grid{grid-template-columns:1fr;}.proj-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -427,32 +432,46 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
   </div>
   <div class="proj-grid">
     <div class="proj-card rv" style="--card-c:var(--coral)" onclick="openM('minstue')">
-      <div class="proj-logo" style="background:var(--coral);">M</div>
-      <div class="tag" style="color:var(--coral)">Healthcare · App</div>
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--coral);"><img src="/logos/minstue.png" alt="MinStue" onerror="this.outerHTML='M'"></div></div>
+      <div class="tag" style="color:var(--coral);margin-top:16px;">Healthcare · App</div>
       <h3>MinStue</h3>
       <p>A patient companion app that helps hospital patients and relatives structure their stay, track medications, and communicate with staff.</p>
       <div class="arrow">→ Full case study</div>
     </div>
     <div class="proj-card rv" style="--card-c:var(--violet)" onclick="openM('synthedo')">
-      <div class="proj-logo" style="background:var(--violet);">S</div>
-      <div class="tag" style="color:var(--violet)">SaaS · AI · AdTech</div>
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--violet);"><img src="/logos/synthedo.png" alt="Synthedo" onerror="this.outerHTML='S'"></div></div>
+      <div class="tag" style="color:var(--violet);margin-top:16px;">SaaS · AI · AdTech</div>
       <h3>Synthedo</h3>
       <p>AI-powered creative testing platform. Synthetic personas simulate audience reactions to ads before you spend a dollar on media.</p>
       <div class="arrow">→ Full case study</div>
     </div>
     <div class="proj-card rv" style="--card-c:var(--sky)" onclick="openM('dashdoggo')">
-      <div class="proj-logo" style="background:var(--sky);">D</div>
-      <div class="tag" style="color:var(--sky)">Analytics · Meta Ads</div>
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--sky);"><img src="/logos/dashdoggo.png" alt="DashDoggo" onerror="this.outerHTML='D'"></div></div>
+      <div class="tag" style="color:var(--sky);margin-top:16px;">Analytics · Meta Ads</div>
       <h3>DashDoggo</h3>
       <p>An interactive Meta Ads dashboard that makes campaign data understandable. Clean reports, smart comparisons, no spreadsheet gymnastics.</p>
       <div class="arrow">→ Full case study</div>
     </div>
     <div class="proj-card rv" style="--card-c:var(--amber)" onclick="openM('applymate')">
-      <div class="proj-logo" style="background:var(--amber);">A</div>
-      <div class="tag" style="color:var(--amber)">Productivity · Job Search</div>
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--amber);"><img src="/logos/applymate.png" alt="ApplyMate" onerror="this.outerHTML='A'"></div></div>
+      <div class="tag" style="color:var(--amber);margin-top:16px;">Productivity · Job Search</div>
       <h3>ApplyMate</h3>
       <p>A kanban-style job application tracker. Built in days when my girlfriend needed it. Saw a pain point, shipped a solution.</p>
       <div class="arrow">→ Full case study</div>
+    </div>
+    <div class="proj-card rv" style="--card-c:#06b6d4" onclick="openM('hvemringer')">
+      <div class="proj-card-header"><div class="proj-logo" style="background:#06b6d4;"><img src="/logos/hvemringer.png" alt="Hvem Ringer?" onerror="this.outerHTML='HR'"></div><span class="proj-beta">Beta</span></div>
+      <div class="tag" style="color:#06b6d4;margin-top:16px;">Utility · Mobile</div>
+      <h3>Hvem Ringer?</h3>
+      <p>Know who's calling before you pick up. Smart caller identification that goes beyond your contact list.</p>
+      <div class="arrow">→ Full case study</div>
+    </div>
+    <div class="proj-card rv" style="--card-c:#f97316" onclick="openM('captain')">
+      <div class="proj-card-header"><div class="proj-logo" style="background:#f97316;"><img src="/logos/captain.png" alt="Captain" onerror="this.outerHTML='C'"></div><span class="proj-beta">Beta</span></div>
+      <div class="tag" style="color:#f97316;margin-top:16px;">SaaS · Productivity</div>
+      <h3>Captain</h3>
+      <p>Coming soon. Join the waitlist to be first on board.</p>
+      <a class="proj-waitlist" href="#" onclick="event.stopPropagation();" target="_blank">Join waitlist →</a>
     </div>
   </div>
 </section>
@@ -1550,6 +1569,26 @@ const pData = {
       { h: 'WHAT IT DEMONSTRATES', p: 'Two things: I instinctively listen for product opportunities in everyday life, and I can go from "someone needs this" to "here, use it" absurdly fast.' }
     ],
     tags: ['Productivity', 'Kanban', 'Rapid Prototyping', 'UX', 'User Empathy']
+  },
+  hvemringer: {
+    label: 'Case Study · Beta',
+    title: 'Hvem Ringer?',
+    color: '#06b6d4',
+    link: null,
+    sections: [
+      { h: 'COMING SOON', p: 'Full case study coming soon.' }
+    ],
+    tags: ['Utility', 'Mobile', 'Beta']
+  },
+  captain: {
+    label: 'Case Study · Beta',
+    title: 'Captain',
+    color: '#f97316',
+    link: null,
+    sections: [
+      { h: 'COMING SOON', p: 'Full case study coming soon.' }
+    ],
+    tags: ['SaaS', 'Productivity', 'Beta']
   }
 };
 
