@@ -470,8 +470,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
       <div class="proj-card-header"><div class="proj-logo" style="background:#f97316;"><img src="/logos/captain.png" alt="Captain" onerror="this.outerHTML='C'"></div><span class="proj-beta">Beta</span></div>
       <div class="tag" style="color:#f97316;margin-top:16px;">SaaS · Productivity</div>
       <h3>Captain</h3>
-      <p>Coming soon. Join the waitlist to be first on board.</p>
-      <a class="proj-waitlist" href="#" onclick="event.stopPropagation();" target="_blank">Join waitlist →</a>
+      <p>AI-first bookkeeping for Danish freelancers and micro-companies. Your accountant, replaced by a conversation.</p>
+      <a class="proj-waitlist" href="https://gocaptain.dk/waitlist" onclick="event.stopPropagation();" target="_blank">Join waitlist →</a>
     </div>
   </div>
 </section>
@@ -1584,11 +1584,14 @@ const pData = {
     label: 'Case Study · Beta',
     title: 'Captain',
     color: '#f97316',
-    link: null,
+    link: 'https://gocaptain.dk',
     sections: [
-      { h: 'COMING SOON', p: 'Full case study coming soon.' }
+      { h: 'THE PROBLEM', p: 'Bookkeeping software in Denmark is stuck in 2015. Dinero, Billy, and e-conomic are form-based tools where you manually categorize transactions, hunt for receipts, and fight your way through tax forms. When tax season hits, you\'re mapping account numbers to obscure SKAT rubrik fields by hand — or paying your accountant to do what software should handle. For freelancers and micro-companies, it\'s too expensive, too manual, and too slow.' },
+      { h: 'THE SOLUTION', p: 'An AI-first bookkeeping agent that does the work instead of helping you do the work. Captain reads your receipts (photo, email, or forwarded), matches them to bank transactions automatically, and books everything using proper double-entry accounting under the hood. When your tax return is due, Captain tells you exactly what goes in each field — and why. The primary interface is a conversation, not a dashboard.' },
+      { h: 'WHAT I DID', p: 'Rethought bookkeeping from scratch: what if the product was an agent, not an application? Designed and built the full system — AI architecture with Claude API tool use, receipt OCR pipeline, automatic transaction matching, Danish chart of accounts with tax rubrik mapping, VAT calculation engine, and a chat-first UI where the bookkeeping happens through conversation. Mobile-first PWA with camera scanning, desktop admin views for when you need the full picture.' },
+      { h: 'WHAT IT DEMONSTRATES', p: 'Product thinking beyond "rebuild the existing thing with AI on top." Captain isn\'t a better Dinero — it\'s a different category. Understanding of regulated domains (Danish Bogføringslov, tax compliance), AI agent architecture, and how to make complex financial workflows disappear into a conversation.' }
     ],
-    tags: ['SaaS', 'Productivity', 'Beta']
+    tags: ['AI Agent', 'Bookkeeping', 'Fintech', 'Claude API', 'Full-Stack', 'Solo Builder', 'SaaS']
   }
 };
 
