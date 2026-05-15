@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Jonas Bager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink:       #E8327C;
+      --pink-dark:  #C4235C;
+      --pink-pale:  #FDE8F0;
+      --black:      #0D0D0D;
+      --white:      #FFFFFF;
+      --cream:      #FFF9F7;
+      --gold:       #C9A227;
+      --gold-light: #FEF3C7;
+      --font-d: 'Barlow Condensed', sans-serif;
+      --font-b: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* REVEAL */
+    .rv { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.23,1,.32,1), transform .7s cubic-bezier(.23,1,.32,1); }
+    .rv.in { opacity: 1; transform: none; }
+
+    /* SHARED */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; }
+
+    .sec-label {
+      display: block;
+      font-family: var(--font-d);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 16px;
+    }
+    .sec-title {
+      font-family: var(--font-d);
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900; line-height: .92;
+      text-transform: uppercase; letter-spacing: -1px;
+      margin-bottom: 56px;
+    }
+
+    /* GRAIN */
+    .grain { position: relative; }
+    .grain::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .04; pointer-events: none; z-index: 0;
+    }
+    .grain > * { position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      background: var(--black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+    }
+
+    .hero-label {
+      font-family: var(--font-d);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(64px, 14vw, 160px);
+      font-weight: 900; line-height: .88;
+      text-transform: uppercase;
+      color: var(--white); letter-spacing: -2px;
+    }
+    .hero-title .pink { color: var(--pink); display: block; }
+
+    /* CUP */
+    .cup-wrap {
+      position: relative;
+      width: 180px; height: 300px;
+      margin: 44px auto 36px;
+      flex-shrink: 0;
+    }
+    .cup-svg { width: 100%; height: 100%; overflow: visible; }
+
+    #liquid {
+      transform: translateY(300px);
+      transition: transform .85s cubic-bezier(.23,1,.32,1);
+    }
+
+    .cup-stage { position: absolute; inset: 0; pointer-events: none; }
+
+    @keyframes dropPill {
+      0%   { top: -44px; opacity: 1; }
+      65%  { top: 55%;   opacity: 1; }
+      100% { top: 55%;   opacity: 0; }
+    }
+    .drop-pill {
+      position: absolute; left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      padding: 6px 18px; border-radius: 100px;
+      font-family: var(--font-d); font-weight: 700;
+      font-size: 13px; letter-spacing: 2px;
+      text-transform: uppercase; color: #fff;
+      animation: dropPill .9s cubic-bezier(.36,.07,.19,.97) forwards;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: rotate(0deg) translateX(0); }
+      15%  { transform: rotate(-2deg) translateX(-3px); }
+      30%  { transform: rotate(2deg)  translateX(3px); }
+      45%  { transform: rotate(-2deg) translateX(-3px); }
+      60%  { transform: rotate(2deg)  translateX(3px); }
+      80%  { transform: rotate(-1deg) translateX(-1px); }
+    }
+    .cup-wrap.blending { animation: shake .6s ease-in-out; }
+
+    .hero-sub {
+      font-family: var(--font-d);
+      font-size: 16px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 48px;
+    }
+
+    .hero-scroll {
+      font-family: var(--font-d);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--pink); text-decoration: none;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+    .hero-scroll svg { animation: bob 2s ease-in-out infinite; }
+
+    /* ── RECIPE ── */
+    .recipe-section { background: var(--cream); }
+    .recipe-section .sec-title { color: var(--black); }
+
+    .ing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .ing-card {
+      background: var(--white); border-radius: 16px;
+      padding: 28px 24px; position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s; cursor: default;
+    }
+    .ing-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: var(--c);
+    }
+    .ing-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+
+    .ing-num {
+      font-family: var(--font-d); font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; color: #aaa; margin-bottom: 10px;
+    }
+    .ing-name {
+      font-family: var(--font-d); font-size: 30px; font-weight: 900;
+      text-transform: uppercase; line-height: 1; margin-bottom: 8px;
+    }
+    .ing-match {
+      font-family: var(--font-d); font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--c); margin-bottom: 10px;
+    }
+    .ing-desc { font-size: 13.5px; line-height: 1.6; color: #555; }
+
+    /* ── MENU ── */
+    .menu-section { background: var(--black); }
+    .menu-section .sec-title { color: var(--white); }
+
+    .menu-list { max-width: 680px; }
+    .menu-item {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .menu-item:last-child { border-bottom: none; }
+
+    .menu-name {
+      font-family: var(--font-d); font-size: 26px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .5px;
+      color: var(--white); margin-bottom: 5px;
+    }
+    .menu-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.55; max-width: 420px; }
+    .menu-tag {
+      font-family: var(--font-d); font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--pink); white-space: nowrap; margin-top: 4px; flex-shrink: 0;
+    }
+
+    /* ── TIERS ── */
+    .tiers-section { background: var(--white); }
+    .tiers-section .sec-title { color: var(--black); }
+
+    .tiers-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .tier-card { border-radius: 20px; padding: 36px 28px; text-align: center; }
+
+    .tier-badge {
+      width: 72px; height: 72px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .tier-name {
+      font-family: var(--font-d); font-size: 22px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+    }
+    .tier-period {
+      font-family: var(--font-d); font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #aaa; margin-bottom: 6px;
+    }
+    .tier-points {
+      font-family: var(--font-d); font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: #999; margin-bottom: 16px;
+    }
+    .tier-items { list-style: none; text-align: left; font-size: 13.5px; line-height: 1.9; color: #555; }
+    .tier-items li::before { content: '— '; color: var(--pink); }
+
+    /* ── WHY ── */
+    .why-section { background: var(--pink); }
+    .why-section .sec-label { color: rgba(255,255,255,.6); }
+    .why-section .sec-title { color: var(--white); }
+    .why-text { max-width: 660px; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,.88); }
+    .why-text p + p { margin-top: 22px; }
+
+    /* ── ORDER / CTA ── */
+    .order-section { background: var(--black); }
+    .order-section .sec-title { color: var(--white); }
+
+    .receipt {
+      background: var(--white); border-radius: 20px;
+      padding: 44px 40px; max-width: 460px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.35);
+    }
+    .receipt-header {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 2px dashed #e8e8e8;
+      margin-bottom: 24px;
+    }
+    .receipt-header-label {
+      font-family: var(--font-d); font-size: 10px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: #aaa; margin-bottom: 8px;
+    }
+    .receipt-name {
+      font-family: var(--font-d); font-size: 36px; font-weight: 900;
+      text-transform: uppercase; line-height: 1; margin-bottom: 6px;
+    }
+    .receipt-role {
+      font-family: var(--font-d); font-size: 13px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: #999;
+    }
+    .receipt-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid #f0f0f0;
+      font-family: var(--font-d); font-size: 16px; font-weight: 600;
+    }
+    .receipt-row:last-of-type { border-bottom: none; }
+    .receipt-row .r-label { color: #aaa; font-weight: 400; }
+
+    .receipt-total {
+      display: flex; justify-content: space-between;
+      padding: 18px 0 0; border-top: 2px dashed #e8e8e8;
+      margin-top: 8px;
+      font-family: var(--font-d); font-size: 20px; font-weight: 900;
+      text-transform: uppercase;
+    }
+    .receipt-btn {
+      display: block; width: 100%; padding: 18px;
+      background: var(--pink); color: var(--white);
+      border: none; border-radius: 100px;
+      font-family: var(--font-d); font-size: 18px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 2px;
+      text-align: center; text-decoration: none;
+      margin-top: 28px; cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .receipt-btn:hover { background: var(--pink-dark); transform: translateY(-2px); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .ing-grid { grid-template-columns: 1fr 1fr; }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .cup-wrap { width: 140px; height: 240px; }
+      .receipt { padding: 32px 24px; }
+    }
+    @media (max-width: 480px) {
+      .ing-grid { grid-template-columns: 1fr; }
+      .menu-item { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rv { transition: none; }
+      #liquid { transition: none; }
+      .drop-pill { animation: none; opacity: 0; }
+      .cup-wrap.blending { animation: none; }
+      .hero-scroll svg { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ HERO ════ -->
+<section class="hero grain">
+  <div class="hero-label">Application · Product Owner · Guest Experience</div>
+
+  <h1 class="hero-title">
+    THE
+    <span class="pink">PERFECT</span>
+    BLEND
+  </h1>
+
+  <div class="cup-wrap" id="cupWrap">
+    <div class="cup-stage" id="cupStage"></div>
+    <svg class="cup-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <clipPath id="cupClip">
+          <path d="M 30 44 L 170 44 L 152 280 L 48 280 Z"/>
+        </clipPath>
+        <linearGradient id="liqGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FF6B9D"/>
+          <stop offset="100%" stop-color="#C4235C"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Straw -->
+      <rect x="124" y="0" width="7" height="130" rx="3.5" fill="#E8327C"/>
+
+      <!-- Lid -->
+      <rect x="20" y="30" width="160" height="20" rx="6"
+            fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+
+      <!-- Glass body bg -->
+      <path d="M 30 44 L 170 44 L 152 280 L 48 280 Z" fill="rgba(255,255,255,0.06)"/>
+
+      <!-- Liquid (CSS-animated) -->
+      <g clip-path="url(#cupClip)">
+        <rect id="liquid" x="0" y="0" width="200" height="300" fill="url(#liqGrad)"/>
+      </g>
+
+      <!-- Glass outline on top -->
+      <path d="M 30 44 L 170 44 L 152 280 L 48 280 Z"
+            fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+      <path d="M 48 278 Q 100 290 152 278"
+            fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="hero-sub">Jonas Bager — Copenhagen</div>
+
+  <a class="hero-scroll" href="#recipe">
+    Read the recipe
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </a>
+</section>
+
+<!-- ════ RECIPE ════ -->
+<section class="recipe-section" id="recipe">
+  <div class="container">
+    <span class="sec-label rv">// The recipe</span>
+    <h2 class="sec-title rv">What<br>goes in</h2>
+    <div class="ing-grid">
+
+      <div class="ing-card rv" style="--c:#E8327C">
+        <div class="ing-num">01</div>
+        <div class="ing-name">Guest Obsession</div>
+        <div class="ing-match">Matches: Consumer-facing digital</div>
+        <div class="ing-desc">I build products people actually use. MinStue, DashDoggo, ApplyMate — real users, real stakes, real feedback loops.</div>
+      </div>
+
+      <div class="ing-card rv" style="--c:#7C3AED">
+        <div class="ing-num">02</div>
+        <div class="ing-name">AI Fluency</div>
+        <div class="ing-match">Matches: AI literacy requirement</div>
+        <div class="ing-desc">Production AI in 3 products. Claude API tool use, agent architecture, OCR pipelines. Not buzzwords — shipped features.</div>
+      </div>
+
+      <div class="ing-card rv" style="--c:#059669">
+        <div class="ing-num">03</div>
+        <div class="ing-name">Discovery First</div>
+        <div class="ing-match">Matches: Guest insights → roadmap</div>
+        <div class="ing-desc">Pretotyping, assumption testing, fast kill cycles. I validate before I build. No 40-page PRDs for ideas that should take 2 days to test.</div>
+      </div>
+
+      <div class="ing-card rv" style="--c:#0891B2">
+        <div class="ing-num">04</div>
+        <div class="ing-name">Alignment</div>
+        <div class="ing-match">Matches: Cross-functional leadership</div>
+        <div class="ing-desc">Engineering, ops, marketing, C-suite. I'm the layer between the people who code it and the people who need it. Everyone leaves aligned.</div>
+      </div>
+
+      <div class="ing-card rv" style="--c:#C9A227">
+        <div class="ing-num">05</div>
+        <div class="ing-name">Loyalty Mechanics</div>
+        <div class="ing-match">Matches: Loyalty, CRM, personalization</div>
+        <div class="ing-desc">PLG, activation, retention loops, tier systems. I build the mechanics that keep people coming back for more.</div>
+      </div>
+
+      <div class="ing-card rv" style="--c:#EA580C">
+        <div class="ing-num">06</div>
+        <div class="ing-name">Execution Speed</div>
+        <div class="ing-match">Matches: Delivery & backlog ownership</div>
+        <div class="ing-desc">4 startups founded. 6+ products shipped. ApplyMate: idea to launched in days. Fast and deliberate aren't opposites.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ MENU BOARD ════ -->
+<section class="menu-section grain">
+  <div class="container">
+    <span class="sec-label rv">// Behind the bar</span>
+    <h2 class="sec-title rv">Today's<br>menu</h2>
+    <div class="menu-list">
+
+      <div class="menu-item rv">
+        <div>
+          <div class="menu-name">MinStue</div>
+          <div class="menu-desc">Patient companion app for hospital stays. Real users in their most vulnerable moments. Shipped because I lived the problem firsthand.</div>
+        </div>
+        <div class="menu-tag">Healthcare · App</div>
+      </div>
+
+      <div class="menu-item rv">
+        <div>
+          <div class="menu-name">Captain</div>
+          <div class="menu-desc">AI bookkeeping agent for Danish freelancers. Not a better Dinero — a different category. A conversation instead of a dashboard.</div>
+        </div>
+        <div class="menu-tag">AI Agent · Fintech</div>
+      </div>
+
+      <div class="menu-item rv">
+        <div>
+          <div class="menu-name">Synthedo</div>
+          <div class="menu-desc">AI-powered creative testing with synthetic personas. Test your ads before you spend a single krone on media.</div>
+        </div>
+        <div class="menu-tag">SaaS · AI · AdTech</div>
+      </div>
+
+      <div class="menu-item rv">
+        <div>
+          <div class="menu-name">DashDoggo</div>
+          <div class="menu-desc">Meta Ads dashboard that makes complex data feel obvious. Good dashboards remove friction — they don't add it.</div>
+        </div>
+        <div class="menu-tag">Analytics</div>
+      </div>
+
+      <div class="menu-item rv">
+        <div>
+          <div class="menu-name">ApplyMate</div>
+          <div class="menu-desc">Job search kanban. Built in days from a real user need. I heard a frustration — I shipped the solution.</div>
+        </div>
+        <div class="menu-tag">Productivity</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ LOYALTY TIERS ════ -->
+<section class="tiers-section">
+  <div class="container">
+    <span class="sec-label rv">// Loyalty program</span>
+    <h2 class="sec-title rv">Career<br>tiers</h2>
+    <div class="tiers-grid">
+
+      <div class="tier-card rv" style="background:#F4F4F4;">
+        <div class="tier-badge" style="background:#E2E2E2;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+            <line x1="6" y1="2" x2="6" y2="4"/>
+            <line x1="10" y1="2" x2="10" y2="4"/>
+            <line x1="14" y1="2" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <div class="tier-name">Member</div>
+        <div class="tier-period">2013 — 2019</div>
+        <div class="tier-points">ZaBa IT · Bager Consulting</div>
+        <ul class="tier-items">
+          <li>IT consulting for 25+ SMB clients</li>
+          <li>APIs, infrastructure, system integration</li>
+          <li>Founded first company</li>
+          <li>Deep technical foundation built here</li>
+        </ul>
+      </div>
+
+      <div class="tier-card rv" style="background:var(--gold-light);">
+        <div class="tier-badge" style="background:rgba(201,162,39,.2);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A227"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="tier-name" style="color:var(--gold);">Gold</div>
+        <div class="tier-period">2016 — 2021</div>
+        <div class="tier-points">Only Ones · LB Forsikring</div>
+        <ul class="tier-items">
+          <li>Co-founder, led engineering team</li>
+          <li>Co-founded internal innovation hub</li>
+          <li>Built hypothesis-to-execution pipelines</li>
+          <li>First cross-functional PM role</li>
+        </ul>
+      </div>
+
+      <div class="tier-card rv" style="background:var(--pink-pale);">
+        <div class="tier-badge" style="background:rgba(232,50,124,.15);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E8327C"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="6 3 18 3 22 9 12 22 2 9"/>
+            <polyline points="2 9 12 9 22 9"/>
+            <line x1="12" y1="3" x2="12" y2="22"/>
+          </svg>
+        </div>
+        <div class="tier-name" style="color:var(--pink);">Pink Diamond</div>
+        <div class="tier-period">2021 — Present</div>
+        <div class="tier-points">Pree.to — Head of Product</div>
+        <ul class="tier-items">
+          <li>3–4 direct reports, C-suite alignment</li>
+          <li>6+ products shipped as solo founder</li>
+          <li>AI agents in production</li>
+          <li>Experimentation frameworks at scale</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY THIS ROLE ════ -->
+<section class="why-section">
+  <div class="container">
+    <span class="sec-label rv">// Today's special</span>
+    <h2 class="sec-title rv">Why<br>this role</h2>
+    <div class="why-text rv">
+      <p>JOE has something rare: a product where digital and physical have to work together perfectly — or the whole experience falls apart. A loyalty tier that doesn't activate in-store is pointless. An app that doesn't reflect the energy behind the bar is just software. That intersection is exactly where I work best.</p>
+      <p>I've spent 10 years building products that exist at the edge of tech and real human moments — in hospitals, small businesses, and advertising. Guest experience across 450+ stores and 20 countries is the kind of problem that makes me want to cancel my weekend plans.</p>
+      <p>I've been studying your menu for a while. The Moneyball system, the culture-first hiring, the way JOE feels the same in Copenhagen and London and Tokyo. That's not an accident. That's product. And I'd love to be part of building what comes next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ THE ORDER ════ -->
+<section class="order-section grain">
+  <div class="container">
+    <span class="sec-label rv">// Place your order</span>
+    <h2 class="sec-title rv">Ready<br>to talk?</h2>
+    <div class="rv">
+      <div class="receipt">
+        <div class="receipt-header">
+          <div class="receipt-header-label">Your order</div>
+          <div class="receipt-name">Jonas Bager</div>
+          <div class="receipt-role">Product Owner — Guest Experience</div>
+        </div>
+        <div class="receipt-row">
+          <span class="r-label">Email</span>
+          <span>jonas&#64;bager.dk</span>
+        </div>
+        <div class="receipt-row">
+          <span class="r-label">Phone</span>
+          <span>+45 2512 4614</span>
+        </div>
+        <div class="receipt-row">
+          <span class="r-label">LinkedIn</span>
+          <span>jonasbager</span>
+        </div>
+        <div class="receipt-row">
+          <span class="r-label">Portfolio</span>
+          <span>jonas.bager.dk</span>
+        </div>
+        <div class="receipt-total">
+          <span>Total experience</span>
+          <span>10+ yrs</span>
+        </div>
+        <a class="receipt-btn" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#110;&#97;&#115;&#64;&#98;&#97;&#103;&#101;&#114;&#46;&#100;&#107;">
+          Send me a message →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// SCROLL REVEAL
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// JUICE ANIMATION
+// Liquid translateY steps: starts at 300px (off-screen below clip), reaches -10px (fully filled)
+const steps = [300, 248, 196, 144, 92, 40, -10];
+const ings = [
+  { name: 'GUEST OBSESSION',   color: '#E8327C' },
+  { name: 'AI FLUENCY',        color: '#7C3AED' },
+  { name: 'DISCOVERY',         color: '#059669' },
+  { name: 'ALIGNMENT',         color: '#0891B2' },
+  { name: 'LOYALTY MECHANICS', color: '#C9A227' },
+  { name: 'SPEED',             color: '#EA580C' },
+];
+
+const liquid  = document.getElementById('liquid');
+const stage   = document.getElementById('cupStage');
+const cupWrap = document.getElementById('cupWrap');
+let idx = 0;
+
+function dropNext() {
+  if (idx >= ings.length) { setTimeout(blend, 300); return; }
+  const ing = ings[idx];
+
+  const pill = document.createElement('div');
+  pill.className = 'drop-pill';
+  pill.style.background = ing.color;
+  pill.textContent = ing.name;
+  stage.appendChild(pill);
+
+  setTimeout(() => {
+    pill.remove();
+    idx++;
+    liquid.style.transform = `translateY(${steps[idx]}px)`;
+    setTimeout(dropNext, 450);
+  }, 900);
+}
+
+function blend() {
+  cupWrap.classList.add('blending');
+  cupWrap.addEventListener('animationend', () => cupWrap.classList.remove('blending'), { once: true });
+}
+
+setTimeout(dropNext, 900);
+
+// REF TRACKING
+const ref = new URLSearchParams(window.location.search).get('ref');
+if (ref) {
+  fetch('/api/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'visit', message: `Joe page visit from ref: ${ref}`, url: window.location.href, userAgent: navigator.userAgent })
+  }).catch(() => {});
+  if (window.history.replaceState) window.history.replaceState({}, '', window.location.pathname);
+}
+</script>
+</body>
+</html>
