@@ -291,6 +291,23 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
 .konami-overlay p{color:var(--text-dim);font-size:1rem;max-width:500px;text-align:center;line-height:1.7;margin-bottom:28px;}
 .konami-close{padding:10px 24px;background:var(--lime);color:var(--bg);border:none;border-radius:100px;font-weight:600;cursor:pointer;font-size:14px;}
 
+/* === PROJECT TIER LABELS === */
+.proj-tier-label{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.proj-tier-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06);}
+.proj-tier-sep{margin-top:44px;}
+.proj-personal-tag{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);font-style:italic;margin-top:-10px;margin-bottom:14px;display:block;opacity:.7;}
+
+/* === HOW I BUILD === */
+.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:1100px;}
+.tech-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-top:3px solid var(--c,var(--lime));border-radius:12px;padding:28px;transition:all .3s;}
+.tech-card:hover{border-color:var(--c,var(--lime));transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2);}
+.tech-card .t-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;color:var(--c,var(--lime));}
+.tech-card h4{font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--text);}
+.tech-card ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin:0;padding:0;}
+.tech-card ul li{font-size:.86rem;color:var(--text-dim);line-height:1.6;padding-left:18px;position:relative;}
+.tech-card ul li::before{content:'→';position:absolute;left:0;color:var(--c,var(--lime));font-family:var(--font-mono);font-size:.78rem;}
+.tech-card ul li strong{color:var(--text);font-weight:600;}
+
 /* === RESPONSIVE === */
 @media(max-width:768px){
   .hero,section{padding:80px 24px;}
@@ -299,6 +316,7 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
   footer{padding:20px 24px;flex-direction:column;gap:10px;}
   .modal-box{padding:28px 20px;}
   .proj-grid{grid-template-columns:repeat(2,1fr);}
+  .tech-grid{grid-template-columns:1fr;}
   .traits-grid{grid-template-columns:1fr 1fr;}
   .trait-featured{flex-direction:column;align-items:flex-start;gap:16px;}
   .lead-grid{grid-template-columns:1fr 1fr;}
@@ -379,7 +397,8 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
       <div class="term-hints" id="termHints">
         <span onclick="runCmd('help')">help</span>
         <span onclick="runCmd('about')">about</span>
-        <span onclick="runCmd('skills')">skills</span>
+        <span onclick="runCmd('stack')">stack</span>
+        <span onclick="runCmd('ai')">ai</span>
         <span onclick="runCmd('projects')">projects</span>
         <span onclick="runCmd('philosophy')">philosophy</span>
         <span onclick="runCmd('contact')">contact</span>
@@ -427,51 +446,114 @@ footer{padding:28px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex
 <section class="projects-section" id="projects" style="background:linear-gradient(180deg,var(--bg2),var(--bg));">
   <div class="rv">
     <span class="sec-label">// What I've Built</span>
-    <h2 class="sec-title">Products shipped, not decks delivered</h2>
-    <p class="sec-desc">Real products solving real problems. Click any card for the full story.</p>
+    <h2 class="sec-title">Commercial products. Side experiments. All shipped.</h2>
+    <p class="sec-desc">Click any card for the full case study — including architecture, decisions, and outcomes.</p>
   </div>
-  <div class="proj-grid">
-    <div class="proj-card rv" style="--card-c:var(--coral)" onclick="openM('minstue')">
+
+  <div class="proj-tier-label rv">Commercial Products</div>
+  <div class="proj-grid rv">
+    <div class="proj-card" style="--card-c:var(--violet)" onclick="openM('synthedo')">
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--violet);"><img src="/logos/synthedo.png" alt="Synthedo" onerror="this.outerHTML='S'"></div></div>
+      <div class="tag" style="color:var(--violet);margin-top:16px;">SaaS · AI · AdTech · LLM Pipeline</div>
+      <h3>Synthedo</h3>
+      <p>AI creative testing platform with paying users. Three-layer prompt orchestration, synthetic persona simulation, and an eval framework that gates output before it reaches clients.</p>
+      <div class="arrow">→ Architecture + case study</div>
+    </div>
+    <div class="proj-card" style="--card-c:var(--sky)" onclick="openM('dashdoggo')">
+      <div class="proj-card-header"><div class="proj-logo" style="background:var(--sky);"><img src="/logos/dashdoggo.png" alt="DashDoggo" onerror="this.outerHTML='D'"></div></div>
+      <div class="tag" style="color:var(--sky);margin-top:16px;">SaaS · Analytics · Meta Ads · API</div>
+      <h3>DashDoggo</h3>
+      <p>Started as an internal tool at Pree.to, productised into standalone SaaS. Meta Marketing API integration, AI-powered insight generation, automated client reporting.</p>
+      <div class="arrow">→ Architecture + case study</div>
+    </div>
+    <div class="proj-card" style="--card-c:#f97316" onclick="openM('captain')">
+      <div class="proj-card-header"><div class="proj-logo" style="background:#f97316;"><img src="/logos/captain.png" alt="Captain" onerror="this.outerHTML='C'"></div><span class="proj-beta">Beta</span></div>
+      <div class="tag" style="color:#f97316;margin-top:16px;">SaaS · Fintech · AI · Danish SMB</div>
+      <h3>Captain</h3>
+      <p>AI-first bookkeeping agent for Danish freelancers. Not a better Dinero — a different category. Claude API tool use, receipt OCR pipeline, Danish SKAT compliance built in.</p>
+      <a class="proj-waitlist" href="https://gocaptain.dk/waitlist" onclick="event.stopPropagation();" target="_blank">Join waitlist →</a>
+    </div>
+  </div>
+
+  <div class="proj-tier-sep"></div>
+  <div class="proj-tier-label rv">Side Projects</div>
+  <div class="proj-grid rv">
+    <div class="proj-card" style="--card-c:var(--coral)" onclick="openM('minstue')">
       <div class="proj-card-header"><div class="proj-logo" style="background:var(--coral);"><img src="/logos/minstue.png" alt="MinStue" onerror="this.outerHTML='M'"></div></div>
       <div class="tag" style="color:var(--coral);margin-top:16px;">Healthcare · App</div>
       <h3>MinStue</h3>
-      <p>A patient companion app that helps hospital patients and relatives structure their stay, track medications, and communicate with staff.</p>
+      <span class="proj-personal-tag">Personal project — built from lived experience</span>
+      <p>Patient companion app for hospital stays. Built from personal experience — no brief, no budget, just a real problem and the drive to solve it.</p>
       <div class="arrow">→ Full case study</div>
     </div>
-    <div class="proj-card rv" style="--card-c:var(--violet)" onclick="openM('synthedo')">
-      <div class="proj-card-header"><div class="proj-logo" style="background:var(--violet);"><img src="/logos/synthedo.png" alt="Synthedo" onerror="this.outerHTML='S'"></div></div>
-      <div class="tag" style="color:var(--violet);margin-top:16px;">SaaS · AI · AdTech</div>
-      <h3>Synthedo</h3>
-      <p>AI-powered creative testing platform. Synthetic personas simulate audience reactions to ads before you spend a dollar on media.</p>
-      <div class="arrow">→ Full case study</div>
-    </div>
-    <div class="proj-card rv" style="--card-c:var(--sky)" onclick="openM('dashdoggo')">
-      <div class="proj-card-header"><div class="proj-logo" style="background:var(--sky);"><img src="/logos/dashdoggo.png" alt="DashDoggo" onerror="this.outerHTML='D'"></div></div>
-      <div class="tag" style="color:var(--sky);margin-top:16px;">Analytics · Meta Ads</div>
-      <h3>DashDoggo</h3>
-      <p>An interactive Meta Ads dashboard that makes campaign data understandable. Clean reports, smart comparisons, no spreadsheet gymnastics.</p>
-      <div class="arrow">→ Full case study</div>
-    </div>
-    <div class="proj-card rv" style="--card-c:var(--amber)" onclick="openM('applymate')">
+    <div class="proj-card" style="--card-c:var(--amber)" onclick="openM('applymate')">
       <div class="proj-card-header"><div class="proj-logo" style="background:var(--amber);"><img src="/logos/applymate.png" alt="ApplyMate" onerror="this.outerHTML='A'"></div></div>
       <div class="tag" style="color:var(--amber);margin-top:16px;">Productivity · Job Search</div>
       <h3>ApplyMate</h3>
-      <p>A kanban-style job application tracker. Built in days when my girlfriend needed it. Saw a pain point, shipped a solution.</p>
+      <span class="proj-personal-tag">Personal project — v2 rebuilding with AI + MCP integration</span>
+      <p>Kanban job application tracker. Shipped in days from a real user need. V2 in progress with AI-powered application coaching and MCP agent integration.</p>
       <div class="arrow">→ Full case study</div>
     </div>
-    <div class="proj-card rv" style="--card-c:#06b6d4" onclick="openM('hvemringer')">
+    <div class="proj-card" style="--card-c:#06b6d4" onclick="openM('hvemringer')">
       <div class="proj-card-header"><div class="proj-logo" style="background:#06b6d4;"><img src="/logos/hvemringer.png" alt="Hvem Ringer?" onerror="this.outerHTML='HR'"></div><span class="proj-beta">Beta</span></div>
       <div class="tag" style="color:#06b6d4;margin-top:16px;">Utility · Mobile</div>
       <h3>Hvem Ringer?</h3>
+      <span class="proj-personal-tag">Personal project</span>
       <p>Know who's calling before you pick up. Smart caller identification that goes beyond your contact list.</p>
       <div class="arrow">→ Full case study</div>
     </div>
-    <div class="proj-card rv" style="--card-c:#f97316" onclick="openM('captain')">
-      <div class="proj-card-header"><div class="proj-logo" style="background:#f97316;"><img src="/logos/captain.png" alt="Captain" onerror="this.outerHTML='C'"></div><span class="proj-beta">Beta</span></div>
-      <div class="tag" style="color:#f97316;margin-top:16px;">SaaS · Productivity</div>
-      <h3>Captain</h3>
-      <p>AI-first bookkeeping for Danish freelancers and micro-companies. Your accountant, replaced by a conversation.</p>
-      <a class="proj-waitlist" href="https://gocaptain.dk/waitlist" onclick="event.stopPropagation();" target="_blank">Join waitlist →</a>
+  </div>
+</section>
+
+<!-- HOW I BUILD -->
+<section id="stack" style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// How I Build</span>
+    <h2 class="sec-title">Technical depth, honestly framed</h2>
+    <p class="sec-desc">I'm not a software engineer. I'm a product leader who can architect, ship, and maintain — and who is never blocked by technical complexity.</p>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card rv" style="--c:var(--violet)">
+      <div class="t-cat">AI Engineering</div>
+      <h4>LLM-powered products in production</h4>
+      <ul>
+        <li>Designed full <strong>pipeline architecture</strong>: prompt orchestration, structured output parsing, confidence scoring, output gating — in production with paying users</li>
+        <li>Built <strong>eval frameworks</strong> for AI output quality: acceptance criteria, precision/recall trade-offs, accuracy thresholds before features reach end users</li>
+        <li>Hands-on with <strong>Claude API</strong>: Messages API, structured output, batch processing, retry logic, token optimisation</li>
+        <li><strong>Agentic systems in production</strong>: receipt processing (Playwright + AI fallback), workflow orchestration (n8n + Claude API), IoT decision-making (sensor data → Claude → device control)</li>
+        <li>Built and configured <strong>persistent autonomous agents</strong> with custom skills, Slack/WhatsApp integrations, and local system access — understand the architecture, security implications, and governance trade-offs</li>
+        <li><strong>AI infrastructure consulting</strong> for 3 external companies — setup, governance and ongoing management of Claude, Microsoft Copilot, Clay and Viktor</li>
+      </ul>
+    </div>
+    <div class="tech-card rv" style="--c:var(--sky)">
+      <div class="t-cat">Automation &amp; Integration</div>
+      <h4>End-to-end workflow automation</h4>
+      <ul>
+        <li>Production automation pipelines in <strong>n8n, Make, Zapier, Power Automate</strong> — multi-step workflows with conditional branching, webhook triggers, error handling and AI agent nodes</li>
+        <li><strong>REST API integrations</strong> across commercial products and client work: Claude Messages API, Meta Marketing API, Slack API, Google Calendar API, CRM systems</li>
+        <li><strong>Browser automation / RPA with Playwright</strong> — including AI-powered fallback that autonomously handles scenarios outside the programmed ruleset</li>
+        <li><strong>System integration architecture</strong> for SMB clients via Bager Consulting — connecting SaaS platforms, automating data flows, replacing manual handoffs with reliable pipelines</li>
+      </ul>
+    </div>
+    <div class="tech-card rv" style="--c:var(--amber)">
+      <div class="t-cat">Infrastructure &amp; IT · 12+ Years</div>
+      <h4>Enterprise IT without the enterprise complexity</h4>
+      <ul>
+        <li><strong>Microsoft 365 administration</strong>, Entra ID, endpoint management, security policies for 25+ organisations</li>
+        <li><strong>IT infrastructure consulting</strong> through Bager Consulting — active, ongoing practice for SMB and scale-up clients</li>
+        <li><strong>AI infrastructure setup and governance</strong> for 3 external companies (Claude, Copilot, Clay, Viktor)</li>
+        <li>Deep understanding of enterprise IT complexity: <strong>access models, compliance, shadow IT, governance</strong> — and how to apply the right level of rigour at the right stage</li>
+      </ul>
+    </div>
+    <div class="tech-card rv" style="--c:var(--lime)">
+      <div class="t-cat">Development Fluency</div>
+      <h4>Never blocked by technical complexity</h4>
+      <ul>
+        <li>Comfortable with: <strong>JavaScript, Python, REST APIs, Git, CI/CD</strong> (Vercel / GitHub Actions), cloud deployment</li>
+        <li>Daily tools: <strong>Claude Code, Cursor, VS Code</strong></li>
+        <li>Not a software engineer — but reads, edits, debugs and ships code with AI assistance. <strong>Every product I've built, I've shipped myself.</strong></li>
+        <li>6+ products in production: full AI agent architecture, SaaS platforms, mobile apps, data pipelines — from blank page to live</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -711,12 +793,12 @@ function setMode(mode) {
 // ========== CHAT ENGINE ==========
 const chatMessages = document.getElementById('chatMessages');
 const chatResponses = {
-  'Who are you?': `I'm a product leader based in Copenhagen, working at the intersection of <strong>AI, SaaS, and product strategy</strong>.\n\nI've founded 4 startups, shipped 6+ products, and led innovation in both early-stage and enterprise environments. My background mixes engineering (DTU), business (CBS), and a whole lot of building things from scratch.\n\nWhat makes me different? <strong>I don't just manage products — I build them.</strong>`,
-  'What are your skills?': `Here's the breakdown:\n\n<strong>Product & Strategy</strong> — AI product strategy, roadmapping, discovery & validation, pretotyping, PLG mechanics\n\n<strong>Technical</strong> — Full-stack development (AI-assisted), API & platform thinking, SaaS architecture, data visualization\n\n<strong>Leadership</strong> — Cross-functional alignment, team coaching, stakeholder management, tech ↔ business translation\n\n<strong>Growth</strong> — Activation & retention, engagement analytics, experimentation, funnel optimization`,
-  'What have you built?': `I've shipped 6+ products. Here are the highlights:\n\n<strong>MinStue</strong> (minstue.dk) — Patient companion app for hospital stays. Born from personal experience.\n\n<strong>Synthedo</strong> (synthedo.dk) — AI-powered creative testing platform. Synthetic personas simulate audience reactions to ads.\n\n<strong>DashDoggo</strong> (dashdoggo.com) — Interactive Meta Ads dashboard that makes campaign data understandable.\n\n<strong>ApplyMate</strong> (applymate.app) — Kanban job tracker. Built in days from a real user need.\n\nScroll down to the project cards for full case studies on each! 👇`,
+  'Who are you?': `I'm a product leader based in Copenhagen, working at the intersection of <strong>AI engineering, SaaS, and product strategy</strong>.\n\nI've founded 4 startups, shipped 6+ commercial and personal products, and built AI infrastructure for companies ranging from scale-ups to enterprise. My background mixes engineering (DTU), business (CBS), and 12+ years of hands-on IT infrastructure work.\n\nI run Bager Consulting alongside my product work — active IT and AI consulting. Currently helping 3 organisations set up and govern their Claude, Copilot, Clay, and Viktor deployments.\n\nWhat makes me different? <strong>I don't just manage products — I build them. And I understand what's running underneath.</strong>`,
+  'What are your skills?': `Here's the honest breakdown:\n\n<strong>AI Engineering</strong> — Claude API (Messages, structured output, batch, tool use), prompt orchestration, output gating, eval frameworks with precision/recall thresholds, agentic systems in production, AI infrastructure consulting (3 active clients)\n\n<strong>Automation & Integration</strong> — n8n, Make, Zapier, Power Automate, Playwright RPA with AI fallback, REST API integrations at commercial scale\n\n<strong>Infrastructure & IT · 12+ years</strong> — Microsoft 365, Entra ID, Intune, Fortigate, endpoint management across 25+ organisations\n\n<strong>Product & Strategy</strong> — AI product strategy, discovery & validation, pretotyping, PLG mechanics, eval framework design\n\n<strong>Leadership</strong> — Cross-functional alignment, 3–4 direct reports, stakeholder management, tech ↔ business translation`,
+  'What have you built?': `I split my work into commercial products and side projects.\n\n<strong>Commercial:</strong>\n→ <strong>Synthedo</strong> (synthedo.dk) — AI creative testing SaaS with paying users. Three-layer prompt orchestration, synthetic persona simulation, eval framework with output gating.\n→ <strong>DashDoggo</strong> (dashdoggo.com) — Started internal at Pree.to, productised into SaaS. Meta Marketing API, AI insight generation, automated reporting.\n→ <strong>Captain</strong> (gocaptain.dk) — AI bookkeeping agent. Claude API tool use, receipt OCR, SKAT compliance.\n\n<strong>Side projects:</strong>\n→ <strong>MinStue</strong> (minstue.dk) — Patient companion app, built from lived experience.\n→ <strong>ApplyMate</strong> (applymate.app) — Job tracker shipped in days. V2 with AI + MCP integration incoming.\n\nScroll down to the project cards for full architecture + case studies 👇`,
   'How do you think about product?': `Five principles I ship by:\n\n<strong>1. Ship > Plan.</strong> Products die in Notion docs. Build the smallest thing that tests the assumption.\n\n<strong>2. Constraints sharpen.</strong> Less time, less budget, less team — that's not a limitation, it's a superpower.\n\n<strong>3. Listen before building.</strong> The user's problem IS the product.\n\n<strong>4. Pragmatism over hype.</strong> "Can we?" is different from "should we?" — I always ask both.\n\n<strong>5. Take the shot.</strong> Wrong and fast beats right and never.`,
-  "What's your take on AI?": `AI is the most powerful tool in decades. It's also the most over-hyped.\n\nI use AI to ship faster — Synthedo's entire value prop is AI-powered, DashDoggo uses it for insight generation, and I use it daily as a development multiplier.\n\nBut I know where it ends and human judgment begins.\n\n<strong>My stance:</strong> AI is a multiplier, not a replacement. Use it to prototype faster and explore solution spaces. But what to build and why — that's still a human game.`,
-  'Why should we hire you?': `Here's the honest pitch:\n\nMy CV isn't a straight line. No FAANG logos. Instead: 4 startups, an innovation hub, a Head of Product role, and <strong>6+ products I built myself</strong>.\n\nThat's exactly why I can do things most PMs can't:\n\n<strong>→</strong> I've been the founder, PM, designer, AND dev. I understand every seat.\n<strong>→</strong> I've shipped under real constraints — not corporate ones.\n<strong>→</strong> I don't need a team of 10 to prove a concept.\n<strong>→</strong> I translate between tech and business because I've been both.\n\nIf you want someone who builds, ships, and thinks in outcomes — let's talk.`,
+  "What's your take on AI?": `I've shipped LLM-powered products in production — not just prototypes. Here's what I actually know:\n\n<strong>Synthedo</strong> runs a three-layer prompt orchestration pipeline with an eval framework that gates output before it reaches clients. I designed the precision/recall trade-offs. <strong>Captain</strong> uses Claude API tool use for autonomous receipt processing. I've built agentic systems using Playwright + AI fallback for scenarios outside the programmed ruleset.\n\nI also consult 3 companies on AI infrastructure — Claude, Copilot, Clay, Viktor deployments, governance, and training.\n\n<strong>My stance:</strong> AI without measurement is vibes. Build the eval framework first. What to build and why — still a human game. But the execution layer? AI changes everything.`,
+  'Why should we hire you?': `Here's the honest pitch:\n\nMy CV isn't a straight line — and that's exactly why I can do things most PMs can't.\n\n<strong>→</strong> I've shipped commercial AI products in production with paying users. Not demos.\n<strong>→</strong> I've designed eval frameworks, output gating, and precision/recall thresholds — not just "we use AI."\n<strong>→</strong> 12+ years of IT infrastructure means I understand what's running underneath the product.\n<strong>→</strong> I've been the founder, PM, designer, AND dev. I understand every seat.\n<strong>→</strong> Bager Consulting is active — I'm solving real problems for real companies right now.\n\nIf you want someone who builds, ships, thinks in architecture, and never gets blocked by technical complexity — let's talk.`,
   'Tell me something fun': `Where to start? 😄\n\n🏄 I co-founded a surf camp in Nicaragua (Coconut Surf)\n🎪 Ran a festival concept at Distortion — 95k DKK in daily revenue\n☕ Espresso enthusiast — don't ask about grind settings unless you have 30 min\n🏠 Smart home obsessive — my living room literally knows I'm there\n🇩🇰 Based in Copenhagen, wouldn't trade it\n🧱 Currently dreaming about microcement bathroom floors`,
   'How do I reach you?': `I'd love to hear from you!\n\n<strong>Email:</strong> jonas@bager.dk\n<strong>Phone:</strong> +45 2512 4614\n<strong>LinkedIn:</strong> linkedin.com/in/jonasbager\n<strong>Portfolio:</strong> You're looking at it 😉\n\nLet's talk product.`
 };
@@ -887,9 +969,10 @@ const commands = {
 
   <span class="key">about</span>        <span class="val">— Who is Jonas?</span>
   <span class="key">skills</span>       <span class="val">— Technical & product skills</span>
+  <span class="key">stack</span>        <span class="val">— Full technical stack</span>
   <span class="key">projects</span>     <span class="val">— What I've built</span>
+  <span class="key">ai</span>           <span class="val">— AI tools, workflows & shipped AI products</span>
   <span class="key">philosophy</span>   <span class="val">— How I think about product</span>
-  <span class="key">ai</span>           <span class="val">— My take on AI</span>
   <span class="key">experience</span>   <span class="val">— Career timeline</span>
   <span class="key">education</span>    <span class="val">— Academic background</span>
   <span class="key">contact</span>      <span class="val">— Get in touch</span>
@@ -902,28 +985,40 @@ const commands = {
   about: () => `<span class="key">jonas.about()</span>
 
   <span class="val">Product leader based in Copenhagen. I operate at the intersection
-  of AI, SaaS, and product strategy.
-  
-  I've founded 4 startups, shipped 6+ products, and led innovation
+  of AI engineering, SaaS, and product strategy.
+
+  Founded 4 startups, shipped 6+ products, and led innovation
   in both early-stage and enterprise environments. My background
-  is a mix of engineering (DTU), business (CBS), and a lot of
-  building things from scratch.
-  
+  is a mix of engineering (DTU), business (CBS), and 12+ years
+  of hands-on IT infrastructure work.
+
+  I run Bager Consulting — active IT and AI infrastructure
+  consulting for scale-up companies. I've set up and govern AI
+  systems (Claude, Copilot, Clay, Viktor) for 3 external companies.
+
   What makes me different: I don't just manage products.
-  I build them. With my own hands, when necessary.</span>`,
+  I build them. And I understand the infrastructure underneath.</span>`,
 
   skills: () => `<span class="key">jonas.skills.list()</span>
 
   <span class="highlight">Product & Strategy</span>
   <span class="val">  AI product strategy · Roadmapping · Discovery & validation
-  Pretotyping · PLG mechanics · Multi-product portfolios</span>
+  Pretotyping · PLG mechanics · Multi-product portfolios
+  Eval framework design · 0→1 execution</span>
 
-  <span class="highlight">Technical</span>
-  <span class="val">  Full-stack development (AI-assisted) · API & platform thinking
-  SaaS architecture · Data visualization · Automation design</span>
+  <span class="highlight">AI Engineering</span>
+  <span class="val">  Claude API (Messages, structured output, batch, tool use)
+  Prompt orchestration · Output gating · Confidence scoring
+  Agentic systems · n8n / Make · Playwright RPA
+  AI infrastructure consulting (3 active clients)</span>
+
+  <span class="highlight">Infrastructure & IT · 12+ years</span>
+  <span class="val">  Microsoft 365 · Entra ID · Intune · Endpoint management
+  Fortigate · VLANs · VPN · Windows Server · Active Directory
+  Bager Consulting — active IT practice · 25+ organisations</span>
 
   <span class="highlight">Leadership</span>
-  <span class="val">  Cross-functional alignment · Team coaching · Stakeholder mgmt
+  <span class="val">  Cross-functional alignment · 3-4 direct reports · Stakeholder mgmt
   Vision setting · Tech ↔ business translation</span>
 
   <span class="highlight">Growth</span>
@@ -932,23 +1027,39 @@ const commands = {
 
   projects: () => `<span class="key">jonas.projects.all()</span>
 
-  <span class="highlight">MinStue</span> <span class="val">— minstue.dk</span>
-  <span class="val">  Patient companion app. Structure hospital stays, track meds,
-  communicate with staff. Born from personal experience.</span>
+  <span class="success">── COMMERCIAL PRODUCTS ──────────────────────────────────</span>
 
-  <span class="highlight">Synthedo</span> <span class="val">— synthedo.dk (building)</span>
-  <span class="val">  AI-powered creative testing. Synthetic personas simulate
-  audience reactions to ads before you spend on media.</span>
+  <span class="highlight">Synthedo</span> <span class="val">— synthedo.dk</span>
+  <span class="val">  AI creative testing SaaS. Three-layer prompt orchestration,
+  synthetic persona simulation, eval framework with output gating.
+  Paying users. Built with Claude API.</span>
+  <span class="out">  Tags: SaaS · AI · AdTech · LLM Pipeline</span>
 
   <span class="highlight">DashDoggo</span> <span class="val">— dashdoggo.com</span>
-  <span class="val">  Interactive Meta Ads dashboard. Makes campaign data
-  understandable with clean reports and comparisons.</span>
+  <span class="val">  Started as internal tool at Pree.to, productised into SaaS.
+  Meta Marketing API · AI insight generation · automated reporting.</span>
+  <span class="out">  Tags: SaaS · Analytics · Meta Ads · API Integration</span>
 
-  <span class="highlight">ApplyMate</span> <span class="val">— applymate.app</span>
-  <span class="val">  Kanban job application tracker. Built in days when
-  someone I care about needed it. Problem → product, fast.</span>
+  <span class="highlight">Captain</span> <span class="val">— gocaptain.dk</span>
+  <span class="val">  AI bookkeeping agent for Danish freelancers. Claude API tool use,
+  receipt OCR pipeline, SKAT compliance. Not a better Dinero —
+  a different category.</span>
+  <span class="out">  Tags: SaaS · Fintech · AI Agent · Danish SMB</span>
 
-  <span class="out">  ↑ Scroll up or click the project cards below for full case studies.</span>`,
+  <span class="success">── SIDE PROJECTS ────────────────────────────────────────</span>
+
+  <span class="highlight">MinStue</span> <span class="val">— minstue.dk · Personal project</span>
+  <span class="val">  Patient companion app. Structure hospital stays, track meds,
+  communicate with staff. Born from lived experience.</span>
+
+  <span class="highlight">ApplyMate</span> <span class="val">— applymate.app · Personal project</span>
+  <span class="val">  Kanban job tracker. Shipped in days. V2 rebuilding with
+  AI coaching and MCP agent integration.</span>
+
+  <span class="highlight">Hvem Ringer?</span> <span class="val">— Personal project · Beta</span>
+  <span class="val">  Smart caller identification beyond the contact list.</span>
+
+  <span class="out">  ↑ Scroll up or click the project cards for full case studies.</span>`,
 
   philosophy: () => `<span class="key">jonas.philosophy()</span>
 
@@ -968,22 +1079,65 @@ const commands = {
   5. <span class="highlight">Take the shot.</span> Make decisions, take responsibility.
      Wrong and fast beats right and never.</span>`,
 
-  ai: () => `<span class="key">jonas.take("AI")</span>
+  ai: () => `<span class="key">jonas.ai.stack()</span>
 
-  <span class="val">AI is the most powerful tool in decades. It's also the most
-  over-hyped.
+  <span class="highlight">SHIPPED AI PRODUCTS</span>
+  <span class="val">  Synthedo — three-layer prompt orchestration, structured output
+  parsing, eval framework with precision/recall thresholds, output
+  gating before results reach clients. Paying users.</span>
 
-  I use AI to ship faster — I've built entire products leveraging
-  it. Synthedo's entire value prop is AI-powered. DashDoggo uses
-  it for insight generation. I use it daily as a development
-  multiplier.
+  <span class="val">  Captain — Claude API tool use, receipt OCR pipeline, agentic
+  transaction matching, autonomous tax compliance. Production.</span>
 
-  But I know where it ends and human judgment begins.
+  <span class="val">  DashDoggo — AI insight generation layer on top of Meta API
+  data. Pattern detection, anomaly surfacing, automated reports.</span>
 
-  <span class="highlight">My stance:</span> AI is a multiplier, not a replacement.
-  Use it to prototype faster, explore solution spaces, handle
-  the mechanical parts. But what to build and why — that's
-  still a human game. And I intend to keep playing it.</span>`,
+  <span class="highlight">AI INFRASTRUCTURE (3 ACTIVE CONSULTING CLIENTS)</span>
+  <span class="val">  Setup, governance and ongoing management of Claude,
+  Microsoft Copilot, Clay and Viktor across 3 organisations.
+  Custom workflows, access policies, and training.</span>
+
+  <span class="highlight">AGENTIC SYSTEMS</span>
+  <span class="val">  Playwright + AI fallback — browser automation with AI that
+  handles scenarios outside the programmed ruleset autonomously.</span>
+  <span class="val">  n8n + Claude API — multi-step workflow orchestration with
+  intelligent routing and error handling.</span>
+  <span class="val">  IoT → Claude → device control — real-time decision-making
+  on sensor data streams.</span>
+
+  <span class="highlight">MY TAKE</span>
+  <span class="val">  AI is a multiplier, not a replacement. I've designed eval
+  frameworks specifically because AI without measurement is just
+  vibes. What to build and why — still a human game.</span>`,
+
+  stack: () => `<span class="key">jonas.stack()</span>
+
+  <span class="highlight">AI & LLMs</span>
+  <span class="val">  Claude API (Messages, structured output, batch, tool use)
+  Prompt orchestration · Output gating · Eval frameworks
+  OpenClaw (autonomous agents) · n8n AI nodes · Make · Zapier</span>
+
+  <span class="highlight">Automation & Integration</span>
+  <span class="val">  n8n · Make · Zapier · Power Automate
+  Playwright (RPA + AI fallback) · REST APIs
+  Meta Marketing API · Slack API · Google APIs · CRM systems</span>
+
+  <span class="highlight">Infrastructure & IT</span>
+  <span class="val">  Microsoft 365 · Entra ID · Intune · Exchange Online
+  Defender · SharePoint · Teams · Fortigate · VLANs · VPN
+  Windows Server · Active Directory · Hybrid environments</span>
+
+  <span class="highlight">Development</span>
+  <span class="val">  JavaScript · Python · REST APIs · Git
+  CI/CD (Vercel · GitHub Actions) · Vercel deployment
+  Claude Code · Cursor · VS Code</span>
+
+  <span class="highlight">Product Tooling</span>
+  <span class="val">  Figma · Notion · Linear · Mixpanel · PostHog
+  Amplitude · Intercom · Segment</span>
+
+  <span class="out">  Not a software engineer — but never blocked by technical
+  complexity. Every product I've built, I've shipped myself.</span>`,
 
   experience: () => `<span class="key">jonas.career.timeline()</span>
 
@@ -1409,16 +1563,19 @@ async function runCmd(cmd) {
   
   cmd = cmd.trim().toLowerCase();
   if (!cmd) return;
-  
+
+  // Aliases
+  if (cmd === 'tech') cmd = 'stack';
+
   // Show the command
   addLine(`<span class="prompt">jonas ~$</span> <span class="cmd">${cmd}</span>`);
   termInput.value = '';
-  
+
   if (cmd === 'clear') {
     termOutput.innerHTML = '';
     return;
   }
-  
+
   const handler = commands[cmd] || hiddenCmds[cmd];
   
   if (handler) {
@@ -1522,7 +1679,7 @@ setTimeout(() => {
 // ========== PROJECT MODALS ==========
 const pData = {
   minstue: {
-    label: 'Case Study',
+    label: 'Side Project · Case Study',
     title: 'MinStue',
     color: 'var(--coral)',
     link: 'https://minstue.dk',
@@ -1536,44 +1693,45 @@ const pData = {
     tags: ['Product Strategy', 'UX Design', 'Full-Stack Dev', 'Healthcare', 'Solo Builder']
   },
   synthedo: {
-    label: 'Case Study · In Progress',
+    label: 'Commercial Product · Case Study',
     title: 'Synthedo',
     color: 'var(--violet)',
     link: 'https://synthedo.dk',
     sections: [
-      { h: 'THE PROBLEM', p: 'Creative testing in advertising is broken. Brands spend thousands on ad creative, launch, wait weeks for data, then learn what works. By then, budget is burned. Traditional focus groups are slow, expensive, and often unreliable.' },
-      { h: 'THE INSIGHT', p: 'What if you could test creative before spending on media? Not with surveys, but with AI-powered synthetic personas that simulate how real audience segments would react. A virtual focus group in minutes, not weeks.' },
-      { h: 'THE PRODUCT', p: 'Synthedo is a SaaS creative testing platform. Upload ad creatives, define target audiences, get AI-simulated feedback on messaging, emotional resonance, and predicted performance — all pre-launch.' },
-      { h: 'MY ROLE', p: 'Full product ownership from zero. Market research, strategy, UX, technical architecture, and development. Building this as a solo founder leveraging AI both as core technology and development accelerator.' },
-      { h: 'WHAT IT DEMONSTRATES', p: 'Ability to identify market gaps, architect AI-powered products without over-hyping what AI can do, and execute end-to-end from concept to working platform.' }
+      { h: 'THE PROBLEM', p: 'Creative testing in advertising is broken. Brands spend thousands on ad creative, launch, wait weeks for data, then learn what works. By then, budget is burned. Traditional focus groups are slow, expensive, and consistently unreliable for predicting digital performance.' },
+      { h: 'THE INSIGHT', p: 'What if you could test creative before spending on media? Not with surveys, but with AI-powered synthetic personas that simulate how real audience segments would react emotionally and behaviourally. A virtual focus group in minutes, not weeks — with structured, comparable output.' },
+      { h: 'THE ARCHITECTURE', p: 'Three-layer prompt orchestration pipeline: (1) Persona construction layer — builds psychographic profiles from audience definitions using structured output mode. (2) Reaction simulation layer — runs each creative through each persona with confidence scoring and output gating. Responses below threshold are rejected and re-run rather than passed downstream. (3) Synthesis layer — aggregates reactions into scored reports with segment-level breakdowns, messaging resonance analysis, and predicted performance signals. Built on Claude API with batch processing for multi-creative test runs.' },
+      { h: 'KEY PM DECISIONS', p: 'The hardest call was output gating: clients expect AI to always produce an answer. I designed the system to surface uncertainty instead — if confidence is below threshold, it says "insufficient signal" rather than generating plausible-sounding nonsense. That decision cost onboarding friction but built trust with the users who stayed. I also chose to invest in the eval framework before scaling — defining precision/recall trade-offs and accuracy benchmarks against real campaign data before selling to agencies at scale.' },
+      { h: 'OUTCOME', p: 'Commercial SaaS product with paying users. Vercel deployment with CI/CD pipeline. The eval framework became a competitive differentiator — most AI creative tools skip evaluation and just generate output. Synthedo gates it.' }
     ],
-    tags: ['SaaS', 'AI/ML', 'AdTech', '0→1', 'Solo Founder', 'Market Research']
+    tags: ['SaaS', 'AI/ML', 'AdTech', 'LLM Pipeline', 'Claude API', 'Eval Framework', 'Solo Founder', 'Paying Users']
   },
   dashdoggo: {
-    label: 'Case Study',
+    label: 'Commercial Product · Case Study',
     title: 'DashDoggo',
     color: 'var(--sky)',
     link: 'https://dashdoggo.com',
     sections: [
-      { h: 'THE PROBLEM', p: 'Meta Ads Manager is powerful but overwhelming. Marketers drown in metrics and struggle to extract actionable insights. Reporting means hours in spreadsheets building charts that are outdated by tomorrow.' },
-      { h: 'THE SOLUTION', p: 'An interactive Meta Ads dashboard that makes campaign data understandable. Clean visualizations, smart comparisons, and report generation that tells you what\'s working — without the spreadsheet gymnastics.' },
-      { h: 'WHAT I DID', p: 'Identified the pain from my own ad management experience. Designed and built end-to-end: data architecture, visualization, UX, and development. Focused on making complex data feel simple.' },
-      { h: 'WHAT IT DEMONSTRATES', p: 'Understanding of data products and how to make them accessible. Good dashboards aren\'t about more data — they\'re about the right data in the right way.' }
+      { h: 'THE ORIGIN', p: 'DashDoggo started as an internal tool at Pree.to — I built it to solve a real operational problem. Managing Meta Ads campaigns for multiple clients meant drowning in Ads Manager, rebuilding the same spreadsheet reports weekly, and losing hours to data formatting instead of decision-making. I built DashDoggo to fix my own team\'s workflow.' },
+      { h: 'THE PRODUCTISATION DECISION', p: 'After 3 months of internal use, I recognised the pattern: every agency and in-house team working with Meta Ads had the same problem. The internal tool became a product strategy decision. I rebuilt it for external users, added onboarding, and launched as standalone SaaS. That\'s a different challenge than building a tool — you have to strip out everything that only makes sense if you already know the context.' },
+      { h: 'THE ARCHITECTURE', p: 'Meta Marketing API integration for live campaign data pull with incremental sync. Data pipeline that normalises across account structures (campaign → ad set → ad level). AI-powered insight generation layer that identifies performance patterns, anomalies, and optimisation signals. Automated client reporting with white-label export. The technical constraint that shaped everything: Meta\'s API rate limits — the data pipeline had to be designed around them, not against them.' },
+      { h: 'WHAT IT DEMONSTRATES', p: 'Understanding of the full product lifecycle: internal tool → validated need → productised SaaS. API integration at commercial scale. The PM instinct to recognise when something internal has external value — and the discipline to rebuild it properly for a broader audience rather than just shipping the internal version.' }
     ],
-    tags: ['Analytics', 'Meta Ads', 'Data Viz', 'UX Design', 'Solo Builder', 'SaaS']
+    tags: ['SaaS', 'Analytics', 'Meta Marketing API', 'AI Insights', 'Data Pipeline', 'Internal → Product', 'Pree.to']
   },
   applymate: {
-    label: 'Case Study',
+    label: 'Side Project · Case Study',
     title: 'ApplyMate',
     color: 'var(--amber)',
     link: 'https://applymate.app',
     sections: [
-      { h: 'THE PROBLEM', p: 'Job searching is stressful and disorganized. Dozens of applications across stages — applied, interviewing, waiting, rejected — tracked in notes or messy spreadsheets. No structure, no clarity.' },
-      { h: 'THE SOLUTION', p: 'A kanban-style job application tracker. Drag applications between stages, keep notes, track deadlines. Clean, focused, and built for the emotional reality of job hunting.' },
-      { h: 'THE ORIGIN', p: 'My girlfriend was between jobs and expressed exactly this frustration. I heard a user need and shipped a solution within days. No PRD, no committee — just problem → product.' },
-      { h: 'WHAT IT DEMONSTRATES', p: 'Two things: I instinctively listen for product opportunities in everyday life, and I can go from "someone needs this" to "here, use it" absurdly fast.' }
+      { h: 'THE PROBLEM', p: 'Job searching is stressful and disorganized. Dozens of applications across stages — applied, interviewing, waiting, rejected — tracked in notes or messy spreadsheets. No structure, no clarity, and no emotional support built into the tooling.' },
+      { h: 'THE SOLUTION', p: 'A kanban-style job application tracker. Drag applications between stages, keep notes, track deadlines. Clean, focused, and built for the emotional reality of job hunting — not the idealised version.' },
+      { h: 'THE ORIGIN', p: 'My girlfriend was between jobs and expressed exactly this frustration. I heard a user need and shipped a solution within days. No PRD, no committee — just problem → product. Classic pretotyping logic: build the smallest version that proves the need is real.' },
+      { h: 'V2 IN PROGRESS', p: 'Rebuilding ApplyMate with AI-powered application coaching (analyse job description → suggest positioning → draft cover letter angle) and MCP agent integration for automated application tracking across job boards. The v1 proved demand. V2 turns it into a proper AI-assisted job search tool.' },
+      { h: 'WHAT IT DEMONSTRATES', p: 'Two things: I instinctively listen for product opportunities in everyday life, and I can go from "someone needs this" to "here, use it" absurdly fast. V2 demonstrates the next layer — knowing when a proven concept is ready to become a more ambitious product.' }
     ],
-    tags: ['Productivity', 'Kanban', 'Rapid Prototyping', 'UX', 'User Empathy']
+    tags: ['Productivity', 'Kanban', 'Rapid Prototyping', 'UX', 'AI v2', 'MCP Integration']
   },
   hvemringer: {
     label: 'Case Study · Beta',
