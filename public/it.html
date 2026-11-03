@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonas Bager</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080c;
+  --bg2: #0e0e14;
+  --bg-card: #111118;
+  --bg-card-hover: #17171f;
+  --text: #e4e2de;
+  --text-dim: #7c7a8a;
+  --lime: #b8f000;
+  --lime-dim: rgba(184, 240, 0, 0.1);
+  --lime-glow: rgba(184, 240, 0, 0.25);
+  --coral: #ff5c72;
+  --sky: #5cb8ff;
+  --violet: #a678ff;
+  --amber: #ffb545;
+  --radius: 14px;
+  --font-head: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--lime) var(--bg);}
+body{background:var(--bg);color:var(--text);font-family:var(--font-head);overflow-x:hidden;line-height:1.65;}
+
+/* grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
+
+/* cursor blob */
+.blob{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,var(--lime-glow) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0.12;transform:translate(-50%,-50%);will-change:transform;}
+
+/* === AVATAR === */
+.hero-row{display:flex;align-items:center;gap:32px;max-width:960px;}
+.hero-content{flex:1;}
+.hero-avatar{width:240px;height:240px;border-radius:0;overflow:visible;border:none;box-shadow:none;flex-shrink:0;opacity:0;animation:fadeUp .7s ease-out .2s forwards,avatarFloat 4s ease-in-out 1s infinite;position:relative;background:transparent;}
+.hero-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 32px rgba(0,0,0,.3));background:transparent;}
+@keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@media(max-width:768px){.hero-row{flex-direction:column-reverse;align-items:flex-start;gap:20px;max-width:100%;}.hero-avatar{width:160px;height:160px;}}
+
+/* === NAV === */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(24px);background:rgba(8,8,12,0.75);border-bottom:1px solid rgba(184,240,0,0.06);}
+.nav-logo{font-family:var(--font-mono);font-size:13px;color:var(--lime);letter-spacing:1.5px;}
+.nav-logo span{color:var(--text-dim);}
+.nav-r{display:flex;gap:28px;align-items:center;}
+.nav-r a{color:var(--text-dim);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color .25s;}
+.nav-r a:hover{color:var(--lime);}
+.nav-pill{background:var(--lime);color:var(--bg);padding:7px 16px;border-radius:100px;font-weight:600;font-size:12px;text-decoration:none;transition:box-shadow .3s,transform .2s;}
+.nav-pill:hover{box-shadow:0 0 20px var(--lime-glow);transform:translateY(-1px);color:var(--bg)!important;}
+
+/* === HERO === */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 60px 100px;position:relative;}
+.hero-hi{font-family:var(--font-mono);font-size:14px;color:var(--lime);margin-bottom:20px;opacity:0;animation:fadeUp .6s ease-out .1s forwards;}
+.hero-hi .wave{display:inline-block;animation:waveHand 1.8s ease-in-out infinite;transform-origin:70% 70%;}
+@keyframes waveHand{0%,100%{transform:rotate(0)}15%{transform:rotate(14deg)}30%{transform:rotate(-8deg)}45%{transform:rotate(14deg)}60%{transform:rotate(-4deg)}75%{transform:rotate(10deg)}}
+.hero h1{font-size:clamp(2.8rem,6.5vw,5.8rem);font-weight:900;line-height:1.04;letter-spacing:-2.5px;margin-bottom:24px;opacity:0;animation:fadeUp .7s ease-out .25s forwards;}
+.hero h1 em{font-style:normal;color:var(--lime);position:relative;}
+.hero h1 em::after{content:'';position:absolute;bottom:2px;left:0;width:100%;height:10px;background:var(--lime);opacity:.12;border-radius:4px;transform:skew(-3deg);}
+.hero-sub{font-size:clamp(1rem,1.6vw,1.2rem);color:var(--text-dim);max-width:580px;line-height:1.7;opacity:0;animation:fadeUp .7s ease-out .4s forwards;}
+.hero-stats{display:flex;gap:40px;margin-top:44px;opacity:0;animation:fadeUp .7s ease-out .55s forwards;}
+.hero-stat{text-align:left;}
+.hero-stat .num{font-size:2rem;font-weight:800;color:var(--lime);font-family:var(--font-head);}
+.hero-stat .lbl{font-size:12px;color:var(--text-dim);font-family:var(--font-mono);margin-top:2px;}
+.hero-scroll{position:absolute;bottom:36px;left:60px;display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);opacity:0;animation:fadeUp .7s ease-out .7s forwards;}
+.hero-scroll .bar{width:36px;height:2px;background:var(--text-dim);border-radius:2px;position:relative;overflow:hidden;}
+.hero-scroll .bar::after{content:'';position:absolute;inset:0;background:var(--lime);animation:scanLine 2s linear infinite;}
+@keyframes scanLine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* === SECTIONS === */
+section{padding:100px 60px;position:relative;}
+.sec-label{font-family:var(--font-mono);font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;display:block;}
+.sec-title{font-size:clamp(2rem,3.8vw,3rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:16px;}
+.sec-desc{color:var(--text-dim);max-width:540px;font-size:1.05rem;margin-bottom:48px;}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:all .65s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:translateY(0);}
+
+/* === TERMINAL === */
+.term-wrap{background:#0a0a10;border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);overflow:hidden;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.term-bar{display:flex;align-items:center;gap:7px;padding:13px 18px;background:rgba(255,255,255,.025);border-bottom:1px solid rgba(255,255,255,.05);}
+.term-dot{width:11px;height:11px;border-radius:50%;}
+.term-dot:nth-child(1){background:#ff5f57}.term-dot:nth-child(2){background:#febc2e}.term-dot:nth-child(3){background:#28c840}
+.term-tab{margin-left:14px;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+.term-body{padding:0;font-family:var(--font-mono);font-size:13px;line-height:1.8;height:420px;overflow:hidden;position:relative;}
+.term-scroll{height:100%;overflow-y:auto;padding:24px;scroll-behavior:smooth;}
+.term-scroll::-webkit-scrollbar{width:5px;}
+.term-scroll::-webkit-scrollbar-thumb{background:rgba(184,240,0,.2);border-radius:10px;}
+.term-line{margin-bottom:2px;white-space:pre-wrap;word-break:break-word;}
+.term-line .prompt{color:var(--lime);}
+.term-line .cmd{color:var(--text);}
+.term-line .out{color:var(--text-dim);}
+.term-line .highlight{color:var(--coral);}
+.term-line .key{color:var(--sky);}
+.term-line .val{color:var(--text-dim);}
+.term-line .success{color:#28c840;}
+.term-line .warn{color:var(--amber);}
+.term-input-row{display:flex;align-items:center;margin-top:4px;}
+.term-input-row .prompt{color:var(--lime);margin-right:8px;white-space:nowrap;}
+#termInput{background:none;border:none;color:var(--text);font-family:var(--font-mono);font-size:13px;outline:none;flex:1;caret-color:var(--lime);}
+.term-hints{padding:12px 24px;background:rgba(184,240,0,.03);border-top:1px solid rgba(255,255,255,.04);font-family:var(--font-mono);font-size:11px;color:var(--text-dim);display:flex;flex-wrap:wrap;gap:8px;}
+.term-hints span{padding:3px 10px;background:var(--lime-dim);border:1px solid rgba(184,240,0,.15);border-radius:100px;cursor:pointer;transition:all .2s;color:var(--lime);font-size:11px;}
+.term-hints span:hover{background:rgba(184,240,0,.2);transform:translateY(-1px);}
+.typing-cursor{display:inline-block;width:8px;height:15px;background:var(--lime);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle;}
+@keyframes blink{50%{opacity:0}}
+
+/* === STACK GRID === */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:1100px;}
+.stack-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:26px;transition:all .3s;}
+.stack-card:hover{border-color:rgba(184,240,0,.12);transform:translateY(-2px);}
+.stack-card .ico{font-size:26px;margin-bottom:12px;}
+.stack-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;}
+.stack-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+
+/* === HOW I RUN IT === */
+.lead-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;}
+.lead-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:28px;transition:all .3s;}
+.lead-card:hover{border-color:rgba(166,120,255,.2);transform:translateY(-2px);}
+.lead-card .lead-ico{font-size:24px;margin-bottom:14px;}
+.lead-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;color:var(--text);}
+.lead-card p{font-size:.85rem;color:var(--text-dim);line-height:1.65;}
+
+/* === TIMELINE === */
+.tl{position:relative;max-width:680px;padding-left:36px;}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--lime) 0%,rgba(184,240,0,.08) 100%);}
+.tl-item{position:relative;margin-bottom:36px;}
+.tl-item::before{content:'';position:absolute;left:-36px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--lime);z-index:1;}
+.tl-year{font-family:var(--font-mono);font-size:11px;color:var(--lime);margin-bottom:4px;}
+.tl-item h4{font-size:1.05rem;font-weight:600;margin-bottom:2px;}
+.tl-item .tl-co{font-size:.88rem;color:var(--violet);margin-bottom:4px;}
+.tl-item p{color:var(--text-dim);font-size:.88rem;line-height:1.6;}
+.tl-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.tl-tag{font-family:var(--font-mono);font-size:11px;background:rgba(184,240,0,.08);border:1px solid rgba(184,240,0,.2);color:var(--lime);padding:3px 10px;border-radius:20px;}
+
+/* === CALLOUT === */
+.callout{background:linear-gradient(135deg,rgba(184,240,0,.05) 0%,rgba(166,120,255,.05) 100%);border:1px solid rgba(184,240,0,.12);border-radius:var(--radius);padding:40px 48px;max-width:860px;}
+.callout h3{font-size:1.3rem;font-weight:700;margin-bottom:12px;letter-spacing:-.5px;}
+.callout p{color:var(--text-dim);line-height:1.75;font-size:.95rem;}
+.callout p + p{margin-top:12px;}
+
+/* === EDUCATION === */
+.edu-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:1100px;}
+.edu-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:26px;transition:all .3s;}
+.edu-card:hover{border-color:rgba(184,240,0,.12);}
+.edu-card h4{font-size:1rem;font-weight:600;margin-bottom:4px;}
+.edu-card .school{font-size:.88rem;color:var(--violet);margin-bottom:8px;}
+.edu-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
+
+/* === MODE TOGGLE === */
+.mode-label{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);margin-bottom:10px;display:flex;align-items:center;gap:8px;letter-spacing:.5px;}
+.mode-label span{color:var(--lime);font-size:16px;}
+.mode-toggle{display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:4px;width:fit-content;margin-bottom:32px;}
+.mode-btn{padding:9px 20px;border-radius:100px;border:none;font-family:var(--font-head);font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;background:transparent;color:var(--text-dim);display:flex;align-items:center;gap:7px;}
+.mode-btn.active{background:var(--lime);color:var(--bg);}
+.mode-btn:not(.active):hover{color:var(--text);}
+.mode-btn .mode-ico{font-size:15px;}
+.mode-panel{display:none;}
+.mode-panel.active{display:block;}
+
+/* === CHAT === */
+.chat-wrap{max-width:860px;}
+.chat-box{background:#0a0a10;border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.chat-header{display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(255,255,255,.025);border-bottom:1px solid rgba(255,255,255,.05);}
+.chat-avatar-sm{width:32px;height:32px;border-radius:50%;background:var(--lime);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--bg);}
+.chat-header-info{flex:1;}
+.chat-header-name{font-size:14px;font-weight:600;}
+.chat-header-status{font-size:11px;color:var(--lime);font-family:var(--font-mono);}
+.chat-messages{height:400px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
+.chat-messages::-webkit-scrollbar{width:5px;}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(184,240,0,.15);border-radius:10px;}
+.chat-msg{max-width:80%;animation:fadeUp .35s ease-out;}
+.chat-msg.bot{align-self:flex-start;}
+.chat-msg.user{align-self:flex-end;}
+.chat-bubble{padding:14px 18px;border-radius:16px;font-size:.92rem;line-height:1.65;}
+.chat-msg.bot .chat-bubble{background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-bottom-left-radius:4px;color:var(--text-dim);}
+.chat-msg.bot .chat-bubble strong{color:var(--lime);font-weight:600;}
+.chat-msg.user .chat-bubble{background:var(--lime);color:var(--bg);border-bottom-right-radius:4px;font-weight:500;}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-top:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);}
+.chat-sug{padding:7px 15px;background:var(--lime-dim);border:1px solid rgba(184,240,0,.15);border-radius:100px;color:var(--lime);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--font-head);}
+.chat-sug:hover{background:rgba(184,240,0,.2);transform:translateY(-1px);}
+.chat-typing{display:flex;gap:4px;padding:14px 18px;align-self:flex-start;}
+.chat-typing span{width:7px;height:7px;border-radius:50%;background:var(--text-dim);animation:typingDot 1.4s infinite;}
+.chat-typing span:nth-child(2){animation-delay:.2s;}
+.chat-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-input-row{display:flex;align-items:center;gap:8px;padding:12px 20px;border-top:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02);}
+#chatInput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-head);font-size:13px;padding:8px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.08);}
+#chatInput::placeholder{color:var(--text-dim);}
+.chat-send{width:38px;height:38px;border-radius:50%;background:var(--lime);border:none;color:var(--bg);font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.chat-send:hover{box-shadow:0 0 16px var(--lime-glow);transform:scale(1.05);}
+
+/* === CTA === */
+.cta-sec{text-align:center;}
+.cta-sec .sec-title{margin-bottom:12px;}
+.cta-sec .sec-desc{margin:0 auto 40px;}
+.cta-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;padding:13px 28px;border-radius:100px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;letter-spacing:.3px;}
+.btn-p{background:var(--lime);color:var(--bg);}
+.btn-p:hover{box-shadow:0 0 28px var(--lime-glow);transform:translateY(-2px);}
+.btn-s{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.12);}
+.btn-s:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-2px);}
+
+/* === KONAMI === */
+.konami-overlay{position:fixed;inset:0;z-index:300;background:rgba(8,8,12,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s;}
+.konami-overlay.on{opacity:1;pointer-events:all;}
+.konami-overlay h2{font-size:2.4rem;font-weight:800;margin-bottom:12px;color:var(--lime);}
+.konami-overlay p{color:var(--text-dim);font-size:1rem;max-width:500px;text-align:center;line-height:1.7;margin-bottom:28px;}
+.konami-close{padding:10px 24px;background:var(--lime);color:var(--bg);border:none;border-radius:100px;font-weight:600;cursor:pointer;font-size:14px;}
+
+/* footer */
+footer{padding:32px 60px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--text-dim);}
+footer a{color:var(--text-dim);text-decoration:none;transition:color .25s;}
+footer a:hover{color:var(--lime);}
+
+@media(max-width:768px){
+  nav{padding:16px 24px;}
+  .hero{padding:120px 24px 80px;}
+  section{padding:72px 24px;}
+  .hero-stats{gap:24px;flex-wrap:wrap;}
+  .lead-grid{grid-template-columns:1fr 1fr;}
+  .callout{padding:28px 24px;}
+  footer{padding:24px;flex-direction:column;gap:10px;text-align:center;}
+}
+@media(max-width:480px){
+  .lead-grid{grid-template-columns:1fr;}
+  .stack-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="blob" id="blob"></div>
+
+<nav>
+  <div class="nav-logo">jonas<span>@bager.dk</span></div>
+  <div class="nav-r">
+    <a href="#explore">Explore</a>
+    <a href="#stack">Stack</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact" class="nav-pill">Let's talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-row">
+    <div class="hero-content">
+      <div class="hero-hi"><span class="wave">👋</span> &nbsp;Hello — I'm Jonas</div>
+      <h1>IT that <em>enables</em> people,<br>not gatekeeps them.</h1>
+      <p class="hero-sub">10+ years building and running IT for companies of all sizes. I like the 20–100 people stage best — big enough to need real IT, small enough that every decision actually matters. Lean setups, no unnecessary complexity.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">10+</div><div class="lbl">years IT</div></div>
+        <div class="hero-stat"><div class="num">25+</div><div class="lbl">clients served</div></div>
+        <div class="hero-stat"><div class="num">SMB→</div><div class="lbl">Enterprise</div></div>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <img src="data:image/webp;base64,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" alt="Jonas Bager" onerror="this.style.display='none'">
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="bar"></div> scroll to explore</div>
+</section>
+
+<!-- INTERACTIVE SECTION -->
+<section id="explore" style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// Interactive</span>
+    <h2 class="sec-title">Ask me anything</h2>
+    <p class="sec-desc">Two ways to explore. Pick your style.</p>
+  </div>
+
+  <div class="rv">
+    <div class="mode-label"><span>↔</span> What type of person are you?</div>
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="setMode('terminal')" id="modeTerminal"><span class="mode-ico">⌘</span> Terminal</button>
+      <button class="mode-btn" onclick="setMode('chat')" id="modeChat"><span class="mode-ico">💬</span> Chat</button>
+    </div>
+  </div>
+
+  <!-- TERMINAL MODE (default) -->
+  <div class="mode-panel active" id="panelTerminal">
+    <div class="term-wrap rv">
+      <div class="term-bar">
+        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
+        <span class="term-tab">jonas@bager.dk — IT profile</span>
+      </div>
+      <div class="term-body">
+        <div class="term-scroll" id="termScroll">
+          <div id="termOutput"></div>
+          <div class="term-input-row">
+            <span class="prompt">jonas@it:~$</span>
+            <input type="text" id="termInput" autocomplete="off" spellcheck="false" placeholder="type 'help' to start...">
+          </div>
+        </div>
+      </div>
+      <div class="term-hints" id="termHints">
+        <span onclick="runCmd('help')">help</span>
+        <span onclick="runCmd('skills')">skills</span>
+        <span onclick="runCmd('microsoft')">microsoft</span>
+        <span onclick="runCmd('security')">security</span>
+        <span onclick="runCmd('ai')">ai</span>
+        <span onclick="runCmd('contact')">contact</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT MODE -->
+  <div class="mode-panel" id="panelChat">
+    <div class="chat-wrap rv">
+      <div class="chat-box">
+        <div class="chat-header">
+          <div class="chat-avatar-sm">J</div>
+          <div class="chat-header-info">
+            <div class="chat-header-name">Jonas Bager</div>
+            <div class="chat-header-status">● Online — ask me anything</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg bot">
+            <div class="chat-bubble">Hey! 👋 I'm Jonas. Ask me about my IT experience, stack, or approach — or tap a suggestion to get started.</div>
+          </div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+          <span class="chat-sug" onclick="chatAsk(&quot;What's your Microsoft stack?&quot;)">What's your Microsoft stack?</span>
+          <span class="chat-sug" onclick="chatAsk('Network & infrastructure?')">Network & infrastructure?</span>
+          <span class="chat-sug" onclick="chatAsk('How do you approach security?')">How do you approach security?</span>
+          <span class="chat-sug" onclick="chatAsk('First 30 days as Head of IT?')">First 30 days as Head of IT?</span>
+          <span class="chat-sug" onclick="chatAsk('AI in IT operations?')">AI in IT operations?</span>
+          <span class="chat-sug" onclick="chatAsk('Why you for this role?')">Why you for this role?</span>
+          <span class="chat-sug" onclick="chatAsk('Tell me something fun')">Tell me something fun</span>
+          <span class="chat-sug" onclick="chatAsk('How do I reach you?')">How do I reach you?</span>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder="Or type anything..." autocomplete="off" spellcheck="false">
+          <button class="chat-send" onclick="chatSendFree()">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IT STACK -->
+<section id="stack" style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Core Competencies</span>
+    <h2 class="sec-title">The full stack — from endpoint to boardroom</h2>
+    <p class="sec-desc">Not just tickets and cable pulls. IT strategy, security, and the tools that keep a lean team productive.</p>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-card rv">
+      <div class="ico">🖥️</div>
+      <h4>Device & Identity Management</h4>
+      <p>Microsoft Intune, Entra ID, MacBook fleet management, onboarding and offboarding. I've run this for small, fast-moving teams where the IT setup needs to be invisible — because people have actual work to do.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">☁️</div>
+      <h4>Microsoft 365 & Cloud</h4>
+      <p>M365 admin, Exchange Online, Teams, SharePoint, Defender, licensing and cost management. The full suite — not just the parts that don't cause trouble.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">🔒</div>
+      <h4>Security (without the theatre)</h4>
+      <p>Conditional access, MFA, sensible policies. I know the frameworks, but my goal isn't an audit report — it's a setup where people are protected without spending their day fighting IT.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">🌐</div>
+      <h4>Network & Infrastructure</h4>
+      <p>Fortigate, network design, servers, VLANs, VPNs. I've done everything from setting up a clean network for a 10-person office to pulling cable at Bakken at midnight. Comfortable with whatever a growing team actually needs.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">🤖</div>
+      <h4>AI in IT Operations</h4>
+      <p>I use AI daily — for documentation, scripting, diagnosing issues, and automating repetitive tasks. Not a future opportunity. Already part of how I work.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">🧩</div>
+      <h4>Product Thinking in IT</h4>
+      <p>Every tool, onboarding flow, and security policy is something your colleagues use every day. I treat them like products — designed for real humans, not org charts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW I RUN IT -->
+<section style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// Philosophy</span>
+    <h2 class="sec-title">How I run IT</h2>
+    <p class="sec-desc">Three things that shape every decision I make about infrastructure, tools, and security.</p>
+  </div>
+  <div class="lead-grid">
+    <div class="lead-card rv">
+      <div class="lead-ico">🔓</div>
+      <h4>Enable, don't gatekeep</h4>
+      <p>The best IT setup is one people barely notice — because everything just works and the right tools are available. I'm not the person who defaults to no. I find the solution that's both secure and actually usable.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🔧</div>
+      <h4>Hands-on by choice</h4>
+      <p>I don't consider the physical or technical work beneath the role. Getting into the weeds of a Fortigate config, sorting a misbehaving server, pulling cable under a deadline — that's part of the job, and honestly part of why I like it.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">🎯</div>
+      <h4>Build for how people actually work</h4>
+      <p>Not how the org chart says they should. I talk to the people who'll use the tools before I design the setup. The best IT environments I've built have always started from understanding real workflows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER -->
+<section id="journey" style="background:var(--bg2);">
+  <div class="rv">
+    <span class="sec-label">// Career</span>
+    <h2 class="sec-title">The IT career behind this</h2>
+    <p class="sec-desc">A varied path — from running IT for 25+ SMB clients to sorting infrastructure at a shipping company, to owning IT inside a fast-moving product startup.</p>
+  </div>
+  <div class="tl rv">
+    <div class="tl-item">
+      <div class="tl-year">2025 – Present</div>
+      <h4>AI Product Lead</h4>
+      <div class="tl-co">TechEdge, Copenhagen</div>
+      <p>Leading AI product strategy and implementation — translating business needs into production AI features and infrastructure. Hands-on with LLM pipelines, agentic systems, and integration architecture across the product stack.</p>
+      <div class="tl-tags"><span class="tl-tag">AI product strategy</span><span class="tl-tag">LLM pipelines</span><span class="tl-tag">Agentic systems</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2021 – Present</div>
+      <h4>Head of Product + Internal IT Lead</h4>
+      <div class="tl-co">Pree.to, Copenhagen</div>
+      <p>Beyond the product and client work, I took full ownership of internal IT: device management, identity and access (Entra/Intune), Microsoft 365 administration, onboarding and offboarding, and keeping a lean team of smart people working without IT getting in the way.</p>
+      <div class="tl-tags"><span class="tl-tag">Intune & Entra</span><span class="tl-tag">M365 admin</span><span class="tl-tag">MacBook fleet</span><span class="tl-tag">👥 3–4 direct reports</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2019 – Present</div>
+      <h4>IT Infrastructure Consultant</h4>
+      <div class="tl-co">Bager Consulting, Copenhagen</div>
+      <p>Ongoing IT infrastructure work for a portfolio of clients alongside other roles — network and server hardware, Microsoft 365 administration, endpoint management, and general IT operations. The kind of work that actually keeps businesses running.</p>
+      <div class="tl-tags"><span class="tl-tag">M365 admin</span><span class="tl-tag">Endpoint management</span><span class="tl-tag">Network & server</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2014 – 2019</div>
+      <h4>IT Consultant</h4>
+      <div class="tl-co">Hafnia BW, Copenhagen</div>
+      <p>Joined as IT Supporter and moved to IT Consultant as part of a full overhaul of their setup. Networks, servers, endpoints — good experience for understanding what IT looks like when there's real scale behind it.</p>
+      <div class="tl-tags"><span class="tl-tag">Network & server</span><span class="tl-tag">Full stack overhaul</span><span class="tl-tag">Endpoint management</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2013 – 2019</div>
+      <h4>Founder & IT Consultant</h4>
+      <div class="tl-co">ZaBa IT Consultancy, Copenhagen</div>
+      <p>Co-founded an IT consultancy with a deliberately varied client list — from small law firms and medical clinics to Restaurant Noma. That range taught me that good IT isn't one-size-fits-all: a Michelin-starred kitchen has very different uptime requirements than a legal office, and you have to meet people where they are.</p>
+      <div class="tl-tags"><span class="tl-tag">25+ SMB clients</span><span class="tl-tag">Fortigate</span><span class="tl-tag">Infrastructure</span><span class="tl-tag">IT expert arbitrator</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE EDGE -->
+<section style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Why this is unusual</span>
+    <h2 class="sec-title">A background most IT people don't have</h2>
+  </div>
+  <div class="callout rv">
+    <h3>Product thinking inside an IT role</h3>
+    <p>Most IT professionals haven't spent years in product management. I have. That means I approach every tool choice, onboarding flow, and security policy with the same user-centred thinking I'd apply to building a product — because that's exactly what they are. Products your colleagues use every day.</p>
+    <p>When you've worked in product, you develop a specific kind of empathy for how people actually use tools — not how they're supposed to, but how they really do. You learn to spot the workflow that's quietly costing people 20 minutes a day. You get comfortable talking to non-technical stakeholders about technical decisions. And you develop a healthy intolerance for unnecessary complexity.</p>
+    <p>One more thing that doesn't fit neatly elsewhere: I've served as an IT expert arbitrator in legal disputes a handful of times. It requires deep technical knowledge, clear communication under pressure, and the ability to explain complex systems to people who aren't technical. Not something many IT professionals can say.</p>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section style="background:var(--bg);">
+  <div class="rv">
+    <span class="sec-label">// Education</span>
+    <h2 class="sec-title">Academic foundation</h2>
+  </div>
+  <div class="edu-cards">
+    <div class="edu-card rv">
+      <h4>MSc. Management of Creative Business Processes</h4>
+      <div class="school">Copenhagen Business School · 2017–2019</div>
+      <p>Innovation strategy and digital product management. The business and strategic layer that sits above the technical work.</p>
+    </div>
+    <div class="edu-card rv">
+      <h4>Electives at UCLA</h4>
+      <div class="school">University of California, Los Angeles · 2018</div>
+      <p>Blockchain, Business Management, VR/AR Creation. Straight A's including an A+.</p>
+    </div>
+    <div class="edu-card rv">
+      <h4>BEng. Process and Innovation</h4>
+      <div class="school">Technical University of Denmark (DTU) · 2012–2016</div>
+      <p>Engineering foundation: systems thinking, product development, and technical problem-solving.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact" style="background:linear-gradient(180deg,var(--bg),var(--bg2));">
+  <div class="rv">
+    <span class="sec-label">// Let's Talk</span>
+    <h2 class="sec-title">Interested?</h2>
+    <p class="sec-desc">I'm looking for a team where IT is treated as an enabler, not a cost centre. If that's you, I'd love to talk.</p>
+    <div class="cta-links">
+      <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#110;&#97;&#115;&#64;&#98;&#97;&#103;&#101;&#114;&#46;&#100;&#107;" class="btn btn-p">jonas&#64;bager.dk →</a>
+      <a href="https://linkedin.com/in/jonasbager" class="btn btn-s" target="_blank">LinkedIn</a>
+      <a href="tel:+4525124614" class="btn btn-s">+45 2512 4614</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Jonas Bager — Built as a product, because that's kind of the point.</span>
+  <span style="color:var(--text-dim);font-size:13px;letter-spacing:2px;">↑↑↓↓←→←→BA</span>
+</footer>
+
+<!-- KONAMI EASTER EGG -->
+<div class="konami-overlay" id="konamiOverlay">
+  <h2>🎮 You found it!</h2>
+  <p>You just entered the Konami Code on an IT portfolio site. That makes you either a sysadmin at heart, a gamer, or both. Either way — we'd probably get along.</p>
+  <p style="color:var(--lime);font-family:var(--font-mono);font-size:13px;margin-bottom:24px;">Also try typing "sudo hire jonas" in the terminal.</p>
+  <button class="konami-close" onclick="document.getElementById('konamiOverlay').classList.remove('on')">Nice, close this</button>
+</div>
+
+<script>
+// ========== SCROLL TO TOP ON LOAD ==========
+window.addEventListener('load', () => { window.scrollTo(0, 0); });
+
+// ========== REF TRACKING ==========
+const urlParams = new URLSearchParams(window.location.search);
+const visitRef = urlParams.get('ref') || 'direct';
+if (visitRef !== 'direct') {
+  fetch('/api/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'visit', message: `IT page visit from ref: ${visitRef}`, url: window.location.href, userAgent: navigator.userAgent })
+  }).catch(() => {});
+  if (window.history.replaceState) window.history.replaceState({}, '', window.location.pathname);
+}
+function getRef() { return visitRef; }
+
+// ========== CURSOR BLOB ==========
+const blob = document.getElementById('blob');
+let mx=0,my=0,bx=0,by=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animBlob(){bx+=(mx-bx)*.06;by+=(my-by)*.06;blob.style.left=bx+'px';blob.style.top=by+'px';requestAnimationFrame(animBlob)})();
+
+// ========== SCROLL REVEAL ==========
+const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*60);});},{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ========== SMOOTH NAV ==========
+document.querySelectorAll('nav a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});});
+
+// ========== MODE TOGGLE ==========
+function setMode(mode) {
+  document.getElementById('panelTerminal').classList.toggle('active', mode === 'terminal');
+  document.getElementById('panelChat').classList.toggle('active', mode === 'chat');
+  document.getElementById('modeTerminal').classList.toggle('active', mode === 'terminal');
+  document.getElementById('modeChat').classList.toggle('active', mode === 'chat');
+  if (mode === 'terminal') termInput.focus();
+}
+
+// ========== CHAT ENGINE ==========
+const chatMessages = document.getElementById('chatMessages');
+const chatResponses = {
+  "What's your Microsoft stack?": `Here's the full breakdown:\n\n<strong>Entra ID</strong> — Identity, conditional access, SSO, MFA, guest management\n\n<strong>Intune</strong> — Device compliance, app deployment, MacBook & Windows MDM, configuration profiles\n\n<strong>Defender</strong> — Endpoint protection, threat monitoring, security posture management\n\n<strong>Exchange Online</strong> — Mail flow, shared mailboxes, retention policies, anti-spam\n\n<strong>Teams & SharePoint</strong> — Governance, guest access, file structure, permissions\n\n<strong>M365 Admin</strong> — Licensing, billing, service health, compliance centre\n\nI work in these tools regularly — not just the parts that don't cause trouble.`,
+  "Network & infrastructure?": `Solid across both SMB and enterprise:\n\n<strong>Fortigate</strong> — Firewall configuration in both SMB and enterprise contexts, policy management, VPN setup\n\n<strong>Network design</strong> — VLAN segmentation, Wi-Fi infrastructure, access point management\n\n<strong>VPN</strong> — Site-to-site and remote access configurations\n\n<strong>Servers</strong> — Windows Server, Active Directory, hybrid environments (on-prem + cloud)\n\nI've done the full range: from configuring a Fortigate for a Michelin-starred restaurant (Restaurant Noma was a ZaBa client) to a full enterprise network overhaul at Hafnia BW. I'm comfortable at both ends of the scale — and everywhere in between.\n\n🏗️ I once spent most of a day crawling through Bakken amusement park's service corridors sorting the network hours before a premiere. Calm under pressure is a prerequisite.`,
+  "How do you approach security?": `Security without the theatre:\n\nFor a 50-person company, the goal isn't an audit report — it's a setup where people are actually protected without spending their day fighting IT.\n\n<strong>In practice that means:</strong>\n→ MFA and conditional access that's invisible to legitimate users\n→ Policies proportional to actual risk, not worst-case scenarios\n→ SSO so people stop reusing passwords because logging in is annoying\n→ Offboarding that actually revokes access, immediately\n\nI know the frameworks (ISO 27001, NIS2) when they're relevant. But for most scale-ups, good fundamentals done well beat a compliance checklist every time.`,
+  "First 30 days as Head of IT?": `Roughly three things, in order:\n\n<strong>1. Talk to people (week 1)</strong>\nNot "what are your IT problems" — more like "walk me through your day." That's where you find the stuff that's been silently wasting 20 minutes a day for six months that nobody filed a ticket about.\n\n<strong>2. Get a clear picture of what exists (week 2)</strong>\nDevice inventory, who has access to what, licensing costs, how onboarding actually works today. No assumptions.\n\n<strong>3. Fix something visible, then present a plan (week 3–4)</strong>\nOne quick win that people actually notice. Then a short roadmap — what I'd tackle and why, with trade-offs explained. No 40-page strategy deck.\n\nMost IT problems at a 50-person company aren't technical. They're "nobody owned this properly before." The first 30 days is about changing that perception.`,
+  "AI in IT operations?": `Already doing it — not talking about doing it:\n\n<strong>Documentation</strong> — runbooks, IT policies, onboarding guides written in minutes\n\n<strong>PowerShell scripting</strong> — I use AI to draft, debug, and optimise automation scripts daily\n\n<strong>Diagnostics</strong> — faster root cause analysis, pattern recognition across logs\n\n<strong>Vendor contracts</strong> — summarising licensing terms and SLAs without wading through 40-page PDFs\n\n<strong>Repetitive admin</strong> — bulk user operations, policy rollouts, reporting\n\nI'm not someone who talks about AI as a future opportunity. It's already woven into how I work. And I'm always looking for the next place it makes sense to apply it.`,
+  "Why you for this role?": `Here's the honest version:\n\nMost IT managers have deep technical knowledge. Some have good people skills. Fewer have both. Almost none have also spent years building and shipping software products.\n\nThat combination is what makes me different:\n\n<strong>→</strong> I approach IT tools with product-thinking — designed for real users, not org charts\n<strong>→</strong> 10 years across SMB, enterprise, and startup environments — I've seen how it's done well and badly\n<strong>→</strong> I've served as an IT expert arbitrator in legal disputes — requires deep technical knowledge AND clear communication\n<strong>→</strong> I translate between technical and business stakeholders because I've been on both sides\n\nIf you want someone who treats IT as a service to the business — not a necessary evil — let's talk.`,
+  "Tell me something fun": `Where to start? 😄\n\n🌐 I once spent most of a night in Bakken amusement park's service corridors sorting their network before a big premiere. That's the job sometimes.\n\n🍽️ Restaurant Noma was one of my ZaBa clients — yes, the world's best restaurant. Their uptime requirements are intense.\n\n⚖️ I've been an IT expert arbitrator in legal disputes. One involved tax systems. Very niche skill.\n\n☕ Espresso enthusiast. Medium-fine grind, 18g dose, 36g yield, 28 seconds. Don't ask unless you have time.\n\n🏠 Smart home obsessive — my apartment runs on Home Assistant with mmWave presence sensors and adaptive lighting. IT at home, too.\n\n🏄 I also co-founded a surf camp in Nicaragua (Coconut Surf). Different kind of uptime requirements.`,
+  "How do I reach you?": `I'd love to hear from you!\n\n<strong>Email:</strong> jonas@bager.dk\n<strong>Phone:</strong> +45 2512 4614\n<strong>LinkedIn:</strong> linkedin.com/in/jonasbager\n\nLet's talk.`
+};
+
+let chatBusy = false;
+let chatHistory = [];
+const CHAT_MSG_LIMIT = 15;
+let chatMsgCount = 0;
+
+function addBotMessage(text) {
+  const botMsg = document.createElement('div');
+  botMsg.className = 'chat-msg bot';
+  botMsg.innerHTML = `<div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  chatMessages.appendChild(botMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.innerHTML = `<div class="chat-bubble">${text}</div>`;
+  chatMessages.appendChild(userMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTyping() {
+  const typing = document.createElement('div');
+  typing.className = 'chat-typing';
+  typing.id = 'chatTyping';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  chatMessages.appendChild(typing);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return typing;
+}
+
+function chatAsk(question, displayText, overrideResponse) {
+  if (chatBusy) return;
+  chatBusy = true;
+  chatMsgCount++;
+  const shown = displayText || question;
+  addUserMessage(shown);
+  if (chatMsgCount > CHAT_MSG_LIMIT) {
+    setTimeout(() => {
+      addBotMessage("We've had a great chat! The best next step is to continue in person. Reach me at <strong>jonas@bager.dk</strong> or <strong>+45 2512 4614</strong> — I'd genuinely love to hear from you. ☕");
+      chatBusy = false;
+    }, 500);
+    return;
+  }
+  const typing = showTyping();
+  const instantResponse = overrideResponse || chatResponses[question];
+  if (instantResponse) {
+    chatHistory.push({ role: 'user', content: shown });
+    chatHistory.push({ role: 'assistant', content: instantResponse.replace(/<[^>]*>/g, '') });
+    setTimeout(() => {
+      typing.remove();
+      addBotMessage(instantResponse);
+      chatBusy = false;
+    }, 400 + Math.random() * 600);
+    return;
+  }
+  chatHistory.push({ role: 'user', content: shown });
+  fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: chatHistory, mode: 'it' })
+  })
+  .then(r => r.json())
+  .then(data => {
+    typing.remove();
+    const response = data.response || "Hmm, I lost my train of thought. Ask me something else!";
+    chatHistory.push({ role: 'assistant', content: response });
+    addBotMessage(response);
+    chatBusy = false;
+  })
+  .catch(err => {
+    typing.remove();
+    addBotMessage("I'm having a connection hiccup — but I'd love to answer that! Reach me at <strong>jonas@bager.dk</strong> and ask me directly. 😊");
+    chatBusy = false;
+  });
+}
+
+const chatInput = document.getElementById('chatInput');
+chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') chatSendFree(); });
+
+function chatSendFree() {
+  const val = chatInput.value.trim();
+  if (!val || chatBusy) return;
+  chatInput.value = '';
+  const lc = val.toLowerCase();
+
+  // IT-specific easter egg responses
+  const chatEggs = {
+    'coffee': "☕ Medium-fine grind, 18g dose, 36g yield, 28 seconds. We can discuss extraction ratios in the interview.",
+    'espresso': "☕ Now you're speaking my language. I take my IT conversations with a double shot.",
+    'salary': "Let's discuss that over coffee — reach me at <strong>jonas@bager.dk</strong> 😏",
+    'money': "I'm motivated by the work first, comp second. But let's talk — <strong>jonas@bager.dk</strong>",
+    'bakken': "🎡 Ah, the Bakken story. I spent most of a day in their service corridors getting the network sorted hours before a premiere. That's IT — sometimes it's glamorous, sometimes it's crawling under floorboards at an amusement park. Both are fine by me.",
+    'noma': "🍽️ Restaurant Noma was one of my ZaBa clients — yes, the world's best restaurant. Their uptime requirements are... intense. You don't get to tell a Michelin kitchen that IT is 'good enough'.",
+    'smart home': "🏠 You found a weak spot! My Home Assistant setup is extensive — mmWave sensors, adaptive lighting, the works. Ask me about it in the interview. I dare you.",
+    'home assistant': "🏠 Home Assistant is excellent. And yes, my home is running on it. IT doesn't stop at the office.",
+    'surf': "🏄 I co-founded a surf camp in Nicaragua — Coconut Surf. Different kind of network to manage, but the uptime requirements are non-negotiable.",
+    'copenhagen': "🇩🇰 Home base! Best city for IT people — strong tech scene, good coffee, and everyone cycles to work which keeps the help desk tickets about 'where is parking' to zero.",
+    'terminal': "Ah, a person of taste! Click the ⌘ Terminal tab above to switch. There are easter eggs in there too. 🕵️",
+  };
+
+  for (const [key, response] of Object.entries(chatEggs)) {
+    if (lc.includes(key)) {
+      chatAsk(val, val, response);
+      return;
+    }
+  }
+
+  // Fuzzy IT topic matching
+  const fuzzyChat = {
+    'microsoft': "What's your Microsoft stack?",
+    'm365': "What's your Microsoft stack?",
+    'intune': "What's your Microsoft stack?",
+    'entra': "What's your Microsoft stack?",
+    'defender': "What's your Microsoft stack?",
+    'exchange': "What's your Microsoft stack?",
+    'network': "Network & infrastructure?",
+    'fortigate': "Network & infrastructure?",
+    'firewall': "Network & infrastructure?",
+    'vlan': "Network & infrastructure?",
+    'vpn': "Network & infrastructure?",
+    'infrastructure': "Network & infrastructure?",
+    'security': "How do you approach security?",
+    'iso': "How do you approach security?",
+    'nis2': "How do you approach security?",
+    'compliance': "How do you approach security?",
+    '30 day': "First 30 days as Head of IT?",
+    'first month': "First 30 days as Head of IT?",
+    'onboard': "First 30 days as Head of IT?",
+    'start': "First 30 days as Head of IT?",
+    'ai': "AI in IT operations?",
+    'automat': "AI in IT operations?",
+    'script': "AI in IT operations?",
+    'powershell': "AI in IT operations?",
+    'why you': "Why you for this role?",
+    'hire': "Why you for this role?",
+    'why should': "Why you for this role?",
+    'fun': "Tell me something fun",
+    'hobby': "Tell me something fun",
+    'interest': "Tell me something fun",
+    'contact': "How do I reach you?",
+    'email': "How do I reach you?",
+    'reach': "How do I reach you?",
+    'phone': "How do I reach you?",
+  };
+
+  // Only fuzzy-match short inputs — longer questions go straight to the API
+  // so specific questions like "what's your favourite network setup?" don't
+  // get swallowed by a single keyword match
+  if (val.length <= 40) {
+    for (const [key, question] of Object.entries(fuzzyChat)) {
+      if (lc.includes(key)) {
+        chatAsk(question, val);
+        return;
+      }
+    }
+  }
+
+  chatAsk(val, val);
+}
+
+// ========== TERMINAL ENGINE ==========
+const termOutput = document.getElementById('termOutput');
+const termInput = document.getElementById('termInput');
+const termScroll = document.getElementById('termScroll');
+const termHistory = [];
+let termHistIdx = -1;
+let isTyping = false;
+
+const commands = {
+  help: () => `<span class="success">Available commands:</span>
+
+  <span class="key">about</span>        <span class="val">— Who is Jonas?</span>
+  <span class="key">skills</span>       <span class="val">— Full IT stack & tools</span>
+  <span class="key">experience</span>   <span class="val">— Career timeline</span>
+  <span class="key">philosophy</span>   <span class="val">— How I approach IT</span>
+  <span class="key">microsoft</span>    <span class="val">— Microsoft 365 stack details</span>
+  <span class="key">m365</span>         <span class="val">— Alias for microsoft</span>
+  <span class="key">intune</span>       <span class="val">— Device management</span>
+  <span class="key">entra</span>        <span class="val">— Identity management</span>
+  <span class="key">defender</span>     <span class="val">— Security & endpoint protection</span>
+  <span class="key">network</span>      <span class="val">— Networking & infrastructure</span>
+  <span class="key">fortigate</span>    <span class="val">— Firewall experience</span>
+  <span class="key">security</span>     <span class="val">— Security approach & frameworks</span>
+  <span class="key">ai</span>           <span class="val">— AI in IT operations</span>
+  <span class="key">arbitrator</span>   <span class="val">— IT expert arbitrator story</span>
+  <span class="key">contact</span>      <span class="val">— Get in touch</span>
+  <span class="key">clear</span>        <span class="val">— Clear terminal</span>
+
+  <span class="out">💡 This is a real terminal. Try <span class="key">ls</span>, <span class="key">sudo</span>, <span class="key">git</span>, or anything you'd normally type.</span>`,
+
+  about: () => `<span class="key">jonas.about()</span>
+
+  <span class="val">IT leader based in Copenhagen with 10+ years building and running IT
+  across SMB, enterprise, and scale-up environments.
+
+  Comfortable from Fortigate configs to board-level IT strategy.
+  Currently Head of Product at Pree.to, where I also own internal IT.
+
+  I'm not the IT person who defaults to no.
+  I build setups that enable people — and that your team barely notices
+  because everything just works.</span>`,
+
+  skills: () => `<span class="key">jonas.itStack()</span>
+
+  <span class="highlight">Identity & Devices</span>
+  <span class="val">  Microsoft Intune · Entra ID · MacBook fleet · MDM · endpoint policy</span>
+
+  <span class="highlight">M365 & Cloud</span>
+  <span class="val">  Exchange Online · Teams · SharePoint · Defender · licensing · M365 admin</span>
+
+  <span class="highlight">Networking</span>
+  <span class="val">  Fortigate · VLANs · VPN (site-to-site & remote) · Wi-Fi infrastructure</span>
+
+  <span class="highlight">Security</span>
+  <span class="val">  ISO 27001/NIS2 awareness · conditional access · MFA · zero trust · DLP</span>
+
+  <span class="highlight">Servers</span>
+  <span class="val">  Windows Server · Active Directory · hybrid environments</span>
+
+  <span class="highlight">Automation & AI</span>
+  <span class="val">  PowerShell · AI-assisted scripting · documentation · task automation</span>`,
+
+  experience: () => `<span class="key">jonas.it.timeline()</span>
+
+  <span class="highlight">2021–Now</span>  Head of Product + Internal IT Lead — Pree.to
+  <span class="val">             Intune, Entra, M365, MacBook fleet, onboarding/offboarding</span>
+
+  <span class="highlight">2019–Now</span>  IT Infrastructure Consultant — Bager Consulting
+  <span class="val">             M365 admin, endpoint management, network & server work</span>
+
+  <span class="highlight">2014–19</span>   IT Consultant — Hafnia BW (enterprise shipping)
+  <span class="val">             Full stack overhaul: networks, servers, endpoints at scale</span>
+
+  <span class="highlight">2013–19</span>   Founder & IT Consultant — ZaBa IT Consultancy
+  <span class="val">             25+ clients: Noma, law firms, medical clinics, SMBs</span>`,
+
+  philosophy: () => `<span class="key">jonas.itPhilosophy()</span>
+
+  IT exists to enable people, not to gatekeep them.
+
+  The best IT setup is one where colleagues barely notice it's there —
+  because everything just works, the right tools are available, and
+  security doesn't mean friction.
+
+  I find the solution that's both secure <span class="highlight">and</span> actually usable.
+  Most IT setups fail because they optimise for one at the expense of the other.
+
+  <span class="val">→ Talk to people before designing the setup
+  → Quick wins build trust; strategic roadmaps build infrastructure
+  → If users are working around your IT, your IT is the problem</span>`,
+
+  microsoft: () => `<span class="key">microsoft.stack()</span>
+
+  <span class="val">Entra ID</span>        Identity, conditional access, SSO, MFA, guest management
+  <span class="val">Intune</span>          Device compliance, app deployment, MacBook & Windows MDM
+  <span class="val">Defender</span>        Endpoint protection, threat monitoring, security posture
+  <span class="val">Exchange Online</span> Mail flow, shared mailboxes, retention policies, anti-spam
+  <span class="val">Teams & SP</span>      Governance, guest access, file structure, permissions
+  <span class="val">M365 Admin</span>      Licensing, billing, service health, compliance centre
+
+  I work in these tools regularly — not just the parts that don't cause trouble.`,
+
+  m365: () => commands.microsoft(),
+
+  intune: () => `<span class="key">intune.details()</span>
+
+  Device management across macOS and Windows in one pane.
+
+  <span class="val">→</span> Device compliance policies — enforce encryption, PIN, OS version
+  <span class="val">→</span> Application deployment — push software silently, no user action
+  <span class="val">→</span> Configuration profiles — Wi-Fi, VPN, certificates, restrictions
+  <span class="val">→</span> Onboarding — zero-touch enrolment via Apple Business Manager
+  <span class="val">→</span> Offboarding — remote wipe, account removal, conditional access block
+
+  Run it well and new starters have a configured, secure device
+  with everything they need within minutes of unboxing.`,
+
+  entra: () => `<span class="key">entra.id()</span>
+
+  Identity is the new perimeter. Entra is where I spend a lot of time.
+
+  <span class="val">→</span> Conditional access — block risky sign-ins, enforce MFA contextually
+  <span class="val">→</span> SSO — one login, every app, no password fatigue
+  <span class="val">→</span> Guest management — controlled external collaboration
+  <span class="val">→</span> Privileged access — who has admin rights and why
+  <span class="val">→</span> Identity governance — access reviews, lifecycle management
+
+  The goal: legitimate users barely notice the auth layer.
+  Everyone else hits a wall.`,
+
+  defender: () => `<span class="key">defender.status()</span>
+
+  Microsoft Defender across the endpoint fleet.
+
+  <span class="val">→</span> Endpoint protection — real-time threat detection, quarantine
+  <span class="val">→</span> Vulnerability management — know what's exposed before attackers do
+  <span class="val">→</span> Security posture score — measurable, improvable baseline
+  <span class="val">→</span> Threat & vulnerability management — prioritise what to fix
+  <span class="val">→</span> Integration with Intune for compliance-based conditional access
+
+  <span class="success">Security posture: monitored. Threats: handled.</span>`,
+
+  network: () => `<span class="key">network.topology()</span>
+
+  Fortigate firewall configuration (enterprise and SMB contexts)
+  VLAN design and segmentation
+  VPN setup (site-to-site and remote access)
+  Wi-Fi infrastructure and access point management
+  Server hardware, Windows Server, Active Directory
+  Hybrid environments (on-prem + cloud)
+
+  <span class="out">Side note: I once spent most of a day crawling through Bakken amusement
+  park's service corridors getting the network sorted hours before a premiere.
+  Calm under pressure is a prerequisite for this kind of work.</span>`,
+
+  fortigate: () => `<span class="key">fortigate.config()</span>
+
+  Comfortable with Fortigate at both SMB and enterprise scale.
+
+  <span class="val">→</span> Firewall policy management — zones, rules, application control
+  <span class="val">→</span> VPN configuration — IPSec site-to-site, SSL remote access
+  <span class="val">→</span> VLAN segmentation — isolate guest, corporate, IoT traffic
+  <span class="val">→</span> SD-WAN — traffic steering, failover, quality-of-service
+  <span class="val">→</span> Logging and monitoring — visibility into what's actually happening
+
+  <span class="out">One of my ZaBa clients was Restaurant Noma — configuring Fortigate
+  for a kitchen that cannot have downtime during service. Focus-concentrating.</span>`,
+
+  security: () => `<span class="key">security.approach()</span>
+
+  I've worked in finance-adjacent environments where compliance isn't optional.
+  I understand what ISO 27001 and NIS2 requirements actually mean in practice —
+  not as checkboxes, but as real controls that have to work for real people.
+
+  <span class="val">→</span> Security that protects people without making them work around it
+  <span class="val">→</span> Conditional access and MFA that's frictionless for legitimate users
+  <span class="val">→</span> The difference between a control that protects and one that just annoys
+  <span class="val">→</span> Zero trust principles applied proportionally to actual risk
+  <span class="val">→</span> DLP that doesn't generate so many false positives it gets ignored
+
+  The best security is invisible to the people it protects.`,
+
+  ai: () => `<span class="key">ai.inIT()</span>
+
+  I use AI every day across IT operations:
+  <span class="val">→</span> Documentation and runbook generation
+  <span class="val">→</span> PowerShell and automation script writing
+  <span class="val">→</span> Diagnosing incidents and researching solutions
+  <span class="val">→</span> Summarising vendor contracts and licensing terms
+  <span class="val">→</span> Automating repetitive admin tasks
+
+  I'm not someone who talks about AI as a future opportunity.
+  It's already part of how I work — and I'm always looking for
+  the next place it makes sense to apply it.`,
+
+  arbitrator: () => `<span class="key">it.expertArbitrator()</span>
+
+  I've served as an IT expert arbitrator in legal disputes a handful of times.
+
+  It requires:
+  <span class="val">→</span> Deep technical knowledge
+  <span class="val">→</span> Clear communication under pressure
+  <span class="val">→</span> The ability to explain complex systems to non-technical people
+  <span class="val">→</span> Credibility when both sides are trying to catch you out
+
+  Not something many IT professionals can say.`,
+
+  contact: () => `<span class="key">jonas.contact()</span>
+
+  <span class="highlight">Email</span>     <span class="val">jonas@bager.dk</span>
+  <span class="highlight">Phone</span>     <span class="val">+45 2512 4614</span>
+  <span class="highlight">LinkedIn</span>  <span class="val">linkedin.com/in/jonasbager</span>
+  <span class="highlight">Portfolio</span> <span class="val">You're looking at it. Right now.</span>
+
+  <span class="success">I'd love to hear from you.</span>`,
+
+  clear: () => '__CLEAR__',
+};
+
+// Hidden / easter egg commands
+const hiddenCmds = {
+  'sudo hire jonas': () => `<span class="success">
+  ███████████████████████████████████████████
+  █                                         █
+  █   ACCESS GRANTED.                       █
+  █                                         █
+  █   sudo: hire: command found.            █
+  █   Initiating...                         █
+  █                                         █
+  █   ✓ Job offer sent to:                  █
+  █     → jonas@bager.dk                    █
+  █     → +45 2512 4614                     █
+  █                                         █
+  █   He's expecting your call. Probably.   █
+  █                                         █
+  ███████████████████████████████████████████</span>`,
+
+  'sudo': () => `<span class="highlight">sudo: Permission denied.</span>
+  <span class="out">(But nice try.)</span>`,
+
+  'whoami': () => `<span class="val">visitor</span>
+  <span class="out">(but Jonas is at jonas@bager.dk)</span>`,
+
+  'pwd': () => `<span class="val">/home/jonas/it-profile</span>`,
+
+  'hostname': () => `<span class="val">jonas-bager.local</span>  <span class="out">Uptime: 10+ years. No planned downtime.</span>`,
+
+  'date': () => `<span class="val">${new Date().toLocaleString('en-DK')}</span>  <span class="out">— A good time to talk IT.</span>`,
+
+  'uptime': () => `<span class="val">10 years, 3 months</span> in IT — and counting.`,
+
+  'ls': () => `<span class="val">about.md  skills.json  experience/  philosophy.txt
+microsoft/  network/  security/  contact.md  .bashrc  .env</span>`,
+
+  'ls -la': () => `<span class="success">Long format — you know your flags.</span>
+  <span class="val">drwxr-xr-x  jonas  staff  about.md
+drwxr-xr-x  jonas  staff  skills.json
+drwxr-xr-x  jonas  staff  experience/
+drwxr-xr-x  jonas  staff  philosophy.txt
+drwxr-xr-x  jonas  staff  microsoft/
+drwxr-xr-x  jonas  staff  network/
+drwxr-x---  jonas  staff  security/
+-rwx------  jonas  staff  .bashrc
+-rwx------  jonas  staff  .ssh/
+-rw-------  jonas  staff  .env</span>`,
+
+  'ls -a': () => `<span class="val">.  ..  .bashrc  .env  .ssh/  about.md  skills.json
+experience/  philosophy.txt  microsoft/  network/  security/  contact.md</span>`,
+
+  'cat .bashrc': () => `<span class="val">alias restart="sudo systemctl restart everything && echo 'Done. Users won't notice.'"
+alias tickets="echo 'Closed 3 before 9am.'"
+alias coffee="make --espresso --double-shot"
+alias security="enable --not-gatekeep"
+export IT_PHILOSOPHY="enable_not_gatekeep"
+export COFFEE_LEVEL="critical"
+export PREFERRED_FIREWALL="fortigate"</span>`,
+
+  'cat .env': () => `<span class="warn"># This site's actual .env. Easter egg unlocked.</span>
+  <span class="val">ANTHROPIC_API_KEY=sk-ant-[REDACTED]
+RESEND_API_KEY=re_[REDACTED]
+NEXT_PUBLIC_SITE_URL=https://jonas.bager.dk
+IT_APPROACH=enable_not_gatekeep
+COFFEE_DEPENDENCY=critical
+OPEN_TO_WORK=absolutely</span>`,
+
+  'ssh jonas@bager.dk': () => `<span class="highlight">Permission denied (publickey).</span>
+  <span class="out">Try email instead — jonas@bager.dk responds faster anyway.</span>`,
+
+  'ping jonas.bager.dk': () => `<span class="success">PING jonas.bager.dk — 0ms latency. He's responsive.</span>`,
+
+  'ping google.com': () => `<span class="success">64 bytes from google.com: time=1.2ms</span>
+  <span class="out">DNS resolves. We're good.</span>`,
+
+  'top': () => `<span class="val">PID  PROCESS                CPU%   MEM%
+001  intune-compliance       38.0%  high
+002  fortigate-config        27.0%  moderate
+003  entra-id-policies       18.0%  moderate
+004  powershell-automation   12.0%  moderate
+005  espresso                 5.0%  critical</span>`,
+
+  'ps aux': () => `<span class="val">USER   PID  %CPU  COMMAND
+jonas  001  38.0  /usr/bin/device-management --intune
+jonas  002  27.0  /usr/bin/network-ops --fortigate
+jonas  003  18.0  /usr/bin/identity --entra-id
+jonas  004  12.0  /usr/bin/powershell --ai-assisted
+jonas  005   5.0  /usr/bin/espresso --double-shot</span>`,
+
+  'vim': () => `<span class="warn">You're in vim. Good luck getting out.</span>
+  <span class="out">(Type <span class="key">:q!</span> — I believe in you.)</span>`,
+
+  'nano': () => `<span class="success">nano opened. Saving to disk... done.</span>
+  <span class="out">(nano users, I respect the choice.)</span>`,
+
+  'man jonas': () => `<span class="key">JONAS(1)</span>                    <span class="val">IT Manual</span>                    <span class="key">JONAS(1)</span>
+
+<span class="val">NAME
+       jonas — IT engineer, consultant, and enabler-not-gatekeeper
+
+SYNOPSIS
+       jonas [--intune] [--fortigate] [--m365] [--enable]
+
+DESCRIPTION
+       Builds IT environments that enable people rather than restrict them.
+       Works best in lean, fast-moving teams. Operates from endpoint to
+       boardroom. Pairs well with strong coffee and clear problems.
+
+OPTIONS
+       --intune        Deploy, configure, manage at scale
+       --fortigate     Route the traffic, set the policy
+       --m365          Run the full suite, not just the easy bits
+       --enable        Default mode. Not --gatekeep.
+       --no-bs         Say what you mean, fix what's broken
+
+BUGS
+       Occasionally over-caffeinated. Cannot resist improving
+       a bad onboarding flow. Known to pull cable after hours.
+
+SEE ALSO
+       jonas@bager.dk, linkedin.com/in/jonasbager</span>`,
+
+  'npm install jonas': () => `<span class="success">Installing jonas@latest...</span>
+  <span class="val">✓ Resolving dependencies: intune, fortigate, entra-id
+  ✓ Bundled with: product-thinking, m365-admin, security-posture
+  ✓ Peer dependency: strong-coffee
+  ✓ Optional: surf-camp-in-nicaragua, bakken-midnight-network
+
+  <span class="success">✓ Successfully installed.</span> Ready for production IT.</span>`,
+
+  'brew install jonas': () => `<span class="success">🍺 Pouring jonas...</span>
+  <span class="val">  ==> Downloading from copenhagen/homebrew-talent
+  ==> Installing jonas
+  🍺  /usr/local/Cellar/jonas/latest: shipped & ready
+  <span class="out">Pairs well with: espresso, network diagrams, tight deadlines</span></span>`,
+
+  'apt-get install jonas': () => `<span class="success">Reading package lists... Done</span>
+  <span class="val">Setting up jonas (latest) ...
+  jonas is now installed and ready to configure your IT.
+  <span class="out">apt user? You're methodical. I like you already.</span></span>`,
+
+  'git log': () => `<span class="val">commit a1b2c3d — full Intune rollout, MacBook fleet
+commit d4e5f6a — Fortigate enterprise overhaul, Hafnia BW
+commit g7h8i9j — ZaBa IT consultancy, 25+ clients
+commit k1l2m3n — built this portfolio
+<span class="out">
+All commits verified. All infrastructure stable. ✓</span></span>`,
+
+  'git status': () => `<span class="val">On branch: <span class="success">main</span>
+Your IT is up to date with 'origin/production'.
+
+Changes to be committed:
+  <span class="success">new role:</span>       looking for the right team
+  <span class="success">new project:</span>    always improving something
+
+<span class="out">Unlike some IT setups I've inherited.</span></span>`,
+
+  'docker': () => `<span class="val">🐳 docker run --rm jonas/it-lead:latest
+  <span class="out">Container started. Managing endpoints on port 443.
+  Health check: passing. Uptime: 10+ years.</span></span>`,
+
+  'reboot': () => `<span class="warn">Rebooting...</span>
+  <span class="val">Just kidding. I prefer rolling updates.
+  <span class="out">No maintenance windows that could have been avoided.</span></span>`,
+
+  'coffee': () => `<span class="val">☕ Brewing...
+
+  Grind: medium-fine · Dose: 18g · Yield: 36g · Time: 28s
+
+  <span class="out">We can discuss extraction ratios in the interview.</span></span>`,
+
+  'make coffee': () => `<span class="val">☕ make: Entering directory '/kitchen'
+  Grinding beans.......... done
+  Tamping................. done
+  Extracting.............. done (27.8s — targeting 25-30)
+
+  <span class="success">Build successful.</span> One espresso ready.</span>`,
+
+  'nmap': () => `<span class="val">nmap: You seem curious. I appreciate that.
+  <span class="out">Try <span class="key">security</span> instead — it's more interesting than port scanning.</span></span>`,
+
+  'exit': () => `<span class="val">exit: You can check out any time you like, but you can never leave.
+  <span class="out">(Unless you close the tab. But why would you?)</span></span>`,
+
+  '42': () => `<span class="val">The answer to life, the universe, and IT budgeting.</span>`,
+
+  'cat about.md': () => commands.about(),
+  'cat skills.json': () => commands.skills(),
+  'cat philosophy.txt': () => commands.philosophy(),
+  'cat contact.md': () => commands.contact(),
+
+  'ls experience/': () => `<span class="val">2021-now_head-of-product-it-lead_pree.to
+2019-2021_innovation-manager_lb-forsikring
+2014-2019_it-consultant_hafnia-bw
+2013-2019_founder-it-consultant_zaba</span>
+  <span class="out">Type <span class="key">experience</span> for the full timeline.</span>`,
+
+  'ls microsoft/': () => `<span class="val">intune.md  entra-id.md  defender.md  exchange-online.md  m365-admin.md</span>
+  <span class="out">Type <span class="key">microsoft</span> for details.</span>`,
+
+  'ls network/': () => `<span class="val">fortigate.md  vlans.md  vpn.md  wifi.md  bakken-story.md</span>
+  <span class="out">Type <span class="key">network</span> or <span class="key">fortigate</span> for details.</span>`,
+
+  'ls security/': () => `<span class="val">iso27001.md  nis2.md  conditional-access.md  zero-trust.md  mfa.md</span>
+  <span class="out">Type <span class="key">security</span> for details.</span>`,
+
+  'hello': () => `<span class="val">Hey! 👋 Type <span class="key">help</span> to see what I can tell you about.</span>`,
+  'hi': () => `<span class="val">Hi there! 👋 Try <span class="key">help</span> for available commands.</span>`,
+  'hey': () => `<span class="val">Hey! 👋 Type <span class="key">help</span> to get started.</span>`,
+  'thanks': () => `<span class="val">You're welcome! Type <span class="key">contact</span> if you want to continue this conversation IRL.</span>`,
+  'thank': () => `<span class="val">Happy to help! Type <span class="key">contact</span> if you'd like to chat more.</span>`,
+  'cv': () => `<span class="val">This is the CV. It just doesn't look like one — by design.
+  <span class="out">Want the PDF? Email jonas@bager.dk — but this is way more fun.</span></span>`,
+  'resume': () => `<span class="val">You're looking at it — the interactive version.
+  <span class="out">Want the PDF? Email jonas@bager.dk and I'll send it over. 📄</span></span>`,
+  'linkedin': () => `<span class="val">linkedin.com/in/jonasbager — but you'll learn more here.
+  Try <span class="key">about</span>, <span class="key">experience</span>, or <span class="key">arbitrator</span>.</span>`,
+  'sudo rm -rf /': () => `<span class="warn">Nice try. This portfolio has better error handling than that.</span>
+  <span class="out">Which is also an IT skill, if you think about it.</span>`,
+  'history': () => `<span class="val">    1  founded ZaBa IT consultancy
+    2  joined Hafnia BW, full infrastructure overhaul
+    3  started Bager Consulting IT work
+    4  became Head of Product + IT Lead at Pree.to
+    5  served as IT expert arbitrator
+    6  built this portfolio
+    7  <span class="success">waiting for you to type 'contact'</span></span>`,
+};
+
+function addLine(html) {
+  const div = document.createElement('div');
+  div.className = 'term-line';
+  div.innerHTML = html;
+  termOutput.appendChild(div);
+  termScroll.scrollTop = termScroll.scrollHeight;
+}
+
+async function typeOutput(html) {
+  isTyping = true;
+  const div = document.createElement('div');
+  div.className = 'term-line';
+  termOutput.appendChild(div);
+  div.style.opacity = '0';
+  div.innerHTML = html;
+  await new Promise(r => setTimeout(r, 80));
+  div.style.transition = 'opacity 0.3s';
+  div.style.opacity = '1';
+  termScroll.scrollTop = termScroll.scrollHeight;
+  isTyping = false;
+}
+
+async function runCmd(cmd) {
+  if (isTyping) return;
+  cmd = cmd.trim();
+  if (!cmd) return;
+  const lc = cmd.toLowerCase();
+  addLine(`<span class="prompt">jonas@it:~$</span> <span class="cmd">${cmd}</span>`);
+  termInput.value = '';
+  termHistory.unshift(lc);
+  termHistIdx = -1;
+  if (lc === 'clear') { termOutput.innerHTML = ''; return; }
+  const handler = commands[lc] || hiddenCmds[lc];
+  if (handler) {
+    const result = handler();
+    if (result === '__CLEAR__') { termOutput.innerHTML = ''; return; }
+    await typeOutput(result);
+  } else {
+    // Fuzzy catch-all
+    const fuzzy = {
+      'hire': `<span class="val">I like the enthusiasm! Try <span class="key">sudo hire jonas</span> for the full experience 😉</span>`,
+      'hello': `<span class="val">Hey there! 👋 Type <span class="key">help</span> to see what I can tell you about.</span>`,
+      'hi ': `<span class="val">Hi! 👋 Type <span class="key">help</span> to get started.</span>`,
+      'noma': `<span class="val">🍽️ Restaurant Noma — yes, the world's best restaurant — was one of my ZaBa clients.
+  Their uptime requirements are intense. You don't get to say "good enough" to a Michelin kitchen.</span>`,
+      'bakken': `<span class="val">🎡 The Bakken story: I once spent most of a day crawling through service corridors
+  getting the network sorted hours before a premiere. That's IT sometimes.
+  Calm under pressure is non-negotiable.</span>`,
+      'espresso': `<span class="val">☕ Now you're speaking my language. Try <span class="key">coffee</span> or <span class="key">make coffee</span></span>`,
+      'surf': `<span class="val">🏄 Co-founded a surf camp in Nicaragua — Coconut Surf. Different kind of
+  network to manage, but the uptime requirements were non-negotiable.</span>`,
+      'smart home': `<span class="val">🏠 You found a weak spot. My Home Assistant setup is... extensive.
+  mmWave presence sensors, adaptive lighting, the works.
+  <span class="out">Ask me in the interview. I dare you.</span></span>`,
+      'copenhagen': `<span class="val">🇩🇰 Home base! Strong tech scene, good coffee, and everyone cycles.
+  <span class="out">Let's grab an espresso if you're in town.</span></span>`,
+      'salary': `<span class="val">Let's discuss that over coffee. Type <span class="key">contact</span> 😏</span>`,
+      'money': `<span class="val">I'm motivated by the work first. But let's talk. Type <span class="key">contact</span></span>`,
+      'product': `<span class="val">Unusual for an IT profile, right? Type <span class="key">philosophy</span> for more on how that combination works.</span>`,
+      'wow': `<span class="val">😊 Keep exploring — there are more surprises than you think.</span>`,
+      'cool': `<span class="val">Thanks! I built this site as a product — because that's kind of the point. 😎</span>`,
+      'docker': `<span class="val">🐳 docker run --rm jonas/it-lead:latest
+  <span class="out">Container started. Managing endpoints on port 443.</span></span>`,
+      'javascript': `<span class="val">This entire site is vanilla JS. No frameworks. No build step.
+  Sometimes the best tech choice is the simplest one.
+  <span class="out">That's also an IT philosophy, by the way.</span></span>`,
+    };
+    let found = false;
+    for (const [key, val] of Object.entries(fuzzy)) {
+      if (lc.includes(key)) {
+        await typeOutput(val);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      await typeOutput(`<span class="warn">Command not found:</span> <span class="val">${lc}</span>
+  <span class="out">Type <span class="key">help</span> for available commands. Or keep experimenting — I might surprise you.</span>`);
+    }
+  }
+}
+
+termInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') runCmd(termInput.value);
+  if (e.key === 'ArrowUp') { termHistIdx = Math.min(termHistIdx + 1, termHistory.length - 1); termInput.value = termHistory[termHistIdx] || ''; }
+  if (e.key === 'ArrowDown') { termHistIdx = Math.max(termHistIdx - 1, -1); termInput.value = termHistIdx >= 0 ? termHistory[termHistIdx] : ''; }
+});
+
+document.querySelector('.term-body').addEventListener('click', () => termInput.focus());
+
+// Auto-run welcome
+setTimeout(() => {
+  addLine(`<span class="out">Welcome to <span class="highlight">jonas.it</span> — interactive profile</span>`);
+  addLine(`<span class="out">Type <span class="key">help</span> to see available commands, or just start exploring.</span>`);
+  addLine('');
+}, 300);
+
+// ========== KONAMI CODE ==========
+const konamiSeq = [38,38,40,40,37,39,37,39,66,65];
+let konamiIdx = 0;
+document.addEventListener('keydown', e => {
+  if (e.keyCode === konamiSeq[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konamiSeq.length) {
+      document.getElementById('konamiOverlay').classList.add('on');
+      konamiIdx = 0;
+    }
+  } else {
+    konamiIdx = 0;
+  }
+});
+
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
