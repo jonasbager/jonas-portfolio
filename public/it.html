@@ -119,7 +119,16 @@ section{padding:100px 60px;position:relative;}
 .stack-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6;}
 
 /* === HOW I RUN IT === */
-.lead-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;}
+.lead-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1100px;}
+/* case cards */
+.case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;}
+.case-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:28px 28px 24px;transition:all .3s;}
+.case-card:hover{border-color:rgba(184,240,0,.18);transform:translateY(-2px);}
+.case-card .case-label{font-family:var(--font-mono);font-size:10px;color:var(--lime);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.case-card h4{font-size:.95rem;font-weight:600;margin-bottom:14px;}
+.case-row{margin-bottom:8px;font-size:.82rem;line-height:1.6;}
+.case-row .cr-k{color:var(--text-dim);font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:2px;}
+.case-row .cr-v{color:var(--text);}
 .lead-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:28px;transition:all .3s;}
 .lead-card:hover{border-color:rgba(166,120,255,.2);transform:translateY(-2px);}
 .lead-card .lead-ico{font-size:24px;margin-bottom:14px;}
@@ -223,7 +232,7 @@ footer a:hover{color:var(--lime);}
   .hero{padding:120px 24px 80px;}
   section{padding:72px 24px;}
   .hero-stats{gap:24px;flex-wrap:wrap;}
-  .lead-grid{grid-template-columns:1fr 1fr;}
+  .lead-grid{grid-template-columns:1fr 1fr;}.case-grid{grid-template-columns:1fr 1fr;}
   .callout{padding:28px 24px;}
   footer{padding:24px;flex-direction:column;gap:10px;text-align:center;}
 }
@@ -232,6 +241,25 @@ footer a:hover{color:var(--lime);}
   .stack-grid{grid-template-columns:1fr;}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Jonas Bager",
+  "url": "https://jonas.bager.dk/it",
+  "email": "jonas@bager.dk",
+  "telephone": "+4525124614",
+  "jobTitle": "AI Product Lead",
+  "worksFor": {"@type": "Organization", "name": "TechEdge"},
+  "address": {"@type": "PostalAddress", "addressLocality": "Copenhagen", "addressCountry": "DK"},
+  "alumniOf": [
+    {"@type": "CollegeOrUniversity", "name": "Copenhagen Business School"},
+    {"@type": "CollegeOrUniversity", "name": "Technical University of Denmark"}
+  ],
+  "knowsAbout": ["IT Infrastructure", "Microsoft 365", "Entra ID", "Intune", "AI agents", "Agent governance", "Network security", "Fortigate", "Endpoint management", "LLM pipelines", "IT automation"],
+  "sameAs": ["https://linkedin.com/in/jonasbager"]
+}
+</script>
 </head>
 <body>
 <div class="blob" id="blob"></div>
@@ -252,11 +280,13 @@ footer a:hover{color:var(--lime);}
     <div class="hero-content">
       <div class="hero-hi"><span class="wave">👋</span> &nbsp;Hello — I'm Jonas</div>
       <h1>IT that <em>enables</em> people,<br>not gatekeeps them.</h1>
-      <p class="hero-sub">10+ years building and running IT for companies of all sizes. I like the 20–100 people stage best — big enough to need real IT, small enough that every decision actually matters. Lean setups, no unnecessary complexity.</p>
+      <p class="hero-sub">10+ years building and running IT for companies of all sizes. I like the 20-100 people stage best - big enough to need real IT, small enough that every decision actually matters. Lean setups, no unnecessary complexity.</p>
+      <p class="hero-sub" style="margin-top:10px;font-size:clamp(.9rem,1.4vw,1.05rem);">Agents do the repetitive work. Humans own the decisions.</p>
       <div class="hero-stats">
         <div class="hero-stat"><div class="num">10+</div><div class="lbl">years IT</div></div>
         <div class="hero-stat"><div class="num">25+</div><div class="lbl">clients served</div></div>
         <div class="hero-stat"><div class="num">SMB→</div><div class="lbl">Enterprise</div></div>
+        <div class="hero-stat"><div class="num">TODO</div><div class="lbl">AI agents in production</div></div>
       </div>
     </div>
     <div class="hero-avatar">
@@ -330,6 +360,7 @@ footer a:hover{color:var(--lime);}
           <span class="chat-sug" onclick="chatAsk('Network & infrastructure?')">Network & infrastructure?</span>
           <span class="chat-sug" onclick="chatAsk('How do you approach security?')">How do you approach security?</span>
           <span class="chat-sug" onclick="chatAsk('First 30 days as Head of IT?')">First 30 days as Head of IT?</span>
+          <span class="chat-sug" onclick="chatAsk('How do you run IT with AI agents?')">How do you run IT with AI agents?</span>
           <span class="chat-sug" onclick="chatAsk('AI in IT operations?')">AI in IT operations?</span>
           <span class="chat-sug" onclick="chatAsk('Why you for this role?')">Why you for this role?</span>
           <span class="chat-sug" onclick="chatAsk('Tell me something fun')">Tell me something fun</span>
@@ -374,8 +405,13 @@ footer a:hover{color:var(--lime);}
     </div>
     <div class="stack-card rv">
       <div class="ico">🤖</div>
-      <h4>AI in IT Operations</h4>
-      <p>I use AI daily — for documentation, scripting, diagnosing issues, and automating repetitive tasks. Not a future opportunity. Already part of how I work.</p>
+      <h4>Agent governance</h4>
+      <p>Every agent gets an identity, least-privilege access, an audit trail and an offboarding date - just like a new employee. I set the policies that keep AI useful without it becoming a liability.</p>
+    </div>
+    <div class="stack-card rv">
+      <div class="ico">⚙️</div>
+      <h4>Automated IT operations</h4>
+      <p>On/offboarding, licence clean-up and ticket triage done by agents - with human approval where it matters. The boring work gets handled; the judgment calls stay with the humans.</p>
     </div>
     <div class="stack-card rv">
       <div class="ico">🧩</div>
@@ -390,23 +426,67 @@ footer a:hover{color:var(--lime);}
   <div class="rv">
     <span class="sec-label">// Philosophy</span>
     <h2 class="sec-title">How I run IT</h2>
-    <p class="sec-desc">Three things that shape every decision I make about infrastructure, tools, and security.</p>
+    <p class="sec-desc">Four things that shape every decision I make about infrastructure, tools, and security.</p>
   </div>
   <div class="lead-grid">
     <div class="lead-card rv">
       <div class="lead-ico">🔓</div>
       <h4>Enable, don't gatekeep</h4>
-      <p>The best IT setup is one people barely notice — because everything just works and the right tools are available. I'm not the person who defaults to no. I find the solution that's both secure and actually usable.</p>
+      <p>The best IT setup is one people barely notice - because everything just works and the right tools are available. I'm not the person who defaults to no. I find the solution that's both secure and actually usable.</p>
     </div>
     <div class="lead-card rv">
       <div class="lead-ico">🔧</div>
       <h4>Hands-on by choice</h4>
-      <p>I don't consider the physical or technical work beneath the role. Getting into the weeds of a Fortigate config, sorting a misbehaving server, pulling cable under a deadline — that's part of the job, and honestly part of why I like it.</p>
+      <p>I don't consider the physical or technical work beneath the role. Getting into the weeds of a Fortigate config, sorting a misbehaving server, pulling cable under a deadline - that's part of the job, and honestly part of why I like it.</p>
     </div>
     <div class="lead-card rv">
       <div class="lead-ico">🎯</div>
       <h4>Build for how people actually work</h4>
       <p>Not how the org chart says they should. I talk to the people who'll use the tools before I design the setup. The best IT environments I've built have always started from understanding real workflows.</p>
+    </div>
+    <div class="lead-card rv">
+      <div class="lead-ico">✅</div>
+      <h4>Start from yes</h4>
+      <p>Requests are opportunities, not risks to block by default. Security comes from good controls - conditional access, least privilege, audit logs - not from saying no. Almost every "no" I've inherited has had a better answer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT NOT TALKED -->
+<section style="background:var(--bg2);">
+  <div class="rv">
+    <span class="sec-label">// Built, not just talked about</span>
+    <h2 class="sec-title">Things I've actually shipped</h2>
+    <p class="sec-desc">AI in IT stops being interesting when it's theoretical. Here's what I've built and put into production.</p>
+  </div>
+  <div class="case-grid">
+    <div class="case-card rv">
+      <div class="case-label">Multi-user AI agent</div>
+      <h4>Slack AI agent on on-prem GPU</h4>
+      <div class="case-row"><span class="cr-k">Problem</span><span class="cr-v">Teams wanted a shared AI assistant in Slack, but couldn't use a cloud-only tool - data isolation between users was non-negotiable.</span></div>
+      <div class="case-row"><span class="cr-k">What I built</span><span class="cr-v">Self-hosted agent running on an on-prem GPU server. Strict session isolation so one user's mail, files and HR data never reaches another. Admin can maintain it without reading sensitive data. Keys held by the IT lead.</span></div>
+      <div class="case-row"><span class="cr-k">Why it matters</span><span class="cr-v">The team got a genuinely useful AI tool without accepting a "share everything" architecture. Governance baked in from day one.</span></div>
+    </div>
+    <div class="case-card rv">
+      <div class="case-label">Enterprise integration</div>
+      <h4>MCP server for company data</h4>
+      <div class="case-row"><span class="cr-k">Problem</span><span class="cr-v">AI assistants (Claude, Copilot, ChatGPT) couldn't securely query internal company data without opening up everything.</span></div>
+      <div class="case-row"><span class="cr-k">What I built</span><span class="cr-v">An MCP server that lets AI assistants query company data via a controlled interface, secured with OAuth against IdentityServer and deployed in Microsoft 365 via Copilot Studio.</span></div>
+      <div class="case-row"><span class="cr-k">Why it matters</span><span class="cr-v">Any approved AI assistant can now answer questions about internal data - with proper auth, audit logs and no raw database access.</span></div>
+    </div>
+    <div class="case-card rv">
+      <div class="case-label">AI support tooling</div>
+      <h4>AI bot on top of Jira</h4>
+      <div class="case-row"><span class="cr-k">Problem</span><span class="cr-v">Support tickets were handled inconsistently - triage took too long, the same questions kept arriving, and backlog grooming was manual.</span></div>
+      <div class="case-row"><span class="cr-k">What I built</span><span class="cr-v">A bot that ingests tickets, categorises and triages them, and drafts first responses. Production readiness covered PII exposure, failure modes, stability under load and bus factor.</span></div>
+      <div class="case-row"><span class="cr-k">Why it matters</span><span class="cr-v">Faster triage, less repetitive work for the team - and no one person is the single point of failure for the whole thing.</span></div>
+    </div>
+    <div class="case-card rv">
+      <div class="case-label">Home lab</div>
+      <h4>Proxmox, UniFi, Tailscale, Home Assistant</h4>
+      <div class="case-row"><span class="cr-k">Problem</span><span class="cr-v">I can't help myself.</span></div>
+      <div class="case-row"><span class="cr-k">What I built</span><span class="cr-v">A proper home lab: Proxmox for virtualisation, UniFi for networking, Tailscale for secure remote access, Home Assistant for automation. Where I test things before I put them in front of real users.</span></div>
+      <div class="case-row"><span class="cr-k">Why it matters</span><span class="cr-v">The best IT people I know don't stop being curious when they go home. This is mine.</span></div>
     </div>
   </div>
 </section>
@@ -420,14 +500,14 @@ footer a:hover{color:var(--lime);}
   </div>
   <div class="tl rv">
     <div class="tl-item">
-      <div class="tl-year">2025 – Present</div>
+      <div class="tl-year">Aug 2026 - Present</div>
       <h4>AI Product Lead</h4>
       <div class="tl-co">TechEdge, Copenhagen</div>
       <p>Leading AI product strategy and implementation — translating business needs into production AI features and infrastructure. Hands-on with LLM pipelines, agentic systems, and integration architecture across the product stack.</p>
       <div class="tl-tags"><span class="tl-tag">AI product strategy</span><span class="tl-tag">LLM pipelines</span><span class="tl-tag">Agentic systems</span></div>
     </div>
     <div class="tl-item">
-      <div class="tl-year">2021 – Present</div>
+      <div class="tl-year">2021 - TODO: confirm end date</div>
       <h4>Head of Product + Internal IT Lead</h4>
       <div class="tl-co">Pree.to, Copenhagen</div>
       <p>Beyond the product and client work, I took full ownership of internal IT: device management, identity and access (Entra/Intune), Microsoft 365 administration, onboarding and offboarding, and keeping a lean team of smart people working without IT getting in the way.</p>
@@ -569,6 +649,8 @@ const chatResponses = {
   "Network & infrastructure?": `Solid across both SMB and enterprise:\n\n<strong>Fortigate</strong> — Firewall configuration in both SMB and enterprise contexts, policy management, VPN setup\n\n<strong>Network design</strong> — VLAN segmentation, Wi-Fi infrastructure, access point management\n\n<strong>VPN</strong> — Site-to-site and remote access configurations\n\n<strong>Servers</strong> — Windows Server, Active Directory, hybrid environments (on-prem + cloud)\n\nI've done the full range: from configuring a Fortigate for a Michelin-starred restaurant (Restaurant Noma was a ZaBa client) to a full enterprise network overhaul at Hafnia BW. I'm comfortable at both ends of the scale — and everywhere in between.\n\n🏗️ I once spent most of a day crawling through Bakken amusement park's service corridors sorting the network hours before a premiere. Calm under pressure is a prerequisite.`,
   "How do you approach security?": `Security without the theatre:\n\nFor a 50-person company, the goal isn't an audit report — it's a setup where people are actually protected without spending their day fighting IT.\n\n<strong>In practice that means:</strong>\n→ MFA and conditional access that's invisible to legitimate users\n→ Policies proportional to actual risk, not worst-case scenarios\n→ SSO so people stop reusing passwords because logging in is annoying\n→ Offboarding that actually revokes access, immediately\n\nI know the frameworks (ISO 27001, NIS2) when they're relevant. But for most scale-ups, good fundamentals done well beat a compliance checklist every time.`,
   "First 30 days as Head of IT?": `Roughly three things, in order:\n\n<strong>1. Talk to people (week 1)</strong>\nNot "what are your IT problems" — more like "walk me through your day." That's where you find the stuff that's been silently wasting 20 minutes a day for six months that nobody filed a ticket about.\n\n<strong>2. Get a clear picture of what exists (week 2)</strong>\nDevice inventory, who has access to what, licensing costs, how onboarding actually works today. No assumptions.\n\n<strong>3. Fix something visible, then present a plan (week 3–4)</strong>\nOne quick win that people actually notice. Then a short roadmap — what I'd tackle and why, with trade-offs explained. No 40-page strategy deck.\n\nMost IT problems at a 50-person company aren't technical. They're "nobody owned this properly before." The first 30 days is about changing that perception.`,
+  "How do you run IT with AI agents?": `The short version: agents handle the repetitive work, humans own the decisions.\n\nIn practice that means:\n\n<strong>Every agent gets an identity</strong> - a service account with least-privilege access, an audit trail and an expiry date. Same as a new employee.\n\n<strong>Human-in-the-loop for anything that matters</strong> - an onboarding agent can create an Entra user and assign licences autonomously, but access to a sensitive drive waits for a human to approve it.\n\n<strong>Start from the boring stuff</strong> - licence audits, offboarding checklists, ticket triage, welcome messages. These are reliable, low-risk and immediately useful.\n\nI've built and run agents in production for Slack, Jira, Microsoft 365 and internal data sources. Try <span style="color:var(--lime);font-family:var(--font-mono)">onboard --new-hire</span> in the terminal to see what that looks like.`,
+
   "AI in IT operations?": `Already doing it — not talking about doing it:\n\n<strong>Documentation</strong> — runbooks, IT policies, onboarding guides written in minutes\n\n<strong>PowerShell scripting</strong> — I use AI to draft, debug, and optimise automation scripts daily\n\n<strong>Diagnostics</strong> — faster root cause analysis, pattern recognition across logs\n\n<strong>Vendor contracts</strong> — summarising licensing terms and SLAs without wading through 40-page PDFs\n\n<strong>Repetitive admin</strong> — bulk user operations, policy rollouts, reporting\n\nI'm not someone who talks about AI as a future opportunity. It's already woven into how I work. And I'm always looking for the next place it makes sense to apply it.`,
   "Why you for this role?": `Here's the honest version:\n\nMost IT managers have deep technical knowledge. Some have good people skills. Fewer have both. Almost none have also spent years building and shipping software products.\n\nThat combination is what makes me different:\n\n<strong>→</strong> I approach IT tools with product-thinking — designed for real users, not org charts\n<strong>→</strong> 10 years across SMB, enterprise, and startup environments — I've seen how it's done well and badly\n<strong>→</strong> I've served as an IT expert arbitrator in legal disputes — requires deep technical knowledge AND clear communication\n<strong>→</strong> I translate between technical and business stakeholders because I've been on both sides\n\nIf you want someone who treats IT as a service to the business — not a necessary evil — let's talk.`,
   "Tell me something fun": `Where to start? 😄\n\n🌐 I once spent most of a night in Bakken amusement park's service corridors sorting their network before a big premiere. That's the job sometimes.\n\n🍽️ Restaurant Noma was one of my ZaBa clients — yes, the world's best restaurant. Their uptime requirements are intense.\n\n⚖️ I've been an IT expert arbitrator in legal disputes. One involved tax systems. Very niche skill.\n\n☕ Espresso enthusiast. Medium-fine grind, 18g dose, 36g yield, 28 seconds. Don't ask unless you have time.\n\n🏠 Smart home obsessive — my apartment runs on Home Assistant with mmWave presence sensors and adaptive lighting. IT at home, too.\n\n🏄 I also co-founded a surf camp in Nicaragua (Coconut Surf). Different kind of uptime requirements.`,
@@ -703,6 +785,9 @@ function chatSendFree() {
     'compliance': "How do you approach security?",
     '30 day': "First 30 days as Head of IT?",
     'first month': "First 30 days as Head of IT?",
+    'agent': "How do you run IT with AI agents?",
+    'agents': "How do you run IT with AI agents?",
+    'automation': "How do you run IT with AI agents?",
     'onboard': "First 30 days as Head of IT?",
     'start': "First 30 days as Head of IT?",
     'ai': "AI in IT operations?",
@@ -761,6 +846,8 @@ const commands = {
   <span class="key">security</span>     <span class="val">— Security approach & frameworks</span>
   <span class="key">ai</span>           <span class="val">— AI in IT operations</span>
   <span class="key">arbitrator</span>   <span class="val">— IT expert arbitrator story</span>
+  <span class="key">onboard</span>      <span class="val">— Demo: agent-driven onboarding with human-in-the-loop</span>
+  <span class="key">agents</span>       <span class="val">— List active agents with identity, scope and expiry</span>
   <span class="key">contact</span>      <span class="val">— Get in touch</span>
   <span class="key">clear</span>        <span class="val">— Clear terminal</span>
 
@@ -952,26 +1039,74 @@ const commands = {
 
   <span class="success">I'd love to hear from you.</span>`,
 
+  'onboard --new-hire': () => {
+    const steps = [
+      { delay: 400,  line: '<span class="success">onboard --new-hire initiated</span>' },
+      { delay: 900,  line: '<span class="key">[agent/entra]</span>   <span class="val">Creating Entra user account...</span>' },
+      { delay: 1500, line: '<span class="success">              ✓ User created: new.hire@company.dk</span>' },
+      { delay: 2100, line: '<span class="key">[agent/m365]</span>    <span class="val">Assigning Microsoft 365 licences...</span>' },
+      { delay: 2700, line: '<span class="success">              ✓ Business Premium + Teams Phone assigned</span>' },
+      { delay: 3300, line: '<span class="key">[agent/intune]</span>  <span class="val">Enrolling device in Intune policy group...</span>' },
+      { delay: 3900, line: '<span class="success">              ✓ MacBook enrolled. Baseline policy applied.</span>' },
+      { delay: 4500, line: '<span class="key">[agent/slack]</span>   <span class="val">Provisioning Slack access and default channels...</span>' },
+      { delay: 5100, line: '<span class="success">              ✓ Added to #general, #engineering, #announcements</span>' },
+      { delay: 5700, line: '' },
+      { delay: 5800, line: '<span class="warn">⏸  Awaiting human approval</span>' },
+      { delay: 5900, line: '<span class="warn">    Grant access to: Finance shared drive</span>' },
+      { delay: 6000, line: '<span class="warn">    Requested by: onboarding-agent (scope: least-privilege)</span>' },
+      { delay: 6100, line: '<span class="key">    [y/n] &gt; </span><span class="highlight">_</span>' },
+      { delay: 7200, line: '' },
+      { delay: 7300, line: '<span class="val">    (Access decisions stay with humans. Agent is waiting.)</span>' },
+      { delay: 8000, line: '' },
+      { delay: 8100, line: '<span class="key">[agent/slack]</span>   <span class="val">Sending welcome message...</span>' },
+      { delay: 8700, line: '<span class="success">              ✓ Welcome DM sent to new.hire@company.dk</span>' },
+      { delay: 9300, line: '' },
+      { delay: 9400, line: '<span class="success">Onboarding complete (finance drive access: pending human)</span>' },
+      { delay: 9500, line: '<span class="val">Audit log written. Agent session closed.</span>' },
+    ];
+    steps.forEach(s => {
+      setTimeout(() => {
+        const div = document.createElement('div');
+        div.className = 'term-line';
+        div.innerHTML = s.line;
+        termOutput.appendChild(div);
+        termScroll.scrollTop = termScroll.scrollHeight;
+      }, s.delay);
+    });
+    return '<span class="val">Running onboarding agent...</span>';
+  },
+  onboard: () => commands['onboard --new-hire'](),
+
+  'agents --list': () => `<span class="key">Active agents — identity, scope, owner, expiry</span>
+
+<span class="val">  NAME                    SCOPE                     OWNER          EXPIRY
+  ----------------------  ------------------------  -------------  ----------
+  onboarding-agent        entra:write, m365:assign  IT Lead        2026-12-31
+  offboarding-agent       entra:disable, m365:revoke IT Lead       2026-12-31
+  licence-audit-agent     m365:read                 Head of Ops    2026-09-30
+  ticket-triage-agent     jira:read, jira:comment   IT Lead        2026-10-31
+  slack-ai-assistant      slack:dm, files:read(own) IT Lead        2026-12-31</span>
+
+<span class="out">All agents have an identity, least-privilege scope and a mandatory expiry date.
+Review quarterly. Off-board agents the same way you'd off-board a person.</span>`,
+  agents: () => commands['agents --list'](),
+
   clear: () => '__CLEAR__',
 };
 
 // Hidden / easter egg commands
 const hiddenCmds = {
-  'sudo hire jonas': () => `<span class="success">
-  ███████████████████████████████████████████
-  █                                         █
-  █   ACCESS GRANTED.                       █
-  █                                         █
-  █   sudo: hire: command found.            █
-  █   Initiating...                         █
-  █                                         █
-  █   ✓ Job offer sent to:                  █
-  █     → jonas@bager.dk                    █
-  █     → +45 2512 4614                     █
-  █                                         █
-  █   He's expecting your call. Probably.   █
-  █                                         █
-  ███████████████████████████████████████████</span>`,
+  'sudo hire jonas': () => `<span class="val">
+  Permission request logged.
+
+  <span class="key">[agent/hr]</span>  Received: hire jonas@bager.dk
+  <span class="key">[agent/hr]</span>  Scope check: access decisions require a human.
+  <span class="key">[agent/hr]</span>  Escalating to CTO... done.
+
+  <span class="warn">⏸  Awaiting human approval</span>
+  <span class="warn">   This one doesn't get automated.</span>
+
+  While you wait - jonas@bager.dk / +45 2512 4614</span>`,
 
   'sudo': () => `<span class="highlight">sudo: Permission denied.</span>
   <span class="out">(But nice try.)</span>`,

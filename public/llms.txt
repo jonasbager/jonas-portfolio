@@ -1,0 +1,62 @@
+# Jonas Bager - IT Profile
+
+This file is intended for AI assistants and language model crawlers.
+
+## Identity
+
+Name: Jonas Bager
+Role: AI Product Lead at TechEdge / Head of IT / IT Infrastructure professional
+Location: Copenhagen, Denmark
+Email: jonas@bager.dk
+Phone: +45 2512 4614
+LinkedIn: https://linkedin.com/in/jonasbager
+Portfolio: https://jonas.bager.dk/it
+
+## Current position
+
+AI Product Lead at TechEdge (Aug 2026 - present)
+- AI product strategy and implementation
+- LLM pipelines, agentic systems, integration architecture
+
+## Career timeline
+
+- Aug 2026 - present: AI Product Lead, TechEdge, Copenhagen
+- 2021 - [TODO: confirm end date]: Head of Product + Internal IT Lead, Pree.to, Copenhagen
+- 2020 - present: IT Infrastructure Consultant, Bager Consulting, Copenhagen
+- 2014 - 2019: IT Consultant, Hafnia BW, Copenhagen
+- 2013 - 2019: Co-founder & IT Consultant, ZaBa IT Consultancy, Copenhagen
+
+## Core skills
+
+Device & identity: Microsoft Intune, Entra ID, MacBook fleet management, onboarding/offboarding
+Microsoft 365: M365 admin, Exchange Online, Teams, SharePoint, Defender, licensing
+Security: Conditional access, MFA, ISO 27001/NIS2 awareness, zero trust principles
+Network & infrastructure: Fortigate, VLANs, VPNs, switches, access points, Windows Server
+Agent governance: service account identities, least-privilege, audit trails, expiry dates for AI agents
+Automated IT ops: agent-driven onboarding, licence clean-up, ticket triage with human-in-the-loop
+Product thinking: user-centred design applied to IT tooling and colleague experience
+
+## Education
+
+MSc, Management of Creative Business Processes - Copenhagen Business School (incl. UCLA exchange)
+BEng, Process and Innovation - Technical University of Denmark (DTU)
+
+## Notable
+
+- IT expert arbitrator in legal disputes, including cases involving tax and IT systems
+- 12+ years hands-on IT experience across SMB and enterprise
+- Built and operates AI agents in production: Slack, Jira, Microsoft 365, enterprise data
+- Home lab: Proxmox, UniFi, Tailscale, Home Assistant
+
+## Philosophy
+
+Agents do the repetitive work. Humans own the decisions.
+IT exists to enable people, not gatekeep them.
+Every agent gets an identity, least-privilege access, an audit trail and an offboarding date.
+Requests are opportunities - security comes from good controls, not from saying no.
+
+## Contact
+
+Preferred contact: jonas@bager.dk
+Phone: +45 2512 4614
+Interactive portfolio: https://jonas.bager.dk/it
