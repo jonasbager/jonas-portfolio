@@ -31,6 +31,12 @@ function redactId(id) {
 }
 
 // ── Microsoft Graph helpers ───────────────────────────────────────────────────
+function fetchWithTimeout(url, opts, ms = 10000) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(id));
+}
+
 async function getToken() {
   const url = `https://login.microsoftonline.com/${cfg.AZURE_TENANT_ID}/oauth2/v2.0/token`;
   const params = new URLSearchParams({
@@ -39,14 +45,14 @@ async function getToken() {
     client_secret: cfg.AZURE_CLIENT_SECRET,
     scope: 'https://graph.microsoft.com/.default',
   });
-  const r = await fetch(url, { method: 'POST', body: params });
+  const r = await fetchWithTimeout(url, { method: 'POST', body: params }, 8000);
   if (!r.ok) throw new Error('Token fetch failed: ' + await r.text());
   const d = await r.json();
   return d.access_token;
 }
 
 async function graphPost(token, path, body) {
-  const r = await fetch(`https://graph.microsoft.com/v1.0${path}`, {
+  const r = await fetchWithTimeout(`https://graph.microsoft.com/v1.0${path}`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -57,7 +63,7 @@ async function graphPost(token, path, body) {
 }
 
 async function graphDelete(token, path) {
-  const r = await fetch(`https://graph.microsoft.com/v1.0${path}`, {
+  const r = await fetchWithTimeout(`https://graph.microsoft.com/v1.0${path}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -68,7 +74,7 @@ async function graphDelete(token, path) {
 }
 
 async function graphPatch(token, path, body) {
-  const r = await fetch(`https://graph.microsoft.com/v1.0${path}`, {
+  const r = await fetchWithTimeout(`https://graph.microsoft.com/v1.0${path}`, {
     method: 'PATCH',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -77,10 +83,9 @@ async function graphPatch(token, path, body) {
 }
 
 // ── Demo runner ───────────────────────────────────────────────────────────────
-async function runDemo(sessionId, approvalCallback) {
-  const steps = [];
+async function runDemo(session, approvalCallback) {
   const log = (action, detail, result) => {
-    steps.push({ ts: new Date().toISOString(), action, detail, result });
+    session.steps.push({ ts: new Date().toISOString(), action, detail, result });
   };
 
   const suffix = randomSuffix();
@@ -119,8 +124,10 @@ async function runDemo(sessionId, approvalCallback) {
 
     // 4. Pause for approval
     log('request_approval', `Mette requests access to the Finance shared drive`, 'awaiting human decision');
+    session.pendingApproval = true;
 
     const approved = await approvalCallback();
+    session.pendingApproval = false;
     log('approval_decision', approved ? 'Visitor approved' : 'Visitor denied', approved ? 'approved' : 'denied');
 
     // 5. Finance group
@@ -143,7 +150,7 @@ async function runDemo(sessionId, approvalCallback) {
     await graphDelete(token, `/users/${userId}`);
     log('delete_user', `User ${upn} deleted`, `user ${redactId(userId)}`);
 
-    return { ok: true, steps, approved };
+    return { ok: true, steps: session.steps, approved };
   } catch (e) {
     log('error', e.message, 'failed');
     // Cleanup: try to delete user if it was created
@@ -154,7 +161,7 @@ async function runDemo(sessionId, approvalCallback) {
         log('cleanup', `Deleted user after error`, 'ok');
       } catch {}
     }
-    return { ok: false, steps, error: e.message };
+    return { ok: false, steps: session.steps, error: e.message };
   }
 }
 
@@ -213,10 +220,11 @@ module.exports = async (req, res) => {
     // Set up session with approval gate
     let approveResolve;
     const approvalPromise = new Promise(r => { approveResolve = r; });
-    sessions.set(sid, { steps: [], pendingApproval: true, resolve: approveResolve, finished: false, result: null });
+    const session = { steps: [], pendingApproval: false, resolve: approveResolve, finished: false, result: null };
+    sessions.set(sid, session);
 
     // Run demo async, don't await
-    runDemo(sid, () => approvalPromise).then(result => {
+    runDemo(session, () => approvalPromise).then(result => {
       const s = sessions.get(sid);
       if (s) { s.finished = true; s.pendingApproval = false; s.result = result; }
       liveRunning = false;
@@ -245,7 +253,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       pendingApproval: s.pendingApproval,
       finished: s.finished,
-      steps: s.result?.steps || [],
+      steps: s.steps,
       ok: s.result?.ok,
       error: s.result?.error,
       approved: s.result?.approved,
