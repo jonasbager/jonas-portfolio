@@ -5,6 +5,9 @@
   "rewrites": [
     { "source": "/api/chat", "destination": "/api/chat.js" },
     { "source": "/api/report", "destination": "/api/report.js" },
-    { "source": "/api/challenge", "destination": "/api/challenge.js" }
+    { "source": "/api/challenge", "destination": "/api/challenge.js" },
+    { "source": "/api/skatteguiden/chat", "destination": "/api/skatteguiden-chat.js" },
+    { "source": "/api/skatteguiden/demo", "destination": "/api/skatteguiden-demo.js" },
+    { "source": "/mcp", "destination": "/api/skatteguiden-mcp.js" }
   ]
 }
