@@ -7,7 +7,7 @@ module.exports = {
   DAILY_BUDGET_USD: parseFloat(process.env.SKATTEGUIDEN_DAILY_BUDGET_USD || '5'),
 
   // Per-request limits
-  MAX_TOKENS_PER_ANSWER: 400,
+  MAX_TOKENS_PER_ANSWER: 600,
   MAX_REQUESTS_PER_IP_PER_HOUR: 20,
   DEMO_MAX_RUNS_PER_DAY: 5,
 
