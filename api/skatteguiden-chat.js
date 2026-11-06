@@ -124,6 +124,10 @@ module.exports = async (req, res) => {
     }
 
     const data = await r.json();
+    // TEMP DEBUG - remove after diagnosis
+    if (!data.content?.[0]?.text) {
+      return res.status(200).json({ reply: '', _debug: { stop_reason: data.stop_reason, content_length: data.content?.length, content0_type: data.content?.[0]?.type, model: data.model, hasApiKey: !!process.env.ANTHROPIC_API_KEY } });
+    }
     const reply = data.content?.[0]?.text || '';
 
     // Rough cost tracking: claude-sonnet-5-5 ~$3/M input, $15/M output
