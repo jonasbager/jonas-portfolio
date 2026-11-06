@@ -65,7 +65,7 @@ async function askJonas(question) {
   const d = await r.json();
   const tokens = d.usage || {};
   dailySpendUSD += ((tokens.input_tokens || 0) * 3 + (tokens.output_tokens || 0) * 15) / 1_000_000;
-  return d.content?.[0]?.text || '';
+  return d.content?.find(b => b.type === 'text')?.text || '';
 }
 
 // ── MCP protocol ──────────────────────────────────────────────────────────────
