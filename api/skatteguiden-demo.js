@@ -56,7 +56,7 @@ async function graphPost(token, path, body) {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  });
+  }, 20000);
   const text = await r.text();
   if (!r.ok) throw new Error(`Graph POST ${path} failed (${r.status}): ${text}`);
   return text ? JSON.parse(text) : {};
@@ -66,7 +66,7 @@ async function graphDelete(token, path) {
   const r = await fetchWithTimeout(`https://graph.microsoft.com/v1.0${path}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
-  });
+  }, 20000);
   if (!r.ok && r.status !== 404) {
     const text = await r.text();
     throw new Error(`Graph DELETE ${path} failed (${r.status}): ${text}`);
@@ -78,7 +78,7 @@ async function graphPatch(token, path, body) {
     method: 'PATCH',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  });
+  }, 20000);
   if (!r.ok) throw new Error(`Graph PATCH ${path} failed (${r.status}): ` + await r.text());
 }
 
