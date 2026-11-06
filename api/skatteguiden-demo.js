@@ -45,7 +45,7 @@ async function getToken() {
     client_secret: cfg.AZURE_CLIENT_SECRET,
     scope: 'https://graph.microsoft.com/.default',
   });
-  const r = await fetchWithTimeout(url, { method: 'POST', body: params }, 8000);
+  const r = await fetchWithTimeout(url, { method: 'POST', body: params }, 15000);
   if (!r.ok) throw new Error('Token fetch failed: ' + await r.text());
   const d = await r.json();
   return d.access_token;

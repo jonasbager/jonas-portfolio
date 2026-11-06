@@ -2,6 +2,9 @@
   "buildCommand": "",
   "outputDirectory": "public",
   "cleanUrls": true,
+  "functions": {
+    "api/skatteguiden-demo.js": { "maxDuration": 60 }
+  },
   "rewrites": [
     { "source": "/api/chat", "destination": "/api/chat.js" },
     { "source": "/api/report", "destination": "/api/report.js" },
